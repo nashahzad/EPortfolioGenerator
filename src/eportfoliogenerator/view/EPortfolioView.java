@@ -85,7 +85,15 @@ public class EPortfolioView
         setUpButton(loadEPortfolioButton, StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", false);
         setUpButton(saveEPortfolioButton, StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", true);
         setUpButton(saveAsEPortfolioButton, StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", true);
+        setUpButton(exportEPortfolioButton, StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", true);
+        setUpButton(exitEPortfolioButton, StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", false);
 
+        fileToolBarHBox.getChildren().add(newEPortfolioButton);
+        fileToolBarHBox.getChildren().add(loadEPortfolioButton);
+        fileToolBarHBox.getChildren().add(saveEPortfolioButton);
+        fileToolBarHBox.getChildren().add(saveAsEPortfolioButton);
+        fileToolBarHBox.getChildren().add(exportEPortfolioButton);
+        fileToolBarHBox.getChildren().add(exitEPortfolioButton);
     }
 
     private void setUpButton(Button buttonToEdit, String iconPath, String toolTip, Boolean disabled)
