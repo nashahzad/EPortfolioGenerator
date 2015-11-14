@@ -32,6 +32,7 @@ public class EPortfolioGenerator extends Application {
         Image image = new Image("file:images/icons/MainIcon.png");
         primaryStage.getIcons().add(image);
 
+        ui.startUI(primaryStage);
     }
 
     /**

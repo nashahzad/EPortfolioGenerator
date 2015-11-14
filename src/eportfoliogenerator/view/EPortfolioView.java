@@ -1,10 +1,14 @@
 package eportfoliogenerator.view;
 
+import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.file.EPortfolioFileManager;
 import eportfoliogenerator.model.EPortfolioModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -53,6 +57,7 @@ public class EPortfolioView
     EPortfolioFileManager fileManager;
 
 
+    //Instantiate the main view with an already declared fileManager, set up the data model, and fileManager
     public EPortfolioView(EPortfolioFileManager fileManager)
     {
         //Create the fileManager instance and pass in this EPortfolioView so as to be able to easily access the model later on for saving/loading
@@ -62,6 +67,36 @@ public class EPortfolioView
         //Data mangement model
         model = new EPortfolioModel(this);
 
+    }
+
+    public void startUI(Stage primaryStage)
+    {
+        this.primaryStage = primaryStage;
+
+        setUpFileToolbar();
+    }
+
+    private void setUpFileToolbar()
+    {
+        fileToolBarHBox = new HBox();
+
+        //Method helper
+        setUpButton(newEPortfolioButton, StartUpConstants.ICON_NEW_EPORTFOLIO, "New EPortfolio", false);
+        setUpButton(loadEPortfolioButton, StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", false);
+        setUpButton(saveEPortfolioButton, StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", true);
+        setUpButton(saveAsEPortfolioButton, StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", true);
+
+    }
+
+    private void setUpButton(Button buttonToEdit, String iconPath, String toolTip, Boolean disabled)
+    {
+        buttonToEdit = new Button();
+        buttonToEdit.setDisable(disabled);
+
+        Image buttonImage = new Image("file:" + iconPath);
+        buttonToEdit.setGraphic(new ImageView(buttonImage));
+
+        buttonToEdit.setTooltip(new Tooltip(toolTip));
     }
 
 
