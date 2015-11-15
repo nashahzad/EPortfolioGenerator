@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Nauman on 11/14/2015.
@@ -57,6 +58,40 @@ public class PageView extends VBox
 
     Label pageTitleLabel = new Label("Page Title: ");
     Button pageTitleButton;
+
+    //Page Font label and buttons
+    Label pageFontLabel = new Label("Page Font: ");
+    Button pageFontOneButton;
+    Button pageFontTwoButton;
+    Button pageFontThreeButton;
+    Button pageFontFourButton;
+    Button pageFontFiveButton;
+
+    //Objects and Lists for handling Components
+    Label textComponentLabel = new Label("Text Components");
+    Label imageComponentsLabel = new Label("Image Components");
+    Label slideShowComponentsLabel = new Label("SlideShow Components");
+    Label videoComponentsLabel = new Label("Video Components");
+
+    HBox addEditComponentsHBox;
+    VBox addComponentsVBox;
+    Button addTextComponentButton;
+    Button addImageComponentButton;
+    Button addSlideShowComponentButton;
+    Button addVideoComponentButton;
+    Button addTextHyperLinkButton;
+
+    VBox editComponentsVBox;
+    Button editTextComponentButton;
+    Button editImageComponentButton;
+    Button editSlideShowComponentButton;
+    Button editVideoComponentButton;
+    Button editTextHyperLinkButton;
+
+    ArrayList<RadioButton> textComponentsList = new ArrayList<RadioButton>();
+    ArrayList<RadioButton> imageComponentsList = new ArrayList<RadioButton>();
+    ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
+    ArrayList<RadioButton> videoComponentsList = new ArrayList<RadioButton>();
 
 
    public void updateSlideImage()
