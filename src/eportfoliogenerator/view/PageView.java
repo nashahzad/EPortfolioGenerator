@@ -111,7 +111,7 @@ public class PageView extends VBox
 
         setUpLayout();
         setUpColor();
-
+        setUpPageFont();
     }
 
    public void updateSlideImage()
@@ -288,6 +288,73 @@ public class PageView extends VBox
         colorHBox.getChildren().add(colorThreeRadioButton);
         colorHBox.getChildren().add(colorFourRadioButton);
         colorHBox.getChildren().add(colorFiveRadioButton);
+    }
+
+    private void setUpPageFont()
+    {
+        pageFontHBox = new HBox();
+
+        pageFontToggleGroup = new ToggleGroup();
+
+        pageFontOneRadioButton = new RadioButton("Slabo");
+        pageFontOneRadioButton.setOnAction(event -> {
+            this.page.setPageFont("Slabo");
+        });
+
+        pageFontTwoRadioButton = new RadioButton("Sans Pro");
+        pageFontTwoRadioButton.setOnAction(event -> {
+            this.page.setPageFont("Sans Pro");
+        });
+
+        pageFontThreeRadioButton = new RadioButton("Serif");
+        pageFontThreeRadioButton.setOnAction(event -> {
+            this.page.setPageFont("Serif");
+        });
+
+        pageFontFourRadioButton = new RadioButton("Hind");
+        pageFontFourRadioButton.setOnAction(event -> {
+            this.page.setPageFont("Hind");
+        });
+
+        pageFontFiveRadioButton = new RadioButton("Cantarell");
+        pageFontFiveRadioButton.setOnAction(event -> {
+            this.page.setPageFont("Canatarell");
+        });
+
+        //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
+        pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontTwoRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontThreeRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontFourRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontFiveRadioButton.setToggleGroup(pageFontToggleGroup);
+
+        //Setting up the starting toggled button
+        if(page.getPageFont() == null || page.getPageFont().equalsIgnoreCase("")){
+            pageFontOneRadioButton.setSelected(true);
+        }
+        else if(page.getPageFont().equalsIgnoreCase("Slabo")){
+            pageFontOneRadioButton.setSelected(true);
+        }
+        else if(page.getPageFont().equalsIgnoreCase("Sans Pro")){
+            pageFontTwoRadioButton.setSelected(true);
+        }
+        else if(page.getPageFont().equalsIgnoreCase("Serif")){
+            pageFontThreeRadioButton.setSelected(true);
+        }
+        else if(page.getPageFont().equalsIgnoreCase("Hind")){
+             pageFontFourRadioButton.setSelected(true);
+        }
+        else{
+            pageFontFiveRadioButton.setSelected(true);
+        }
+
+        //Add Buttons to the layout HBox
+        pageFontHBox.getChildren().add(pageFontLabel);
+        pageFontHBox.getChildren().add(pageFontOneRadioButton);
+        pageFontHBox.getChildren().add(pageFontTwoRadioButton);
+        pageFontHBox.getChildren().add(pageFontThreeRadioButton);
+        pageFontHBox.getChildren().add(pageFontFourRadioButton);
+        pageFontHBox.getChildren().add(pageFontFiveRadioButton);
     }
 
 }
