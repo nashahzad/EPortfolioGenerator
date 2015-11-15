@@ -102,14 +102,15 @@ public class EPortfolioView
     private void setUpFileToolbar()
     {
         fileToolBarHBox = new HBox();
+        fileToolBarHBox.getStyleClass().add(StartUpConstants.CSS_FILE_TOOLBAR);
 
         //Method helper
-        newEPortfolioButton = setUpButton(StartUpConstants.ICON_NEW_EPORTFOLIO, "New EPortfolio", false);
-        loadEPortfolioButton = setUpButton(StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", false);
-        saveEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", true);
-        saveAsEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", true);
-        exportEPortfolioButton = setUpButton(StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", true);
-        exitEPortfolioButton = setUpButton(StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", false);
+        newEPortfolioButton = setUpButton(StartUpConstants.ICON_NEW_EPORTFOLIO, "New EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
+        loadEPortfolioButton = setUpButton(StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
+        saveEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
+        saveAsEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
+        exportEPortfolioButton = setUpButton(StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
+        exitEPortfolioButton = setUpButton(StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
 
         fileToolBarHBox.getChildren().add(newEPortfolioButton);
         fileToolBarHBox.getChildren().add(loadEPortfolioButton);
@@ -126,12 +127,15 @@ public class EPortfolioView
     private void setUpSiteToolbar()
     {
         siteToolBarVBox = new VBox();
+        siteToolBarVBox.getStyleClass().add(StartUpConstants.CSS_SITE_TOOLBAR);
 
-        addPageButton = setUpButton(StartUpConstants.ICON_ADD_PAGE, "Add Page", false);
-        removePageButton = setUpButton(StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", false);
+        addPageButton = setUpButton(StartUpConstants.ICON_ADD_PAGE, "Add Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
+        removePageButton = setUpButton(StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
+        selectPageButton = setUpButton(StartUpConstants.ICON_SELECT_PAGE, "Select Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
 
         siteToolBarVBox.getChildren().add(addPageButton);
         siteToolBarVBox.getChildren().add(removePageButton);
+        siteToolBarVBox.getChildren().add(selectPageButton);
     }
 
     /**
@@ -141,14 +145,15 @@ public class EPortfolioView
     private void setUpWebToolbar()
     {
         webToolBarHBox = new HBox();
+        webToolBarHBox.getStyleClass().add(StartUpConstants.CSS_FILE_TOOLBAR);
 
-        webPageViewButton = setUpButton(StartUpConstants.ICON_VIEW, "Page-Editor/Web View", true);
+        webPageViewButton = setUpButton(StartUpConstants.ICON_VIEW, "Page-Editor/Web View", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
 
         webToolBarHBox.getChildren().add(webPageViewButton);
         webToolBarHBox.setAlignment(Pos.BOTTOM_CENTER);
     }
 
-    private Button setUpButton(String iconPath, String toolTip, Boolean disabled)
+    private Button setUpButton(String iconPath, String toolTip, String css, Boolean disabled)
     {
         Button buttonToEdit = new Button();
         buttonToEdit.setDisable(disabled);
@@ -157,6 +162,8 @@ public class EPortfolioView
         buttonToEdit.setGraphic(new ImageView(buttonImage));
 
         buttonToEdit.setTooltip(new Tooltip(toolTip));
+
+        buttonToEdit.getStyleClass().add(css);
 
         return buttonToEdit;
     }
@@ -178,6 +185,7 @@ public class EPortfolioView
         ePortfolioBorderPane.setTop(fileToolBarHBox);
         ePortfolioBorderPane.setLeft(siteToolBarVBox);
         ePortfolioBorderPane.setBottom(webToolBarHBox);
+        ePortfolioBorderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
 
         Page page = new Page();
         page.setPageTitle("Page" + counter);
@@ -185,6 +193,7 @@ public class EPortfolioView
 
 
         primaryScene = new Scene(ePortfolioBorderPane);
+        primaryScene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
         primaryStage.setScene(primaryScene);
         primaryStage.show();
     }

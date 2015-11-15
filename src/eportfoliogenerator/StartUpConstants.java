@@ -7,6 +7,7 @@ public class StartUpConstants
 {
     //FILE PATHS DEFINED HERE
     public static String IMAGE_ICONS_FILE_PATH = "./images/icons";
+    public static String STYLE_SHEET_UI = "//src/eportfoliogenerator/style/EPortfolioGeneratorStyle.css";
 
 
     //FULL BUTTON ICON IMAGE PATHS HERE
@@ -19,8 +20,17 @@ public class StartUpConstants
 
     public static String ICON_ADD_PAGE = IMAGE_ICONS_FILE_PATH + "/AddPage.png";
     public static String ICON_REMOVE_PAGE = IMAGE_ICONS_FILE_PATH + "/DeletePage.png";
+    public static String ICON_SELECT_PAGE = IMAGE_ICONS_FILE_PATH + "/PageSelect.png";
 
     public static String ICON_VIEW = IMAGE_ICONS_FILE_PATH + "/View.png";
+
+
+    //CSS CLASSES
+    public static String CSS_SITE_TOOLBAR = "siteToolbar";
+    public static String CSS_FILE_TOOLBAR = "fileToolbar";
+    public static String CSS_SITE_TOOLBAR_BUTTON = "siteToolbar_button";
+    public static String CSS_FILE_TOOLBAR_BUTTON = "fileToolbar_button";
+    public static String CSS_BORDER_PANE = "border_pane";
 
 
 }

@@ -1,0 +1,43 @@
+
+.fileToolbar{
+-fx-background-color: #E81717;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+}
+
+.fileToolbar_button{
+-fx-background-color: #C71414;
+    -fx-border-color: #FAF734;
+    -fx-border-insets: 10px;
+    -fx-padding-left: 100px;
+    -fx-padding-right: 100px;
+    -fx-padding-top: 50px;
+    -fx-padding-bottom: 50px;
+    -fx-font-size: 10px;
+    -fx-prompt-text-fill: #ABBD37;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+}
+
+.siteToolbar{
+-fx-background-radius: 5.0;
+    -fx-background: #DB4040;
+    -fx-background-color: #DB4040;
+    -fx-border-color: #E3E34D;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+}
+
+.siteToolbar_button{
+-fx-background-color: #C71414;
+    -fx-border-color: #FAF734;
+    -fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+}
+
+.border_pane{
+-fx-background-color: #F5CB90;
+}
