@@ -30,7 +30,7 @@ public class EPortfolioModel
     public void reset()
     {
         pages.clear();
-        ePortfolioTitle = "Unnamed";
+        ePortfolioTitle = "EPortfolioTitle";
         selectedPage = null;
     }
 

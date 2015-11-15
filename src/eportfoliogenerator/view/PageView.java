@@ -1,5 +1,6 @@
 package eportfoliogenerator.view;
 
+import eportfoliogenerator.model.EPortfolioModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -11,6 +12,9 @@ import javafx.scene.layout.VBox;
  */
 public class PageView extends VBox
 {
+    //Data model singleton
+    EPortfolioModel model;
+
     //HBoxes for layout and color
     HBox layoutHBox;
     HBox colorHBox;
@@ -32,5 +36,7 @@ public class PageView extends VBox
     RadioButton colorThreeRadioButton;
     RadioButton colorFourRadioButton;
     RadioButton colorFiveRadioButton;
+
+
 
 }

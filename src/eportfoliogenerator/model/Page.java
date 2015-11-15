@@ -12,6 +12,8 @@ public class Page
 
     String footer;
 
+    String pageFont;
+
     public String getPageTitle() {
         return pageTitle;
     }
@@ -43,4 +45,8 @@ public class Page
     public void setFooter(String footer) {
         this.footer = footer;
     }
+
+    public String getPageFont() { return pageFont; }
+
+    public void setPageFont(String pageFont) { this.pageFont = pageFont; }
 }
