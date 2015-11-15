@@ -29,7 +29,7 @@ public class EPortfolioGenerator extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Image image = new Image("file:images/icons/MainIcon.png");
+        Image image = new Image("file:./images/icons/eportfolio.gif");
         primaryStage.getIcons().add(image);
 
         ui.startUI(primaryStage);

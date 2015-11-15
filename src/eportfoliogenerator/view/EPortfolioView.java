@@ -3,7 +3,9 @@ package eportfoliogenerator.view;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.file.EPortfolioFileManager;
 import eportfoliogenerator.model.EPortfolioModel;
+import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -13,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -60,6 +63,9 @@ public class EPortfolioView
     //Object to handle visual view of Page Editor workspace
     PageView pageView;
 
+    //Counter for giving random starting page titles
+    int counter = 0;
+
 
     //Instantiate the main view with an already declared fileManager, set up the data model, and fileManager
     public EPortfolioView(EPortfolioFileManager fileManager)
@@ -82,6 +88,11 @@ public class EPortfolioView
         setUpSiteToolbar();
 
         setUpWebToolbar();
+
+        //NEED TO WORK ON, EVENT HANDLERS FOR MAIN BUTTONS BESIDES PAGE EDITOR WORKSPACE BUTTONS
+        eventHandlers();
+
+        launchWindow();
     }
 
     /**
@@ -93,12 +104,12 @@ public class EPortfolioView
         fileToolBarHBox = new HBox();
 
         //Method helper
-        setUpButton(newEPortfolioButton, StartUpConstants.ICON_NEW_EPORTFOLIO, "New EPortfolio", false);
-        setUpButton(loadEPortfolioButton, StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", false);
-        setUpButton(saveEPortfolioButton, StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", true);
-        setUpButton(saveAsEPortfolioButton, StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", true);
-        setUpButton(exportEPortfolioButton, StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", true);
-        setUpButton(exitEPortfolioButton, StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", false);
+        newEPortfolioButton = setUpButton(StartUpConstants.ICON_NEW_EPORTFOLIO, "New EPortfolio", false);
+        loadEPortfolioButton = setUpButton(StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", false);
+        saveEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", true);
+        saveAsEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", true);
+        exportEPortfolioButton = setUpButton(StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", true);
+        exitEPortfolioButton = setUpButton(StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", false);
 
         fileToolBarHBox.getChildren().add(newEPortfolioButton);
         fileToolBarHBox.getChildren().add(loadEPortfolioButton);
@@ -116,8 +127,8 @@ public class EPortfolioView
     {
         siteToolBarVBox = new VBox();
 
-        setUpButton(addPageButton, StartUpConstants.ICON_ADD_PAGE, "Add Page", false);
-        setUpButton(removePageButton, StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", false);
+        addPageButton = setUpButton(StartUpConstants.ICON_ADD_PAGE, "Add Page", false);
+        removePageButton = setUpButton(StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", false);
 
         siteToolBarVBox.getChildren().add(addPageButton);
         siteToolBarVBox.getChildren().add(removePageButton);
@@ -131,22 +142,54 @@ public class EPortfolioView
     {
         webToolBarHBox = new HBox();
 
-        setUpButton(webPageViewButton, StartUpConstants.ICON_VIEW, "Page-Editor/Web View", true);
+        webPageViewButton = setUpButton(StartUpConstants.ICON_VIEW, "Page-Editor/Web View", true);
 
         webToolBarHBox.getChildren().add(webPageViewButton);
         webToolBarHBox.setAlignment(Pos.BOTTOM_CENTER);
     }
 
-    private void setUpButton(Button buttonToEdit, String iconPath, String toolTip, Boolean disabled)
+    private Button setUpButton(String iconPath, String toolTip, Boolean disabled)
     {
-        buttonToEdit = new Button();
+        Button buttonToEdit = new Button();
         buttonToEdit.setDisable(disabled);
 
         Image buttonImage = new Image("file:" + iconPath);
         buttonToEdit.setGraphic(new ImageView(buttonImage));
 
         buttonToEdit.setTooltip(new Tooltip(toolTip));
+
+        return buttonToEdit;
     }
+
+    private void launchWindow()
+    {
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
+
+        //Set up the layout of the various toolbars on the main window with a BorderPane
+        ePortfolioBorderPane = new BorderPane();
+        ePortfolioBorderPane.setTop(fileToolBarHBox);
+        ePortfolioBorderPane.setLeft(siteToolBarVBox);
+        ePortfolioBorderPane.setBottom(webToolBarHBox);
+
+        Page page = new Page();
+        page.setPageTitle("Page" + counter);
+        counter++;
+
+
+        primaryScene = new Scene(ePortfolioBorderPane);
+        primaryStage.setScene(primaryScene);
+        primaryStage.show();
+    }
+
+    private void eventHandlers(){}
 
 
 }
