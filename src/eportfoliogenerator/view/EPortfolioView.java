@@ -3,6 +3,7 @@ package eportfoliogenerator.view;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.file.EPortfolioFileManager;
 import eportfoliogenerator.model.EPortfolioModel;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -56,6 +57,9 @@ public class EPortfolioView
     //Object to handle loading and saving of the EPortfolio
     EPortfolioFileManager fileManager;
 
+    //Object to handle visual view of Page Editor workspace
+    PageView pageView;
+
 
     //Instantiate the main view with an already declared fileManager, set up the data model, and fileManager
     public EPortfolioView(EPortfolioFileManager fileManager)
@@ -74,8 +78,16 @@ public class EPortfolioView
         this.primaryStage = primaryStage;
 
         setUpFileToolbar();
+
+        setUpSiteToolbar();
+
+        setUpWebToolbar();
     }
 
+    /**
+     * Setting up the file toolbar
+     * Set up the buttons, icons, tooltips and the boxes they will be in
+     */
     private void setUpFileToolbar()
     {
         fileToolBarHBox = new HBox();
@@ -94,6 +106,35 @@ public class EPortfolioView
         fileToolBarHBox.getChildren().add(saveAsEPortfolioButton);
         fileToolBarHBox.getChildren().add(exportEPortfolioButton);
         fileToolBarHBox.getChildren().add(exitEPortfolioButton);
+    }
+
+    /**
+     * Setting up the site toolbar
+     * Set up the buttons, icons, tooltips and the boxes they will be in
+     */
+    private void setUpSiteToolbar()
+    {
+        siteToolBarVBox = new VBox();
+
+        setUpButton(addPageButton, StartUpConstants.ICON_ADD_PAGE, "Add Page", false);
+        setUpButton(removePageButton, StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", false);
+
+        siteToolBarVBox.getChildren().add(addPageButton);
+        siteToolBarVBox.getChildren().add(removePageButton);
+    }
+
+    /**
+     * Setting up the web toolbar
+     * Set up the buttons, icons, tooltips and the boxes they will be in
+     */
+    private void setUpWebToolbar()
+    {
+        webToolBarHBox = new HBox();
+
+        setUpButton(webPageViewButton, StartUpConstants.ICON_VIEW, "Page-Editor/Web View", true);
+
+        webToolBarHBox.getChildren().add(webPageViewButton);
+        webToolBarHBox.setAlignment(Pos.BOTTOM_CENTER);
     }
 
     private void setUpButton(Button buttonToEdit, String iconPath, String toolTip, Boolean disabled)
