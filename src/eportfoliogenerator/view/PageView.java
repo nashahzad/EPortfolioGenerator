@@ -60,12 +60,14 @@ public class PageView extends VBox
     Button pageTitleButton;
 
     //Page Font label and buttons
+    HBox pageFontHBox;
     Label pageFontLabel = new Label("Page Font: ");
-    Button pageFontOneButton;
-    Button pageFontTwoButton;
-    Button pageFontThreeButton;
-    Button pageFontFourButton;
-    Button pageFontFiveButton;
+    ToggleGroup pageFontToggleGroup;
+    RadioButton pageFontOneRadioButton;
+    RadioButton pageFontTwoRadioButton;
+    RadioButton pageFontThreeRadioButton;
+    RadioButton pageFontFourRadioButton;
+    RadioButton pageFontFiveRadioButton;
 
     //Objects and Lists for handling Components
     Label textComponentLabel = new Label("Text Components");
@@ -88,11 +90,29 @@ public class PageView extends VBox
     Button editVideoComponentButton;
     Button editTextHyperLinkButton;
 
+    VBox textComponentsVBox;
+    VBox imageComponentsVBox;
+    VBox slideShowComponentsVBox;
+    VBox videoComponentsVBox;
+
     ArrayList<RadioButton> textComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> imageComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> videoComponentsList = new ArrayList<RadioButton>();
 
+    public PageView(Page page)
+    {
+        //Keep for the page later
+        this.page = page;
+
+        //Make sure to display proper Banner image or default image.
+        bannerImageView = new ImageView();
+        updateSlideImage();
+
+        setUpLayout();
+        setUpColor();
+
+    }
 
    public void updateSlideImage()
    {
@@ -134,4 +154,140 @@ public class PageView extends VBox
            } catch(Exception e2){}
        }
    }
+
+    //Method to Set up the layout HBox and the event handlers for Radio buttons there
+    private void setUpLayout()
+    {
+        layoutHBox = new HBox();
+
+        layoutToggleGroup = new ToggleGroup();
+
+        layoutOneRadioButton = new RadioButton("1");
+        layoutOneRadioButton.setOnAction(event -> {
+           this.page.setLayout(1);
+        });
+
+        layoutTwoRadioButton = new RadioButton("2");
+        layoutTwoRadioButton.setOnAction(event -> {
+            this.page.setLayout(2);
+        });
+
+        layoutThreeRadioButton = new RadioButton("3");
+        layoutThreeRadioButton.setOnAction(event -> {
+            this.page.setLayout(3);
+        });
+
+        layoutFourRadioButton = new RadioButton("4");
+        layoutFourRadioButton.setOnAction(event -> {
+            this.page.setLayout(4);
+        });
+
+        layoutFiveRadoButton = new RadioButton("5");
+        layoutFiveRadoButton.setOnAction(event -> {
+            this.page.setLayout(5);
+        });
+
+        //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
+        layoutOneRadioButton.setToggleGroup(layoutToggleGroup);
+        layoutTwoRadioButton.setToggleGroup(layoutToggleGroup);
+        layoutThreeRadioButton.setToggleGroup(layoutToggleGroup);
+        layoutFourRadioButton.setToggleGroup(layoutToggleGroup);
+        layoutFiveRadoButton.setToggleGroup(layoutToggleGroup);
+
+        //Setting up the starting toggled button
+        if(page.getLayout() == 0){
+            layoutOneRadioButton.setSelected(true);
+        }
+        else if(page.getLayout() == 1){
+            layoutOneRadioButton.setSelected(true);
+        }
+        else if(page.getLayout() == 2){
+            layoutTwoRadioButton.setSelected(true);
+        }
+        else if(page.getLayout() == 3){
+            layoutThreeRadioButton.setSelected(true);
+        }
+        else if(page.getLayout() == 4){
+            layoutFourRadioButton.setSelected(true);
+        }
+        else{
+            layoutFiveRadoButton.setSelected(true);
+        }
+
+        //Add Buttons to the layout HBox
+        layoutHBox.getChildren().add(layoutLabel);
+        layoutHBox.getChildren().add(layoutOneRadioButton);
+        layoutHBox.getChildren().add(layoutTwoRadioButton);
+        layoutHBox.getChildren().add(layoutThreeRadioButton);
+        layoutHBox.getChildren().add(layoutFourRadioButton);
+        layoutHBox.getChildren().add(layoutFiveRadoButton);
+    }
+
+    private void setUpColor()
+    {
+        colorHBox = new HBox();
+
+        colorToggleGroup = new ToggleGroup();
+
+        colorOneRadioButton = new RadioButton("1");
+        colorOneRadioButton.setOnAction(event -> {
+            this.page.setColor(1);
+        });
+
+        colorTwoRadioButton = new RadioButton("2");
+        colorTwoRadioButton.setOnAction(event -> {
+            this.page.setColor(2);
+        });
+
+        colorThreeRadioButton = new RadioButton("3");
+        colorThreeRadioButton.setOnAction(event -> {
+            this.page.setColor(3);
+        });
+
+        colorFourRadioButton = new RadioButton("4");
+        colorFourRadioButton.setOnAction(event -> {
+            this.page.setColor(4);
+        });
+
+        colorFiveRadioButton = new RadioButton("5");
+        colorFiveRadioButton.setOnAction(event -> {
+            this.page.setColor(5);
+        });
+
+        //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
+        colorOneRadioButton.setToggleGroup(colorToggleGroup);
+        colorTwoRadioButton.setToggleGroup(colorToggleGroup);
+        colorThreeRadioButton.setToggleGroup(colorToggleGroup);
+        colorFourRadioButton.setToggleGroup(colorToggleGroup);
+        colorFiveRadioButton.setToggleGroup(colorToggleGroup);
+
+        //Setting up the starting toggled button
+        if(page.getColor() == 0){
+            colorOneRadioButton.setSelected(true);
+        }
+        else if(page.getColor() == 1){
+            colorOneRadioButton.setSelected(true);
+        }
+        else if(page.getColor() == 2){
+            colorTwoRadioButton.setSelected(true);
+        }
+        else if(page.getColor() == 3){
+            colorThreeRadioButton.setSelected(true);
+        }
+        else if(page.getColor() == 4){
+            colorFourRadioButton.setSelected(true);
+        }
+        else{
+            colorFiveRadioButton.setSelected(true);
+        }
+
+        //Add Buttons to the layout HBox
+        colorHBox.getChildren().add(colorLabel);
+        colorHBox.getChildren().add(colorOneRadioButton);
+        colorHBox.getChildren().add(colorTwoRadioButton);
+        colorHBox.getChildren().add(colorThreeRadioButton);
+        colorHBox.getChildren().add(colorFourRadioButton);
+        colorHBox.getChildren().add(colorFiveRadioButton);
+    }
+
 }

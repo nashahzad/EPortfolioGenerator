@@ -24,6 +24,8 @@ public class StartUpConstants
 
     public static String ICON_VIEW = IMAGE_ICONS_FILE_PATH + "/View.png";
 
+    public static String DEFAULT_IMAGE = IMAGE_ICONS_FILE_PATH + "/DefaultStartSlide.png";
+
 
     //CSS CLASSES
     public static String CSS_SITE_TOOLBAR = "siteToolbar";

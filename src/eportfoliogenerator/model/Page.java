@@ -1,5 +1,7 @@
 package eportfoliogenerator.model;
 
+import eportfoliogenerator.StartUpConstants;
+
 /**
  * Created by Nauman on 11/14/2015.
  */
@@ -7,12 +9,14 @@ public class Page
 {
     String pageTitle;
 
-    String bannerImagePath;
-    String bannerImageName;
+    String bannerImagePath = StartUpConstants.IMAGE_ICONS_FILE_PATH;
+    String bannerImageName = "DefaultStartSlide.png";
 
     String footer;
 
     String pageFont;
+
+    int layout, color;
 
     public String getPageTitle() {
         return pageTitle;
@@ -49,4 +53,20 @@ public class Page
     public String getPageFont() { return pageFont; }
 
     public void setPageFont(String pageFont) { this.pageFont = pageFont; }
+
+    public int getLayout() {
+        return layout;
+    }
+
+    public void setLayout(int layout) {
+        this.layout = layout;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 }
