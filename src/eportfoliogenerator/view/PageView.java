@@ -326,6 +326,7 @@ public class PageView extends VBox
     private void setUpPageFont()
     {
         pageFontHBox = new HBox();
+        pageFontHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
         pageFontToggleGroup = new ToggleGroup();
 
@@ -381,6 +382,14 @@ public class PageView extends VBox
             pageFontFiveRadioButton.setSelected(true);
         }
 
+        //Attach CSS style Class to GUI components
+        pageFontLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        pageFontOneRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_SLABO);
+        pageFontTwoRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_SANS_PRO);
+        pageFontThreeRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_SERIF);
+        pageFontFourRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_HIND);
+        pageFontFiveRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_CANTARELL);
+
         //Add Buttons to the layout HBox
         pageFontHBox.getChildren().add(pageFontLabel);
         pageFontHBox.getChildren().add(pageFontOneRadioButton);
@@ -393,8 +402,10 @@ public class PageView extends VBox
     private void setUpBasicInfoGetters()
     {
         basicInfoHBox = new HBox();
+        basicInfoHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
-        //Set up the part for retrieving and setting the Page title
+        //Set up the part for retrieving and setting the Page title, and CSS
+        pageTitleLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(pageTitleLabel);
 
         pageTitleButton = new Button();
@@ -411,9 +422,11 @@ public class PageView extends VBox
             }
         });
 
+        pageTitleButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(pageTitleButton);
 
-        //Set up the part for retrieving and setting Student Name
+        //Set up the part for retrieving and setting Student Name, and CSS
+        studentNameLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(studentNameLabel);
 
         studentNameButton = new Button();
@@ -430,9 +443,11 @@ public class PageView extends VBox
             }
         });
 
+        studentNameButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(studentNameButton);
 
         //Set up part for retrieving and setting Footer for the page
+        footerLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(footerLabel);
 
         footerButton = new Button();
@@ -448,6 +463,7 @@ public class PageView extends VBox
             }
         });
 
+        footerButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(footerButton);
     }
 

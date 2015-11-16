@@ -33,8 +33,14 @@ public class StartUpConstants
     public static String CSS_SITE_TOOLBAR_BUTTON = "siteToolbar_button";
     public static String CSS_FILE_TOOLBAR_BUTTON = "fileToolbar_button";
     public static String CSS_BORDER_PANE = "border_pane";
+
     public static String CSS_LAYOUT_HBOX = "layout_hbox";
     public static String CSS_LAYOUT_BUTTONS = "layout_buttons";
+    public static String CSS_LAYOUT_BUTTONS_SLABO = "layout_buttons_slabo";
+    public static String CSS_LAYOUT_BUTTONS_SANS_PRO = "layout_buttons_sans_pro";
+    public static String CSS_LAYOUT_BUTTONS_SERIF = "layout_buttons_serif";
+    public static String CSS_LAYOUT_BUTTONS_HIND = "layout_buttons_hind";
+    public static String CSS_LAYOUT_BUTTONS_CANTARELL = "layout_buttons_cantarell";
 
 
 }
