@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=PT+Serif');
+@import url('https://fonts.googleapis.com/css?family=Hind');
+@import url('https://fonts.googleapis.com/css?family=Cantarell');
 
 .fileToolbar{
 -fx-background-color: #E81717;
@@ -57,4 +62,44 @@
     -fx-spacing: 100px;
     -fx-font-size: 17px;
          -fx-font-family: "Andalus";
+}
+
+.layout_buttons_slabo{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: 'Slabo 27px', serif;
+}
+
+.layout_buttons_sans_pro{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: 'Source Sans Pro', sans-serif;
+}
+
+.layout_buttons_serif{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: 'PT Serif', serif;
+}
+
+.layout_buttons_hind{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: 'Hind', sans-serif;
+}
+
+.layout_buttons_cantarell{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: 'Cantarell', sans-serif;
 }
