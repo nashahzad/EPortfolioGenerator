@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Created by Nauman on 11/14/2015.
@@ -46,10 +47,12 @@ public class PageView extends VBox
     RadioButton colorFiveRadioButton;
 
     //Label and ImageView for Banner
+    HBox bannerHBox;
     Label bannerLabel = new Label("Optional Banner Image: ");
     ImageView bannerImageView;
 
     //Label and Button for Footer, Student Name, and Page Title
+    HBox basicInfoHBox;
     Label footerLabel = new Label("Footer: ");
     Button footerButton;
 
@@ -100,18 +103,29 @@ public class PageView extends VBox
     ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> videoComponentsList = new ArrayList<RadioButton>();
 
-    public PageView(Page page)
+    public PageView(Page page, EPortfolioModel model)
     {
-        //Keep for the page later
+        //Keep for the page later and model for later
         this.page = page;
+        this.model = model;
 
         //Make sure to display proper Banner image or default image.
         bannerImageView = new ImageView();
         updateSlideImage();
 
+        //Helper methods for setting up all the radio buttons and toggle groups
         setUpLayout();
         setUpColor();
         setUpPageFont();
+
+        setUpBasicInfoGetters();
+
+        //Add to PageView the basic components
+        this.getChildren().add(layoutHBox);
+        this.getChildren().add(colorHBox);
+        this.getChildren().add(pageFontHBox);
+        this.getChildren().add(basicInfoHBox);
+
     }
 
    public void updateSlideImage()
@@ -355,6 +369,65 @@ public class PageView extends VBox
         pageFontHBox.getChildren().add(pageFontThreeRadioButton);
         pageFontHBox.getChildren().add(pageFontFourRadioButton);
         pageFontHBox.getChildren().add(pageFontFiveRadioButton);
+    }
+
+    private void setUpBasicInfoGetters()
+    {
+        basicInfoHBox = new HBox();
+
+        //Set up the part for retrieving and setting the Page title
+        basicInfoHBox.getChildren().add(pageTitleLabel);
+
+        pageTitleButton = new Button();
+        pageTitleButton.setText(page.getPageTitle());
+        pageTitleButton.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog(page.getPageTitle());
+            dialog.setTitle("Page Title Input");
+            dialog.setContentText("Please enter a page title:");
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                page.setPageTitle(result.get());
+                pageTitleButton.setText(result.get());
+            }
+        });
+
+        basicInfoHBox.getChildren().add(pageTitleButton);
+
+        //Set up the part for retrieving and setting Student Name
+        basicInfoHBox.getChildren().add(studentNameLabel);
+
+        studentNameButton = new Button();
+        studentNameButton.setText(model.getStudentName());
+        studentNameButton.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog(model.getStudentName());
+            dialog.setTitle("Student Name Input");
+            dialog.setContentText("Please the Student's Name:");
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                model.setStudentName(result.get());
+                studentNameButton.setText(result.get());
+            }
+        });
+
+        //Set up part for retrieving and setting Footer for the page
+        basicInfoHBox.getChildren().add(footerLabel);
+
+        footerButton = new Button();
+        footerButton.setText("Click Here to Edit Footer!");
+        footerButton.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog(page.getFooter());
+            dialog.setTitle("Footer Input");
+            dialog.setContentText("Enter or modify the footer:");
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                page.setFooter(result.get());
+            }
+        });
+
+        basicInfoHBox.getChildren().add(footerButton);
     }
 
 }
