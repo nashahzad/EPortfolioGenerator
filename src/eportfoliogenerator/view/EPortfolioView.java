@@ -185,11 +185,16 @@ public class EPortfolioView
         ePortfolioBorderPane.setTop(fileToolBarHBox);
         ePortfolioBorderPane.setLeft(siteToolBarVBox);
         ePortfolioBorderPane.setBottom(webToolBarHBox);
+
         ePortfolioBorderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
 
+        //Set up the default workspace upon initial launch of the application
         Page page = new Page();
         page.setPageTitle("Page" + counter);
         counter++;
+        model.getPages().add(page);
+        pageView = new PageView(page, model);
+        ePortfolioBorderPane.setCenter(pageView);
 
 
         primaryScene = new Scene(ePortfolioBorderPane);

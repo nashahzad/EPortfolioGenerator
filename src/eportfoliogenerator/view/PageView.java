@@ -1,5 +1,6 @@
 package eportfoliogenerator.view;
 
+import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.scene.control.*;
@@ -173,6 +174,7 @@ public class PageView extends VBox
     private void setUpLayout()
     {
         layoutHBox = new HBox();
+        layoutHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
         layoutToggleGroup = new ToggleGroup();
 
@@ -228,6 +230,14 @@ public class PageView extends VBox
             layoutFiveRadoButton.setSelected(true);
         }
 
+        //Attach CSS class to GUI components
+        layoutLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        layoutOneRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        layoutTwoRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        layoutThreeRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        layoutFourRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        layoutFiveRadoButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+
         //Add Buttons to the layout HBox
         layoutHBox.getChildren().add(layoutLabel);
         layoutHBox.getChildren().add(layoutOneRadioButton);
@@ -240,6 +250,7 @@ public class PageView extends VBox
     private void setUpColor()
     {
         colorHBox = new HBox();
+        colorHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
         colorToggleGroup = new ToggleGroup();
 
@@ -294,6 +305,14 @@ public class PageView extends VBox
         else{
             colorFiveRadioButton.setSelected(true);
         }
+
+        //Attach CSS style class to GUI components
+        colorLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        colorOneRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        colorTwoRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        colorThreeRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        colorFourRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        colorFiveRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
         //Add Buttons to the layout HBox
         colorHBox.getChildren().add(colorLabel);
@@ -410,6 +429,8 @@ public class PageView extends VBox
                 studentNameButton.setText(result.get());
             }
         });
+
+        basicInfoHBox.getChildren().add(studentNameButton);
 
         //Set up part for retrieving and setting Footer for the page
         basicInfoHBox.getChildren().add(footerLabel);

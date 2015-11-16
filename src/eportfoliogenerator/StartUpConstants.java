@@ -33,6 +33,8 @@ public class StartUpConstants
     public static String CSS_SITE_TOOLBAR_BUTTON = "siteToolbar_button";
     public static String CSS_FILE_TOOLBAR_BUTTON = "fileToolbar_button";
     public static String CSS_BORDER_PANE = "border_pane";
+    public static String CSS_LAYOUT_HBOX = "layout_hbox";
+    public static String CSS_LAYOUT_BUTTONS = "layout_buttons";
 
 
 }
