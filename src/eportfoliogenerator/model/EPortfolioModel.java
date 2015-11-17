@@ -5,24 +5,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Nauman on 11/14/2015.
  */
 public class EPortfolioModel implements Serializable
 {
-    EPortfolioView ui;
-
     String ePortfolioTitle = "";
     String studentName = "";
 
-    ObservableList<Page> pages;
+    ArrayList<Page> pages;
     Page selectedPage;
 
-    public EPortfolioModel(EPortfolioView ui)
+    public EPortfolioModel()
     {
-        this.ui = ui;
-        pages = FXCollections.observableArrayList();
+        pages = new ArrayList<Page>();
+        //pages = FXCollections.observableArrayList();
         reset();
     }
 
@@ -54,11 +53,11 @@ public class EPortfolioModel implements Serializable
         this.studentName = studentName;
     }
 
-    public ObservableList<Page> getPages() {
+    public ArrayList<Page> getPages() {
         return pages;
     }
 
-    public void setPages(ObservableList<Page> pages) {
+    public void setPages(ArrayList<Page> pages) {
         this.pages = pages;
     }
 

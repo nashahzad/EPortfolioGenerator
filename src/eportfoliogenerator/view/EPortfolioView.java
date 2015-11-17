@@ -78,7 +78,7 @@ public class EPortfolioView implements Serializable
         this.fileManager.setUi(this);
 
         //Data mangement model
-        model = new EPortfolioModel(this);
+        model = new EPortfolioModel();
 
     }
 
@@ -222,7 +222,7 @@ public class EPortfolioView implements Serializable
 
         loadEPortfolioButton.setOnAction(event -> {
             try {
-                model = fileManager.handleLoadEPortfolio(model);
+                model = fileManager.handleLoadEPortfolio(this.model);
             } catch (Exception ex) {
                 System.out.println("Problem with reading serializiable object.");
             }
@@ -296,7 +296,7 @@ public class EPortfolioView implements Serializable
     }
 
     //Method to update the PageView with starting page
-    public void updatePageView()
+    public void updatePageView(EPortfolioModel model)
     {
         if(model.getPages().size() > 0)
         {
@@ -304,6 +304,8 @@ public class EPortfolioView implements Serializable
             model.setSelectedPage(model.getPages().get(0));
             pageViewScrollPane.setContent(pageView);
         }
+
+        primaryStage.setTitle(model.getePortfolioTitle());
     }
 
     public Stage getPrimaryStage() {

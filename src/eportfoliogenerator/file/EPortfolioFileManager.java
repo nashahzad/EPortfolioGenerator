@@ -64,9 +64,9 @@ public class EPortfolioFileManager implements Serializable
 
             FileInputStream fileInputStream = new FileInputStream(path + fileName);
             ObjectInputStream fin = new ObjectInputStream(fileInputStream);
-            Object obj = fin.readObject();
+            model = (EPortfolioModel) fin.readObject();
             fin.close();
-            ui.updatePageView();
+            ui.updatePageView(model);
             return model;
         }
         else {
