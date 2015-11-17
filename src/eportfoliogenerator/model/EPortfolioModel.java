@@ -67,4 +67,13 @@ public class EPortfolioModel
     public void setSelectedPage(Page selectedPage) {
         this.selectedPage = selectedPage;
     }
+
+    public Page getSpecificPage(String pageTitle){
+        for(Page page: pages){
+            if(page.getPageTitle().equalsIgnoreCase(pageTitle))
+                return page;
+        }
+
+        return null;
+    }
 }

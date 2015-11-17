@@ -7,9 +7,7 @@ import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -17,6 +15,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Nauman on 11/14/2015.
@@ -129,9 +131,9 @@ public class EPortfolioView
         siteToolBarVBox = new VBox();
         siteToolBarVBox.getStyleClass().add(StartUpConstants.CSS_SITE_TOOLBAR);
 
-        addPageButton = setUpButton(StartUpConstants.ICON_ADD_PAGE, "Add Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
+        addPageButton = setUpButton(StartUpConstants.ICON_ADD_PAGE, "Add Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, false);
         removePageButton = setUpButton(StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
-        selectPageButton = setUpButton(StartUpConstants.ICON_SELECT_PAGE, "Select Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
+        selectPageButton = setUpButton(StartUpConstants.ICON_SELECT_PAGE, "Select Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, false);
 
         siteToolBarVBox.getChildren().add(addPageButton);
         siteToolBarVBox.getChildren().add(removePageButton);
@@ -193,6 +195,7 @@ public class EPortfolioView
         page.setPageTitle("Page" + counter);
         counter++;
         model.getPages().add(page);
+        model.setSelectedPage(page);
         pageView = new PageView(page, model);
         pageViewScrollPane = new ScrollPane(pageView);
         pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
@@ -208,7 +211,40 @@ public class EPortfolioView
     }
 
     private void eventHandlers(){
+        addPageButton.setOnAction(event -> {
+            Page page = new Page();
+            page.setPageTitle("Page" + counter);
+            counter++;
+            model.getPages().add(page);
+            model.setSelectedPage(page);
+            pageView = new PageView(page, model);
+            pageViewScrollPane.setContent(pageView);
+        });
 
+        selectPageButton.setOnAction(event -> {
+            List<String> choices = new ArrayList<>();
+            for(Page page: model.getPages()){
+                if(!page.getPageTitle().equalsIgnoreCase(model.getSelectedPage().getPageTitle()))
+                    choices.add(page.getPageTitle());
+            }
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(model.getSelectedPage().getPageTitle(), choices);
+            dialog.setTitle("Select Page Box");
+            dialog.setContentText("Choose a page:");
+
+            DialogPane dialogPane = dialog.getDialogPane();
+            dialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                Page page = model.getSpecificPage(result.get());
+                if(page == null){}
+                else{
+                    model.setSelectedPage(page);
+                    pageView = new PageView(page, model);
+                    pageViewScrollPane.setContent(pageView);
+                }
+            }
+        });
     }
 
 
