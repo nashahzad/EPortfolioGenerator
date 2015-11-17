@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class EPortfolioFileManager
+public class EPortfolioFileManager implements Serializable
 {
     EPortfolioView ui;
 
@@ -29,7 +29,7 @@ public class EPortfolioFileManager
             promptForEPortfolioTitle(model);
         }
 
-        FileOutputStream file = new FileOutputStream(model.getePortfolioTitle() + ".obj");
+        FileOutputStream file = new FileOutputStream("./data/" + model.getePortfolioTitle() + ".obj");
         ObjectOutputStream fout = new ObjectOutputStream(file);
         fout.writeObject(model);
         fout.close();
@@ -44,12 +44,12 @@ public class EPortfolioFileManager
 
     }
 
-    public void handleLoadEPortfolio(EPortfolioModel model) throws Exception
+    public EPortfolioModel handleLoadEPortfolio(EPortfolioModel model) throws Exception
     {
         FileChooser modelFileChooser = new FileChooser();
 
         // SET THE STARTING DIRECTORY
-        modelFileChooser.setInitialDirectory(new File("./"));
+        modelFileChooser.setInitialDirectory(new File("./data/"));
 
         // LET'S ONLY SEE IMAGE FILES
         FileChooser.ExtensionFilter objFilter = new FileChooser.ExtensionFilter("OBJ files (&.obj)", "*.OBJ");
@@ -62,11 +62,12 @@ public class EPortfolioFileManager
             String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
             String fileName = file.getName();
 
-            FileInputStream fileInputStream = new FileInputStream(fileName);
+            FileInputStream fileInputStream = new FileInputStream(path + fileName);
             ObjectInputStream fin = new ObjectInputStream(fileInputStream);
-            model = (EPortfolioModel) fin.readObject();
+            Object obj = fin.readObject();
             fin.close();
             ui.updatePageView();
+            return model;
         }
         else {
             // @todo provide error message for no files selected
@@ -74,8 +75,8 @@ public class EPortfolioFileManager
             alert.setTitle("Warning!");
             alert.setHeaderText("");
             alert.setContentText("The program was unable to find the EPortfolio or nothing was selected!");
-
             alert.showAndWait();
+            return model;
         }
 
     }

@@ -16,11 +16,13 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Nauman
  */
-public class EPortfolioGenerator extends Application {
+public class EPortfolioGenerator extends Application implements Serializable {
     //Will do reading and writing
     EPortfolioFileManager fileManager = new EPortfolioFileManager();
 

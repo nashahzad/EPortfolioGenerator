@@ -7,11 +7,12 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by Nauman on 11/15/2015.
  */
-public class ImageSelectionController
+public class ImageSelectionController implements Serializable
 {
     public void processSelectImage(Page pageToEdit, PageView view) {
         FileChooser imageFileChooser = new FileChooser();

@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import java.util.Optional;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class PageView extends VBox
+public class PageView extends VBox implements Serializable
 {
     //Data model singleton and the Main GUI
     EPortfolioModel model;

@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ import java.util.Optional;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class EPortfolioView
+public class EPortfolioView implements Serializable
 {
     //Main Window and UI will be here
     Stage primaryStage;
@@ -221,8 +222,9 @@ public class EPortfolioView
 
         loadEPortfolioButton.setOnAction(event -> {
             try {
-                fileManager.handleLoadEPortfolio(model);
+                model = fileManager.handleLoadEPortfolio(model);
             } catch (Exception ex) {
+                System.out.println("Problem with reading serializiable object.");
             }
         });
 
