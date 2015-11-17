@@ -14,7 +14,7 @@ public class Page
 
     String footer;
 
-    String pageFont;
+    String pageFont = "Slabo";
 
     int layout, color;
 

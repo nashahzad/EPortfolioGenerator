@@ -20,8 +20,9 @@ import java.util.Optional;
  */
 public class PageView extends VBox
 {
-    //Data model singleton
+    //Data model singleton and the Main GUI
     EPortfolioModel model;
+    EPortfolioView ui;
 
     //Current working page
     Page page;
@@ -105,11 +106,12 @@ public class PageView extends VBox
     ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> videoComponentsList = new ArrayList<RadioButton>();
 
-    public PageView(Page page, EPortfolioModel model)
+    public PageView(Page page, EPortfolioModel model, EPortfolioView ui)
     {
         //Keep for the page later and model for later
         this.page = page;
         this.model = model;
+        this.ui = ui;
 
         //Make sure to display proper Banner image or default image.
         bannerImageView = new ImageView();
@@ -135,6 +137,7 @@ public class PageView extends VBox
         bannerImageView.setOnMousePressed(event -> {
             ImageSelectionController imageSelectionController = new ImageSelectionController();
             imageSelectionController.processSelectImage(this.page, this);
+            ui.updateSaveButtons();
             System.out.println(page.getBannerImagePath() + page.getBannerImageName());
         });
         bannerHBox.getChildren().add(bannerLabel);
@@ -194,26 +197,31 @@ public class PageView extends VBox
 
         layoutOneRadioButton = new RadioButton("1");
         layoutOneRadioButton.setOnAction(event -> {
+            if(this.page.getLayout() != 1) { ui.updateSaveButtons(); }
            this.page.setLayout(1);
         });
 
         layoutTwoRadioButton = new RadioButton("2");
         layoutTwoRadioButton.setOnAction(event -> {
+            if(this.page.getLayout() != 2) { ui.updateSaveButtons(); }
             this.page.setLayout(2);
         });
 
         layoutThreeRadioButton = new RadioButton("3");
         layoutThreeRadioButton.setOnAction(event -> {
+            if(this.page.getLayout() != 3) { ui.updateSaveButtons(); }
             this.page.setLayout(3);
         });
 
         layoutFourRadioButton = new RadioButton("4");
         layoutFourRadioButton.setOnAction(event -> {
+            if(this.page.getLayout() != 4) { ui.updateSaveButtons(); }
             this.page.setLayout(4);
         });
 
         layoutFiveRadoButton = new RadioButton("5");
         layoutFiveRadoButton.setOnAction(event -> {
+            if(this.page.getLayout() != 5) { ui.updateSaveButtons(); }
             this.page.setLayout(5);
         });
 
@@ -270,26 +278,31 @@ public class PageView extends VBox
 
         colorOneRadioButton = new RadioButton("1");
         colorOneRadioButton.setOnAction(event -> {
+            if(this.page.getColor() != 1) { ui.updateSaveButtons(); }
             this.page.setColor(1);
         });
 
         colorTwoRadioButton = new RadioButton("2");
         colorTwoRadioButton.setOnAction(event -> {
+            if(this.page.getColor() != 2) { ui.updateSaveButtons(); }
             this.page.setColor(2);
         });
 
         colorThreeRadioButton = new RadioButton("3");
         colorThreeRadioButton.setOnAction(event -> {
+            if(this.page.getColor() != 3) { ui.updateSaveButtons(); }
             this.page.setColor(3);
         });
 
         colorFourRadioButton = new RadioButton("4");
         colorFourRadioButton.setOnAction(event -> {
+            if(this.page.getColor() != 4) { ui.updateSaveButtons(); }
             this.page.setColor(4);
         });
 
         colorFiveRadioButton = new RadioButton("5");
         colorFiveRadioButton.setOnAction(event -> {
+            if(this.page.getColor() != 5) { ui.updateSaveButtons(); }
             this.page.setColor(5);
         });
 
@@ -346,26 +359,31 @@ public class PageView extends VBox
 
         pageFontOneRadioButton = new RadioButton("Slabo");
         pageFontOneRadioButton.setOnAction(event -> {
+            if(!this.page.getPageFont().equalsIgnoreCase("Slabo")) { ui.updateSaveButtons(); }
             this.page.setPageFont("Slabo");
         });
 
         pageFontTwoRadioButton = new RadioButton("Sans Pro");
         pageFontTwoRadioButton.setOnAction(event -> {
+            if(!this.page.getPageFont().equalsIgnoreCase("Sans Pro")) { ui.updateSaveButtons(); }
             this.page.setPageFont("Sans Pro");
         });
 
         pageFontThreeRadioButton = new RadioButton("Serif");
         pageFontThreeRadioButton.setOnAction(event -> {
+            if(!this.page.getPageFont().equalsIgnoreCase("Serif")) { ui.updateSaveButtons(); }
             this.page.setPageFont("Serif");
         });
 
         pageFontFourRadioButton = new RadioButton("Hind");
         pageFontFourRadioButton.setOnAction(event -> {
+            if(!this.page.getPageFont().equalsIgnoreCase("Hind")) { ui.updateSaveButtons(); }
             this.page.setPageFont("Hind");
         });
 
         pageFontFiveRadioButton = new RadioButton("Cantarell");
         pageFontFiveRadioButton.setOnAction(event -> {
+            if(!this.page.getPageFont().equalsIgnoreCase("Cantarell")) { ui.updateSaveButtons(); }
             this.page.setPageFont("Canatarell");
         });
 
@@ -433,6 +451,7 @@ public class PageView extends VBox
             if (result.isPresent()) {
                 page.setPageTitle(result.get());
                 pageTitleButton.setText(result.get());
+                ui.updateSaveButtons();
             }
         });
 
@@ -454,6 +473,7 @@ public class PageView extends VBox
             if (result.isPresent()) {
                 model.setStudentName(result.get());
                 studentNameButton.setText(result.get());
+                ui.updateSaveButtons();
             }
         });
 
@@ -474,6 +494,7 @@ public class PageView extends VBox
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 page.setFooter(result.get());
+                ui.updateSaveButtons();
             }
         });
 

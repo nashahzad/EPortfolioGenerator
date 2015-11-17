@@ -196,7 +196,7 @@ public class EPortfolioView
         counter++;
         model.getPages().add(page);
         model.setSelectedPage(page);
-        pageView = new PageView(page, model);
+        pageView = new PageView(page, model, this);
         pageViewScrollPane = new ScrollPane(pageView);
         pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
         pageViewScrollPane.setFitToHeight(true);
@@ -217,8 +217,9 @@ public class EPortfolioView
             counter++;
             model.getPages().add(page);
             model.setSelectedPage(page);
-            pageView = new PageView(page, model);
+            pageView = new PageView(page, model, this);
             pageViewScrollPane.setContent(pageView);
+            updateToolbarControls(false);
         });
 
         selectPageButton.setOnAction(event -> {
@@ -240,11 +241,41 @@ public class EPortfolioView
                 if(page == null){}
                 else{
                     model.setSelectedPage(page);
-                    pageView = new PageView(page, model);
+                    pageView = new PageView(page, model, this);
                     pageViewScrollPane.setContent(pageView);
                 }
             }
         });
+    }
+
+    /**
+     * Updates the enabled/disabled status of all toolbar
+     * buttons.
+     */
+    public void updateToolbarControls(boolean saved){
+        saveEPortfolioButton.setDisable(saved);
+        saveAsEPortfolioButton.setDisable(saved);
+
+        if(model.getPages().size() > 0){
+            removePageButton.setDisable(false);
+            webPageViewButton.setDisable(false);
+        }
+        else{
+            removePageButton.setDisable(true);
+            webPageViewButton.setDisable(true);
+        }
+        if(model.getPages().size() > 1){
+            selectPageButton.setDisable(false);
+        }
+        else{
+            selectPageButton.setDisable(true);
+        }
+    }
+
+    //Method for just updating the buttons for saving
+    public void updateSaveButtons(){
+        saveEPortfolioButton.setDisable(false);
+        saveAsEPortfolioButton.setDisable(false);
     }
 
 
