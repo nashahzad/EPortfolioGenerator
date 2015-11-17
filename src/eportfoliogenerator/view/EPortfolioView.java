@@ -213,9 +213,17 @@ public class EPortfolioView
     private void eventHandlers(){
 
         saveEPortfolioButton.setOnAction(event -> {
-            try{
+            try {
                 fileManager.handleSaveEPortfolio(model);
-            }catch(Exception ex){}
+            } catch (Exception ex) {
+            }
+        });
+
+        loadEPortfolioButton.setOnAction(event -> {
+            try {
+                fileManager.handleLoadEPortfolio(model);
+            } catch (Exception ex) {
+            }
         });
 
         addPageButton.setOnAction(event -> {
@@ -285,6 +293,16 @@ public class EPortfolioView
         saveAsEPortfolioButton.setDisable(false);
     }
 
+    //Method to update the PageView with starting page
+    public void updatePageView()
+    {
+        if(model.getPages().size() > 0)
+        {
+            pageView = new PageView(model.getPages().get(0), model, this);
+            model.setSelectedPage(model.getPages().get(0));
+            pageViewScrollPane.setContent(pageView);
+        }
+    }
 
     public Stage getPrimaryStage() {
         return primaryStage;
