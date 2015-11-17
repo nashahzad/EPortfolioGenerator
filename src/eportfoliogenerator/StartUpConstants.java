@@ -8,6 +8,7 @@ public class StartUpConstants
     //FILE PATHS DEFINED HERE
     public static String IMAGE_ICONS_FILE_PATH = "./images/icons";
     public static String STYLE_SHEET_UI = "//src/eportfoliogenerator/style/EPortfolioGeneratorStyle.css";
+    public static String JSON_SAVE = "//data";
 
 
     //FULL BUTTON ICON IMAGE PATHS HERE

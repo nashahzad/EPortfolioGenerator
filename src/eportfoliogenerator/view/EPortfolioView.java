@@ -211,6 +211,11 @@ public class EPortfolioView
     }
 
     private void eventHandlers(){
+
+        saveEPortfolioButton.setOnAction(event1 -> {
+
+        });
+
         addPageButton.setOnAction(event -> {
             Page page = new Page();
             page.setPageTitle("Page" + counter);
@@ -279,4 +284,11 @@ public class EPortfolioView
     }
 
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 }

@@ -7,12 +7,12 @@ import eportfoliogenerator.StartUpConstants;
  */
 public class Page
 {
-    String pageTitle;
+    String pageTitle = "";
 
     String bannerImagePath = StartUpConstants.IMAGE_ICONS_FILE_PATH;
     String bannerImageName = "DefaultStartSlide.png";
 
-    String footer;
+    String footer = "";
 
     String pageFont = "Slabo";
 

@@ -11,8 +11,8 @@ public class EPortfolioModel
 {
     EPortfolioView ui;
 
-    String ePortfolioTitle;
-    String studentName;
+    String ePortfolioTitle = "";
+    String studentName = "";
 
     ObservableList<Page> pages;
     Page selectedPage;
