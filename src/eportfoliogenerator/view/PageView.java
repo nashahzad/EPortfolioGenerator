@@ -1,6 +1,7 @@
 package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
+import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.scene.control.*;
@@ -126,6 +127,19 @@ public class PageView extends VBox
         this.getChildren().add(colorHBox);
         this.getChildren().add(pageFontHBox);
         this.getChildren().add(basicInfoHBox);
+
+        //Banner Image selection set up
+        bannerHBox = new HBox();
+        bannerHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        bannerLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        bannerImageView.setOnMousePressed(event -> {
+            ImageSelectionController imageSelectionController = new ImageSelectionController();
+            imageSelectionController.processSelectImage(this.page, this);
+            System.out.println(page.getBannerImagePath() + page.getBannerImageName());
+        });
+        bannerHBox.getChildren().add(bannerLabel);
+        bannerHBox.getChildren().add(bannerImageView);
+        this.getChildren().add(bannerHBox);
 
     }
 

@@ -194,7 +194,11 @@ public class EPortfolioView
         counter++;
         model.getPages().add(page);
         pageView = new PageView(page, model);
-        ePortfolioBorderPane.setCenter(pageView);
+        pageViewScrollPane = new ScrollPane(pageView);
+        pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+        pageViewScrollPane.setFitToHeight(true);
+        pageViewScrollPane.setFitToWidth(true);
+        ePortfolioBorderPane.setCenter(pageViewScrollPane);
 
 
         primaryScene = new Scene(ePortfolioBorderPane);
@@ -203,7 +207,9 @@ public class EPortfolioView
         primaryStage.show();
     }
 
-    private void eventHandlers(){}
+    private void eventHandlers(){
+
+    }
 
 
 }
