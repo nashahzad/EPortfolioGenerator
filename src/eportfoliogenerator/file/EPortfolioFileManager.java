@@ -5,14 +5,8 @@ import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.view.EPortfolioView;
 import javafx.scene.control.TextInputDialog;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
+import javax.json.*;
+import java.io.*;
 import java.util.Optional;
 
 /**
@@ -33,13 +27,18 @@ public class EPortfolioFileManager
             promptForEPortfolioTitle(model);
         }
 
-        //Build file path for the JSON
-        String jsonFilePath = StartUpConstants.JSON_SAVE + "/" + model.getePortfolioTitle() + ".json";
+        FileOutputStream file = new FileOutputStream(model.getePortfolioTitle() + ".obj");
+        ObjectOutputStream fout = new ObjectOutputStream(file);
+        fout.writeObject(model);
+        fout.close();
 
-        OutputStream os = new FileOutputStream(jsonFilePath);
-        JsonWriter jsonWriter = Json.createWriter(os);
-
-        //Create and Save JSON
+//        //Build file path for the JSON
+//        String jsonFilePath = StartUpConstants.JSON_SAVE + "/" + model.getePortfolioTitle() + ".json";
+//
+//        OutputStream os = new FileOutputStream(jsonFilePath);
+//        JsonWriter jsonWriter = Json.createWriter(os);
+//
+//        //Create and Save JSON
 
     }
 

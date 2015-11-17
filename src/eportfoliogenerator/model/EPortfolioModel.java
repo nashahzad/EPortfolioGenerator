@@ -4,10 +4,12 @@ import eportfoliogenerator.view.EPortfolioView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.Serializable;
+
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class EPortfolioModel
+public class EPortfolioModel implements Serializable
 {
     EPortfolioView ui;
 
@@ -25,12 +27,12 @@ public class EPortfolioModel
     }
 
     /**
-     * Resets the EPortfolio to have no pages and a default title.
+     * Resets the EPortfolio to have no pages and a default blank title.
      */
     public void reset()
     {
         pages.clear();
-        ePortfolioTitle = "EPortfolioTitle";
+        ePortfolioTitle = "";
         selectedPage = null;
     }
 

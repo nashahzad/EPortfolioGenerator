@@ -212,8 +212,10 @@ public class EPortfolioView
 
     private void eventHandlers(){
 
-        saveEPortfolioButton.setOnAction(event1 -> {
-
+        saveEPortfolioButton.setOnAction(event -> {
+            try{
+                fileManager.handleSaveEPortfolio(model);
+            }catch(Exception ex){}
         });
 
         addPageButton.setOnAction(event -> {

@@ -2,10 +2,12 @@ package eportfoliogenerator.model;
 
 import eportfoliogenerator.StartUpConstants;
 
+import java.io.Serializable;
+
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class Page
+public class Page implements Serializable
 {
     String pageTitle = "";
 
