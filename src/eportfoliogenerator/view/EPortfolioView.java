@@ -192,17 +192,17 @@ public class EPortfolioView implements Serializable
         ePortfolioBorderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
 
         //Set up the default workspace upon initial launch of the application
-        Page page = new Page();
-        page.setPageTitle("Page" + counter);
-        counter++;
-        model.getPages().add(page);
-        model.setSelectedPage(page);
-        pageView = new PageView(page, model, this);
-        pageViewScrollPane = new ScrollPane(pageView);
-        pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
-        pageViewScrollPane.setFitToHeight(true);
-        pageViewScrollPane.setFitToWidth(true);
-        ePortfolioBorderPane.setCenter(pageViewScrollPane);
+//        Page page = new Page();
+//        page.setPageTitle("Page" + counter);
+//        counter++;
+//        model.getPages().add(page);
+//        model.setSelectedPage(page);
+//        pageView = new PageView(page, model, this);
+//        pageViewScrollPane = new ScrollPane(pageView);
+//        pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+//        pageViewScrollPane.setFitToHeight(true);
+//        pageViewScrollPane.setFitToWidth(true);
+//        ePortfolioBorderPane.setCenter(pageViewScrollPane);
 
 
         primaryScene = new Scene(ePortfolioBorderPane);
@@ -212,6 +212,27 @@ public class EPortfolioView implements Serializable
     }
 
     private void eventHandlers(){
+
+        newEPortfolioButton.setOnAction(event -> {
+            try{
+                //if not already saved, prompt user to save, if not hit cancel go through with new session
+                if(fileManager.promptToSave(model, saveEPortfolioButton)){
+                    model.reset();
+                    Page page = new Page();
+                    page.setPageTitle("Page" + counter);
+                    counter++;
+                    model.getPages().add(page);
+                    model.setSelectedPage(page);
+                    pageView = new PageView(page, model, this);
+                    pageViewScrollPane = new ScrollPane(pageView);
+                    pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+                    pageViewScrollPane.setFitToHeight(true);
+                    pageViewScrollPane.setFitToWidth(true);
+                    ePortfolioBorderPane.setCenter(pageViewScrollPane);
+                    primaryStage.setTitle("");
+                }
+            }catch (Exception ex) {}
+        });
 
         saveEPortfolioButton.setOnAction(event -> {
             try {
@@ -228,7 +249,9 @@ public class EPortfolioView implements Serializable
 
         loadEPortfolioButton.setOnAction(event -> {
             try {
-                model = fileManager.handleLoadEPortfolio(this.model);
+                if(fileManager.promptToSave(model, saveEPortfolioButton)) {
+                    model = fileManager.handleLoadEPortfolio(this.model);
+                }
             } catch (Exception ex) {
                 System.out.println("Problem with reading serializiable object.");
             }
@@ -268,6 +291,13 @@ public class EPortfolioView implements Serializable
                     pageViewScrollPane.setContent(pageView);
                 }
             }
+        });
+
+        exitEPortfolioButton.setOnAction(event -> {
+            try{
+            if(fileManager.promptToSave(model, saveEPortfolioButton)){
+                System.exit(0);
+            }} catch (Exception ex) {}
         });
     }
 
@@ -329,7 +359,8 @@ public class EPortfolioView implements Serializable
         {
             pageView = new PageView(model.getPages().get(0), model, this);
             model.setSelectedPage(model.getPages().get(0));
-            pageViewScrollPane.setContent(pageView);
+            pageViewScrollPane = new ScrollPane(pageView);
+            ePortfolioBorderPane.setCenter(pageView);
         }
 
         primaryStage.setTitle(model.getePortfolioTitle());

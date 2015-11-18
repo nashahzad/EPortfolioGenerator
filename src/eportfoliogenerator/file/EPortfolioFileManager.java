@@ -3,8 +3,7 @@ package eportfoliogenerator.file;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.view.EPortfolioView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import javax.json.*;
@@ -88,6 +87,37 @@ public class EPortfolioFileManager implements Serializable
             return model;
         }
 
+    }
+
+    public boolean promptToSave(EPortfolioModel model, Button saveButton) throws Exception
+    {
+        if(saveButton.isDisable()){
+            return true;
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Prompt to Save");
+            alert.setContentText("Would you like to save?");
+
+            ButtonType buttonTypeOne = new ButtonType("Yes");
+            ButtonType buttonTypeTwo = new ButtonType("No");
+            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeOne){
+                // ... user chose "One"
+                handleSaveEPortfolio(model);
+                return true;
+            } else if (result.get() == buttonTypeTwo) {
+                // ... user chose "Two"
+                return true;
+            } else {
+                // ... user chose CANCEL or closed the dialog
+                return false;
+            }
+        }
     }
 
     public void promptForEPortfolioTitle(EPortfolioModel model)
