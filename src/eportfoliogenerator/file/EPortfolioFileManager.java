@@ -4,7 +4,9 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.view.EPortfolioView;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import javax.json.*;
 import java.io.*;
@@ -104,6 +106,23 @@ public class EPortfolioFileManager implements Serializable
             ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
             alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = alert.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == buttonTypeOne){

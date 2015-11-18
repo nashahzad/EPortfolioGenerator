@@ -14,6 +14,8 @@ public class StartUpConstants implements Serializable
 
 
     //FULL BUTTON ICON IMAGE PATHS HERE
+    public static String WINDOWS_ICON = "file:./images/icons/eportfolio.gif";
+
     public static String ICON_NEW_EPORTFOLIO = IMAGE_ICONS_FILE_PATH + "/New.png";
     public static String ICON_LOAD_EPORTFOLIO = IMAGE_ICONS_FILE_PATH + "/Load.png";
     public static String ICON_SAVE_EPORTFOLIO = IMAGE_ICONS_FILE_PATH + "/SaveOrig.png";
