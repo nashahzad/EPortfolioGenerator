@@ -111,7 +111,7 @@ public class EPortfolioView implements Serializable
         newEPortfolioButton = setUpButton(StartUpConstants.ICON_NEW_EPORTFOLIO, "New EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
         loadEPortfolioButton = setUpButton(StartUpConstants.ICON_LOAD_EPORTFOLIO, "Load EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
         saveEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_EPORTFOLIO, "Save EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
-        saveAsEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
+        saveAsEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
         exportEPortfolioButton = setUpButton(StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
         exitEPortfolioButton = setUpButton(StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
 
@@ -220,6 +220,12 @@ public class EPortfolioView implements Serializable
             }
         });
 
+        saveAsEPortfolioButton.setOnAction(event -> {
+            try{
+                fileManager.handleSaveAsEPortfolio(model);
+            }catch(Exception ex) {}
+        });
+
         loadEPortfolioButton.setOnAction(event -> {
             try {
                 model = fileManager.handleLoadEPortfolio(this.model);
@@ -271,7 +277,29 @@ public class EPortfolioView implements Serializable
      */
     public void updateToolbarControls(boolean saved){
         saveEPortfolioButton.setDisable(saved);
-        saveAsEPortfolioButton.setDisable(saved);
+
+        if(model.getPages().size() > 0){
+            removePageButton.setDisable(false);
+            webPageViewButton.setDisable(false);
+        }
+        else{
+            removePageButton.setDisable(true);
+            webPageViewButton.setDisable(true);
+        }
+        if(model.getPages().size() > 1){
+            selectPageButton.setDisable(false);
+        }
+        else{
+            selectPageButton.setDisable(true);
+        }
+    }
+
+    /**
+     * Updates the enabled/disabled status of all toolbar
+     * buttons.
+     */
+    public void updateToolbarControls(boolean saved, EPortfolioModel model){
+        saveEPortfolioButton.setDisable(saved);
 
         if(model.getPages().size() > 0){
             removePageButton.setDisable(false);
@@ -292,7 +320,6 @@ public class EPortfolioView implements Serializable
     //Method for just updating the buttons for saving
     public void updateSaveButtons(){
         saveEPortfolioButton.setDisable(false);
-        saveAsEPortfolioButton.setDisable(false);
     }
 
     //Method to update the PageView with starting page

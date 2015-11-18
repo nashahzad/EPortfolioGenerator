@@ -29,10 +29,12 @@ public class EPortfolioFileManager implements Serializable
             promptForEPortfolioTitle(model);
         }
 
-        FileOutputStream file = new FileOutputStream("./data/" + model.getePortfolioTitle() + ".obj");
+        FileOutputStream file = new FileOutputStream("./data/" + model.getePortfolioTitle() + ".json");
         ObjectOutputStream fout = new ObjectOutputStream(file);
         fout.writeObject(model);
         fout.close();
+
+        ui.updateToolbarControls(true);
 
 //        //Build file path for the JSON
 //        String jsonFilePath = StartUpConstants.JSON_SAVE + "/" + model.getePortfolioTitle() + ".json";
@@ -44,6 +46,12 @@ public class EPortfolioFileManager implements Serializable
 
     }
 
+    public void handleSaveAsEPortfolio(EPortfolioModel model) throws IOException
+    {
+        promptForEPortfolioTitle(model);
+        handleSaveEPortfolio(model);
+    }
+
     public EPortfolioModel handleLoadEPortfolio(EPortfolioModel model) throws Exception
     {
         FileChooser modelFileChooser = new FileChooser();
@@ -52,7 +60,7 @@ public class EPortfolioFileManager implements Serializable
         modelFileChooser.setInitialDirectory(new File("./data/"));
 
         // LET'S ONLY SEE IMAGE FILES
-        FileChooser.ExtensionFilter objFilter = new FileChooser.ExtensionFilter("OBJ files (&.obj)", "*.OBJ");
+        FileChooser.ExtensionFilter objFilter = new FileChooser.ExtensionFilter("JSON files (&.json)", "*.JSON");
 
         modelFileChooser.getExtensionFilters().addAll(objFilter);
 
@@ -67,6 +75,7 @@ public class EPortfolioFileManager implements Serializable
             model = (EPortfolioModel) fin.readObject();
             fin.close();
             ui.updatePageView(model);
+            ui.updateToolbarControls(true, model);
             return model;
         }
         else {
