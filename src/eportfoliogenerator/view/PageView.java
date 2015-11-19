@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.Serializable;
@@ -447,6 +448,22 @@ public class PageView extends VBox implements Serializable
             TextInputDialog dialog = new TextInputDialog(page.getPageTitle());
             dialog.setTitle("Page Title Input");
             dialog.setContentText("Please enter a page title:");
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {

@@ -186,7 +186,7 @@ public class EPortfolioView implements Serializable
         //Set up the layout of the various toolbars on the main window with a BorderPane
         ePortfolioBorderPane = new BorderPane();
         ePortfolioBorderPane.setTop(fileToolBarHBox);
-        ePortfolioBorderPane.setLeft(siteToolBarVBox);
+        //ePortfolioBorderPane.setLeft(siteToolBarVBox);
         ePortfolioBorderPane.setBottom(webToolBarHBox);
 
         ePortfolioBorderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
@@ -229,6 +229,7 @@ public class EPortfolioView implements Serializable
                     pageViewScrollPane.setFitToHeight(true);
                     pageViewScrollPane.setFitToWidth(true);
                     ePortfolioBorderPane.setCenter(pageViewScrollPane);
+                    ePortfolioBorderPane.setLeft(siteToolBarVBox);
                     primaryStage.setTitle("");
                 }
             }catch (Exception ex) {}
@@ -251,6 +252,7 @@ public class EPortfolioView implements Serializable
             try {
                 if(fileManager.promptToSave(model, saveEPortfolioButton)) {
                     model = fileManager.handleLoadEPortfolio(this.model);
+                    ePortfolioBorderPane.setLeft(siteToolBarVBox);
                 }
             } catch (Exception ex) {
                 System.out.println("Problem with reading serializiable object.");
@@ -264,7 +266,11 @@ public class EPortfolioView implements Serializable
             model.getPages().add(page);
             model.setSelectedPage(page);
             pageView = new PageView(page, model, this);
-            pageViewScrollPane.setContent(pageView);
+            pageViewScrollPane = new ScrollPane(pageView);
+            pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+            pageViewScrollPane.setFitToHeight(true);
+            pageViewScrollPane.setFitToWidth(true);
+            ePortfolioBorderPane.setCenter(pageViewScrollPane);
             updateToolbarControls(false);
         });
 
@@ -277,6 +283,9 @@ public class EPortfolioView implements Serializable
             ChoiceDialog<String> dialog = new ChoiceDialog<>(model.getSelectedPage().getPageTitle(), choices);
             dialog.setTitle("Select Page Box");
             dialog.setContentText("Choose a page:");
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
 
             DialogPane dialogPane = dialog.getDialogPane();
             dialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
