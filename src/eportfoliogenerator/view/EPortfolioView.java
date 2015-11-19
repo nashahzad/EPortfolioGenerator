@@ -231,6 +231,7 @@ public class EPortfolioView implements Serializable
                     ePortfolioBorderPane.setCenter(pageViewScrollPane);
                     ePortfolioBorderPane.setLeft(siteToolBarVBox);
                     primaryStage.setTitle("");
+                    updateToolbarControls(false, model);
                 }
             }catch (Exception ex) {}
         });
@@ -298,6 +299,29 @@ public class EPortfolioView implements Serializable
                     model.setSelectedPage(page);
                     pageView = new PageView(page, model, this);
                     pageViewScrollPane.setContent(pageView);
+                }
+            }
+        });
+
+        removePageButton.setOnAction(event -> {
+            for(int i = 0; i < model.getPages().size(); i++){
+                if(model.getPages().get(i) == model.getSelectedPage()){
+                    model.getPages().remove(i);
+                    if(model.getPages().size() > 0){
+                        model.setSelectedPage(model.getPages().get(0));
+                        pageView = new PageView(model.getSelectedPage(), model, this);
+                        pageViewScrollPane = new ScrollPane(pageView);
+                        pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+                        pageViewScrollPane.setFitToHeight(true);
+                        pageViewScrollPane.setFitToWidth(true);
+                        ePortfolioBorderPane.setCenter(pageViewScrollPane);
+                        updateToolbarControls(false, model);
+                    }
+                    else{
+                        ePortfolioBorderPane.setCenter(null);
+                        removePageButton.setDisable(true);
+                        updateToolbarControls(false, model);
+                    }
                 }
             }
         });
