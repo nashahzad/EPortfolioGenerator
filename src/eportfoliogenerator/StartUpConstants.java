@@ -47,5 +47,8 @@ public class StartUpConstants implements Serializable
     public static String CSS_LAYOUT_BUTTONS_HIND = "layout_buttons_hind";
     public static String CSS_LAYOUT_BUTTONS_CANTARELL = "layout_buttons_cantarell";
 
+    public static String CSS_ADD_COMPONENTS = "add_components";
+    public static String CSS_ADD_COMPONENTS_BUTTONS = "add_components_buttons";
+    public static String CSS_COMPONENTS_HBOX = "components_hbox";
 
 }

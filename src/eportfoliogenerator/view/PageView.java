@@ -4,6 +4,7 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -85,6 +86,7 @@ public class PageView extends VBox implements Serializable
 
     HBox addEditComponentsHBox;
     VBox addComponentsVBox;
+    Label addComponentsLabel = new Label("Add Components");
     Button addTextComponentButton;
     Button addImageComponentButton;
     Button addSlideShowComponentButton;
@@ -92,17 +94,20 @@ public class PageView extends VBox implements Serializable
     Button addTextHyperLinkButton;
 
     VBox editComponentsVBox;
+    Label editComponentLabel = new Label("Edit Components");
     Button editTextComponentButton;
     Button editImageComponentButton;
     Button editSlideShowComponentButton;
     Button editVideoComponentButton;
     Button editTextHyperLinkButton;
 
+    HBox displayComponentsHBox;
     VBox textComponentsVBox;
     VBox imageComponentsVBox;
     VBox slideShowComponentsVBox;
     VBox videoComponentsVBox;
 
+    ToggleGroup componentsToggleGroup;
     ArrayList<RadioButton> textComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> imageComponentsList = new ArrayList<RadioButton>();
     ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
@@ -144,7 +149,11 @@ public class PageView extends VBox implements Serializable
         });
         bannerHBox.getChildren().add(bannerLabel);
         bannerHBox.getChildren().add(bannerImageView);
+        bannerHBox.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add(bannerHBox);
+
+        //Now to set up the area for where ADDING/EDITING COMPONENTS will take place
+        setUpComponentsView();
 
     }
 
@@ -269,6 +278,8 @@ public class PageView extends VBox implements Serializable
         layoutHBox.getChildren().add(layoutThreeRadioButton);
         layoutHBox.getChildren().add(layoutFourRadioButton);
         layoutHBox.getChildren().add(layoutFiveRadoButton);
+
+        layoutHBox.setAlignment(Pos.TOP_CENTER);
     }
 
     private void setUpColor()
@@ -350,6 +361,8 @@ public class PageView extends VBox implements Serializable
         colorHBox.getChildren().add(colorThreeRadioButton);
         colorHBox.getChildren().add(colorFourRadioButton);
         colorHBox.getChildren().add(colorFiveRadioButton);
+
+        colorHBox.setAlignment(Pos.TOP_CENTER);
     }
 
     private void setUpPageFont()
@@ -431,6 +444,8 @@ public class PageView extends VBox implements Serializable
         pageFontHBox.getChildren().add(pageFontThreeRadioButton);
         pageFontHBox.getChildren().add(pageFontFourRadioButton);
         pageFontHBox.getChildren().add(pageFontFiveRadioButton);
+
+        pageFontHBox.setAlignment(Pos.TOP_CENTER);
     }
 
     private void setUpBasicInfoGetters()
@@ -458,7 +473,7 @@ public class PageView extends VBox implements Serializable
             alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
             //CSS to buttons added after alert does its getButtonTypes method
-            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
             buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
             buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
 
@@ -518,6 +533,94 @@ public class PageView extends VBox implements Serializable
 
         footerButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         basicInfoHBox.getChildren().add(footerButton);
+
+        basicInfoHBox.setAlignment(Pos.TOP_CENTER);
+    }
+
+    private void setUpComponentsView()
+    {
+        addEditComponentsHBox = new HBox();
+        addEditComponentsHBox.getStyleClass().add(StartUpConstants.CSS_COMPONENTS_HBOX);
+
+        //Add Components VBOX
+        addComponentsVBox = new VBox();
+        addComponentsVBox.setAlignment(Pos.TOP_CENTER);
+        addTextComponentButton = new Button("Add Text");
+        addImageComponentButton = new Button("Add Image");
+        addSlideShowComponentButton = new Button("Add SlideShow");
+        addVideoComponentButton = new Button("Add Video");
+
+        addComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        addComponentsLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        addTextComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        addImageComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        addSlideShowComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        addVideoComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+
+        addComponentsVBox.getChildren().add(addComponentsLabel);
+        addComponentsVBox.getChildren().add(addTextComponentButton);
+        addComponentsVBox.getChildren().add(addImageComponentButton);
+        addComponentsVBox.getChildren().add(addSlideShowComponentButton);
+        addComponentsVBox.getChildren().add(addVideoComponentButton);
+        addEditComponentsHBox.getChildren().add(addComponentsVBox);
+
+        //Edit Components VBOX
+        editComponentsVBox = new VBox();
+        editComponentsVBox.setAlignment(Pos.TOP_CENTER);
+        editTextComponentButton = new Button("Edit Text");
+        editImageComponentButton = new Button("Edit Image");
+        editSlideShowComponentButton = new Button ("Edit SlideShow");
+        editVideoComponentButton = new Button("Edit Video");
+        editTextHyperLinkButton = new Button("Text Hyperlink");
+
+        editComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        editComponentLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        editTextComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        editImageComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        editSlideShowComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        editVideoComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        editTextHyperLinkButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+
+        editComponentsVBox.getChildren().add(editComponentLabel);
+        editComponentsVBox.getChildren().add(editTextComponentButton);
+        editComponentsVBox.getChildren().add(editImageComponentButton);
+        editComponentsVBox.getChildren().add(editSlideShowComponentButton);
+        editComponentsVBox.getChildren().add(editVideoComponentButton);
+        editComponentsVBox.getChildren().add(editTextHyperLinkButton);
+        addEditComponentsHBox.getChildren().add(editComponentsVBox);
+
+        //Add it all into this PageView VBOX
+        addEditComponentsHBox.setAlignment(Pos.TOP_CENTER);
+        this.getChildren().add(addEditComponentsHBox);
+
+        //Now for area that will DISPLAY CREATED COMPONENTS
+        displayComponentsHBox = new HBox();
+        displayComponentsHBox.getStyleClass().add(StartUpConstants.CSS_COMPONENTS_HBOX);
+
+        textComponentsVBox = new VBox();
+        textComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        textComponentsVBox.getChildren().add(textComponentLabel);
+        displayComponentsHBox.getChildren().add(textComponentsVBox);
+
+        imageComponentsVBox = new VBox();
+        imageComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageComponentsVBox.getChildren().add(imageComponentsLabel);
+        displayComponentsHBox.getChildren().add(imageComponentsVBox);
+
+        slideShowComponentsVBox = new VBox();
+        slideShowComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
+        displayComponentsHBox.getChildren().add(slideShowComponentsVBox);
+
+        videoComponentsVBox = new VBox();
+        videoComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        videoComponentsVBox.getChildren().add(videoComponentsLabel);
+        displayComponentsHBox.getChildren().add(videoComponentsVBox);
+
+        //Add in COMPONENTS DISPLAY AREA into this PageView VBOX
+        displayComponentsHBox.setAlignment(Pos.TOP_CENTER);
+        this.getChildren().add(displayComponentsHBox);
+
     }
 
 }
