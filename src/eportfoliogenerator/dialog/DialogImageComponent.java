@@ -5,13 +5,16 @@ import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.model.Page;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -179,10 +182,28 @@ public class DialogImageComponent extends Stage
         floatHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         imageCaptionHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
-        imageVBox.getChildren().addAll(imageHBox, imageAttributesHBox, floatHBox, imageCaptionHBox, confirmCancelHBox);
+        imageVBox.getChildren().addAll(imageHBox, imageAttributesHBox, floatHBox, imageCaptionHBox);
+
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(.5 * bounds.getMinX());
+        this.setY(.5 * bounds.getMinY());
+        this.setWidth(.5 * bounds.getWidth());
+        this.setHeight(.5 * bounds.getHeight());
 
         scrollPane = new ScrollPane(imageVBox);
-        scene = new Scene(scrollPane);
+        scrollPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(scrollPane);
+        borderPane.setBottom(confirmCancelHBox);
+        borderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+        scene = new Scene(borderPane);
         scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
         this.setScene(scene);
         this.show();
