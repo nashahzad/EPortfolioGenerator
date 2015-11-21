@@ -101,6 +101,7 @@ public class PageView extends VBox implements Serializable
     Button editSlideShowComponentButton;
     Button editVideoComponentButton;
     Button editTextHyperLinkButton;
+    Button removeComponentButton;
 
     HBox displayComponentsHBox;
     VBox textComponentsVBox;
@@ -549,10 +550,11 @@ public class PageView extends VBox implements Serializable
         //Add Components VBOX
         addComponentsVBox = new VBox();
         addComponentsVBox.setAlignment(Pos.TOP_CENTER);
-        addTextComponentButton = new Button("Add Text");
-        addImageComponentButton = new Button("Add Image");
-        addSlideShowComponentButton = new Button("Add SlideShow");
-        addVideoComponentButton = new Button("Add Video");
+        addTextComponentButton = new Button();
+        addImageComponentButton = new Button();
+        addSlideShowComponentButton = new Button();
+        addVideoComponentButton = new Button();
+        addTextHyperLinkButton = new Button();
 
         addComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         addComponentsLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
@@ -560,22 +562,24 @@ public class PageView extends VBox implements Serializable
         addImageComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addSlideShowComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addVideoComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        addTextHyperLinkButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
 
         addComponentsVBox.getChildren().add(addComponentsLabel);
         addComponentsVBox.getChildren().add(addTextComponentButton);
         addComponentsVBox.getChildren().add(addImageComponentButton);
         addComponentsVBox.getChildren().add(addSlideShowComponentButton);
         addComponentsVBox.getChildren().add(addVideoComponentButton);
+        addComponentsVBox.getChildren().add(addTextHyperLinkButton);
         addEditComponentsHBox.getChildren().add(addComponentsVBox);
 
         //Edit Components VBOX
         editComponentsVBox = new VBox();
         editComponentsVBox.setAlignment(Pos.TOP_CENTER);
-        editTextComponentButton = new Button("Edit Text");
-        editImageComponentButton = new Button("Edit Image");
-        editSlideShowComponentButton = new Button ("Edit SlideShow");
-        editVideoComponentButton = new Button("Edit Video");
-        editTextHyperLinkButton = new Button("Text Hyperlink");
+        editTextComponentButton = new Button();
+        editImageComponentButton = new Button();
+        editSlideShowComponentButton = new Button ();
+        editVideoComponentButton = new Button();
+        editTextHyperLinkButton = new Button();
 
         editComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         editComponentLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
@@ -627,6 +631,31 @@ public class PageView extends VBox implements Serializable
 
         //Initialize the COMPONENTS TOGGLE GROUP
         componentsToggleGroup = new ToggleGroup();
+
+        //Attach graphics/images to buttons
+        attachGraphics();
+    }
+
+    private void attachGraphics(){
+        Image image = new Image("file:" + StartUpConstants.ICON_COMPONENT_TEXT);
+        addTextComponentButton.setGraphic(new ImageView(image));
+        editTextComponentButton.setGraphic(new ImageView(image));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_IMAGE);
+        addImageComponentButton.setGraphic(new ImageView(image));
+        editImageComponentButton.setGraphic(new ImageView(image));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_SLIDESHOW);
+        addSlideShowComponentButton.setGraphic(new ImageView(image));
+        editSlideShowComponentButton.setGraphic(new ImageView(image));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_VIDEO);
+        addVideoComponentButton.setGraphic(new ImageView(image));
+        editVideoComponentButton.setGraphic(new ImageView(image));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_HYPERLINK);
+        addTextHyperLinkButton.setGraphic(new ImageView(image));
+        editTextHyperLinkButton.setGraphic(new ImageView(image));
     }
 
     private void setUpComponentEventHandlers()

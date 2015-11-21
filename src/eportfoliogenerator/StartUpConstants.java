@@ -31,6 +31,12 @@ public class StartUpConstants implements Serializable
 
     public static String DEFAULT_IMAGE = IMAGE_ICONS_FILE_PATH + "/DefaultStartSlide.png";
 
+    public static String ICON_COMPONENT_TEXT = IMAGE_ICONS_FILE_PATH + "/TextComponent.png";
+    public static String ICON_COMPONENT_IMAGE = IMAGE_ICONS_FILE_PATH + "/ImageComponent.png";
+    public static String ICON_COMPONENT_SLIDESHOW = IMAGE_ICONS_FILE_PATH + "/SlideShowComponent.png";
+    public static String ICON_COMPONENT_VIDEO = IMAGE_ICONS_FILE_PATH + "/VideoComponent.png";
+    public static String ICON_COMPONENT_HYPERLINK = IMAGE_ICONS_FILE_PATH + "/HyperLinkComponent.png";
+
 
     //CSS CLASSES
     public static String CSS_SITE_TOOLBAR = "siteToolbar";
