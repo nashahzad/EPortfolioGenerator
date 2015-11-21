@@ -298,6 +298,7 @@ public class EPortfolioView implements Serializable
                 else{
                     model.setSelectedPage(page);
                     pageView = new PageView(page, model, this);
+                    pageView.reloadPageView();
                     pageViewScrollPane.setContent(pageView);
                 }
             }
@@ -310,6 +311,7 @@ public class EPortfolioView implements Serializable
                     if(model.getPages().size() > 0){
                         model.setSelectedPage(model.getPages().get(0));
                         pageView = new PageView(model.getSelectedPage(), model, this);
+                        pageView.reloadPageView();
                         pageViewScrollPane = new ScrollPane(pageView);
                         pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
                         pageViewScrollPane.setFitToHeight(true);

@@ -1,8 +1,10 @@
 package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
+import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
+import eportfoliogenerator.dialog.DialogImageComponent;
 import eportfoliogenerator.dialog.DialogTextComponents;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
@@ -159,7 +161,6 @@ public class PageView extends VBox implements Serializable
 
         //Attach event handlers for when buttons are clicked on
         setUpComponentEventHandlers();
-
     }
 
    public void updateSlideImage()
@@ -403,7 +404,9 @@ public class PageView extends VBox implements Serializable
 
         pageFontFiveRadioButton = new RadioButton("Cantarell");
         pageFontFiveRadioButton.setOnAction(event -> {
-            if(!this.page.getPageFont().equalsIgnoreCase("Cantarell")) { ui.updateSaveButtons(); }
+            if (!this.page.getPageFont().equalsIgnoreCase("Cantarell")) {
+                ui.updateSaveButtons();
+            }
             this.page.setPageFont("Canatarell");
         });
 
@@ -623,6 +626,9 @@ public class PageView extends VBox implements Serializable
 
         //Attach graphics/images to buttons
         attachGraphics();
+
+        //Reload any existing components
+        reloadPageView();
     }
 
     private void attachGraphics(){
@@ -668,12 +674,17 @@ public class PageView extends VBox implements Serializable
             dialogTextComponents.promptForType(page, textComponentsList);
         });
 
+        addImageComponentButton.setOnAction(event -> {
+            DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
+            dialogImageComponent.createImageComponent(page, imageComponentsList);
+        });
+
     }
 
     public void reloadPageView(){
         this.getChildren().clear();
 
-        addRadioComponentButtonsToggleGroup();
+        reloadComponentsRadioButtons();
 
         this.getChildren().add(layoutHBox);
         this.getChildren().add(colorHBox);
@@ -687,27 +698,39 @@ public class PageView extends VBox implements Serializable
         this.getChildren().add(displayComponentsHBox);
     }
 
-    private void addRadioComponentButtonsToggleGroup()
+    private void reloadComponentsRadioButtons()
     {
-        if(textComponentsList.size() > 0){
+        //Block of code to refresh and update area to display text components on a page
+        if(page.getTextComponents().size() > 0){
             textComponentsVBox.getChildren().clear();
             textComponentsVBox.getChildren().add(textComponentLabel);
             int index = 0;
             for(TextComponent textComponent: page.getTextComponents()) {
                 RadioButton radioButton = new RadioButton(textComponent.getTextType() + " " + index);
                 radioButton.setToggleGroup(componentsToggleGroup);
+                textComponentsList.add(radioButton);
                 textComponentsVBox.getChildren().add(radioButton);
                 index++;
             }
         }
-        if(imageComponentsList.size() > 0){
-            for(RadioButton radioButton: imageComponentsList)
+
+        //Block of code to refresh and update area on display for image components
+        if(page.getImageComponents().size() > 0){
+            imageComponentsVBox.getChildren().clear();
+            imageComponentsVBox.getChildren().add(imageComponentsLabel);
+            for(ImageComponent imageComponent: page.getImageComponents()) {
+                RadioButton radioButton = new RadioButton(imageComponent.getImageName());
                 radioButton.setToggleGroup(componentsToggleGroup);
+                imageComponentsList.add(radioButton);
+                imageComponentsVBox.getChildren().add(radioButton);
+            }
         }
+
         if(slideShowComponentsList.size() > 0){
             for(RadioButton radioButton: slideShowComponentsList)
                 radioButton.setToggleGroup(componentsToggleGroup);
         }
+
         if(videoComponentsList.size() > 0){
             for(RadioButton radioButton: videoComponentsList)
                 radioButton.setToggleGroup(componentsToggleGroup);

@@ -1,15 +1,21 @@
 package eportfoliogenerator.dialog;
 
+import eportfoliogenerator.StartUpConstants;
+import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.model.Page;
 import eportfoliogenerator.view.PageView;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -19,25 +25,223 @@ public class DialogImageComponent extends Stage
 {
     //Current PageView we are working with
     PageView pageView;
+    ImageComponent imageComponent;
 
     //Scene and other GUI Components needed
+    Scene scene;
+    ScrollPane scrollPane;
     VBox imageVBox;
     HBox imageHBox;
 
+    HBox imageAttributesHBox;
     Label imageWidthLabel = new Label("Width:");
     TextField imageWidthTextField;
     Label imageHeightLabel = new Label("Height:");
     TextField imageHeightTextField;
+
+    HBox floatHBox;
+    Label floatLabel = new Label("Float:");
+    ToggleGroup floatToggleGroup;
+    RadioButton floatLeftRadioButton;
+    RadioButton floatNeitherRadioButton;
+    RadioButton floatRightRadioButton;
+
+    HBox imageCaptionHBox;
+    Label imageCaptionLabel = new Label("Caption: ");
+    TextField imageCaptionTextField;
+
+    HBox confirmCancelHBox;
+    Button confirmButton;
+    Button cancelButton;
+
     ImageView imageView;
 
 
     public DialogImageComponent(PageView pageView){
         this.pageView = pageView;
+        Image image = new Image("file:./images/icons/eportfolio.gif");
+        this.getIcons().add(image);
     }
 
     public void createImageComponent(Page page, ArrayList<RadioButton> imageComponentsList){
+        this.setTitle("Create Image Component");
         imageVBox = new VBox();
+        imageComponent = new ImageComponent();
 
+        imageHBox = new HBox();
+        Image defaultImage = new Image("file:" + StartUpConstants.DEFAULT_IMAGE);
+        imageView = new ImageView(defaultImage);
+        imageHBox.getChildren().add(imageView);
+
+        imageView.setOnMousePressed(event -> {
+            FileChooser imageFileChooser = new FileChooser();
+
+            // SET THE STARTING DIRECTORY
+            imageFileChooser.setInitialDirectory(new File(StartUpConstants.IMAGE_ICONS_FILE_PATH));
+
+            // LET'S ONLY SEE IMAGE FILES
+            FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            FileChooser.ExtensionFilter gifFilter = new FileChooser.ExtensionFilter("GIF files (*.gif)", "*.GIF");
+            imageFileChooser.getExtensionFilters().addAll(jpgFilter, pngFilter, gifFilter);
+
+            // LET'S OPEN THE FILE CHOOSER
+            File file = imageFileChooser.showOpenDialog(null);
+            if (file != null) {
+                String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
+                String fileName = file.getName();
+                imageComponent.setImagePath(path);
+                imageComponent.setImageName(fileName);
+                updateSlideImage();
+
+            } else {
+                // @todo provide error message for no files selected
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning!");
+                alert.setHeaderText("");
+                alert.setContentText("The program was unable to find the image or an image was not selected!");
+
+                alert.showAndWait();
+            }
+        });
+
+        //Set up area to input width and height of image
+        imageAttributesHBox = new HBox();
+
+        imageWidthTextField = new TextField();
+        imageHeightTextField = new TextField();
+
+        imageAttributesHBox.getChildren().addAll(imageWidthLabel, imageWidthTextField, imageHeightLabel, imageHeightTextField);
+
+        //Set up Area to take in float attribute
+        floatHBox = new HBox();
+        floatToggleGroup = new ToggleGroup();
+
+        floatLeftRadioButton = new RadioButton("Left");
+        floatNeitherRadioButton = new RadioButton("Neither");
+        floatRightRadioButton = new RadioButton("Right");
+        floatLeftRadioButton.setToggleGroup(floatToggleGroup);
+        floatNeitherRadioButton.setToggleGroup(floatToggleGroup);
+        floatRightRadioButton.setToggleGroup(floatToggleGroup);
+
+        floatHBox.getChildren().addAll(floatLabel, floatLeftRadioButton, floatNeitherRadioButton, floatRightRadioButton);
+
+        //Set up area to enter Caption
+        imageCaptionHBox = new HBox();
+        imageCaptionTextField = new TextField();
+        imageCaptionHBox.getChildren().addAll(imageCaptionLabel, imageCaptionTextField);
+
+        //Set up Confirm and Cancel Buttons
+        confirmCancelHBox = new HBox();
+        confirmButton = new Button("Confirm");
+        cancelButton = new Button("Cancel");
+
+        confirmButton.setOnAction(event -> {
+            imageComponent.setCaption(imageCaptionTextField.getText());
+            boolean flagWidth = isNumeric(imageWidthTextField.getText());
+            boolean flagHeight = isNumeric(imageHeightTextField.getText());
+            if(flagWidth && flagHeight){
+                imageComponent.setWidth(imageWidthTextField.getText());
+                imageComponent.setHeight(imageWidthTextField.getText());
+
+                if(floatLeftRadioButton.isSelected()){
+                    imageComponent.setFloatAttribute("Left");
+                }
+                if(floatRightRadioButton.isSelected()){
+                    imageComponent.setFloatAttribute("Right");
+                }
+
+                imageComponentsList.add(new RadioButton(imageComponent.getImageName()));
+                page.getImageComponents().add(imageComponent);
+                pageView.reloadPageView();
+                this.close();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect user input, either the width or height was not a number!!");
+
+                alert.showAndWait();
+            }
+        });
+
+        cancelButton.setOnAction(event -> {
+            this.close();
+        });
+
+        confirmCancelHBox.getChildren().addAll(confirmButton, cancelButton);
+
+        imageHBox.setAlignment(Pos.TOP_CENTER);
+        confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
+        floatHBox.setAlignment(Pos.CENTER);
+        imageAttributesHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        floatHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageCaptionHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageVBox.getChildren().addAll(imageHBox, imageAttributesHBox, floatHBox, imageCaptionHBox, confirmCancelHBox);
+
+        scrollPane = new ScrollPane(imageVBox);
+        scene = new Scene(scrollPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
+
+
+
+    public void updateSlideImage()
+    {
+        String imagePath = imageComponent.getImagePath() + "/" + imageComponent.getImageName();
+        File file = new File(imagePath);
+        try{
+            //Get and set the banner image
+            URL fileURL = file.toURI().toURL();
+            Image bannerImage = new Image(fileURL.toExternalForm());
+            imageView.setImage(bannerImage);
+
+            // AND RESIZE IT
+            double scaledWidth = 200;
+            double perc = scaledWidth / bannerImage.getWidth();
+            double scaledHeight = bannerImage.getHeight() * perc;
+            imageView.setFitWidth(scaledWidth);
+            imageView.setFitHeight(scaledHeight);
+        }catch (Exception e) {
+            // @todo - use Error handler to respond to missing image
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("");
+            alert.setContentText("The program was unable to find the image!");
+
+            alert.showAndWait();
+            imagePath = "file:images/icons/DefaultStartSlide.png";
+            file = new File(imagePath);
+            try{
+                URL fileURL = file.toURI().toURL();
+                Image slideImage = new Image(fileURL.toExternalForm());
+                imageView.setImage(slideImage);
+
+                // AND RESIZE IT
+                double scaledWidth = 200;
+                double perc = scaledWidth / slideImage.getWidth();
+                double scaledHeight = slideImage.getHeight() * perc;
+                imageView.setFitWidth(scaledWidth);
+                imageView.setFitHeight(scaledHeight);
+            } catch(Exception e2){}
+        }
+    }
+
+    private boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 
 

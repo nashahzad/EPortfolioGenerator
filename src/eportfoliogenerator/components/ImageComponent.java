@@ -12,6 +12,8 @@ public class ImageComponent
     String width;
     String height;
 
+    String floatAttribute;
+
     public String getImagePath() {
         return imagePath;
     }
@@ -50,5 +52,13 @@ public class ImageComponent
 
     public void setHeight(String height) {
         this.height = height;
+    }
+
+    public String getFloatAttribute() {
+        return floatAttribute;
+    }
+
+    public void setFloatAttribute(String floatAttribute) {
+        this.floatAttribute = floatAttribute;
     }
 }
