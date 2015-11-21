@@ -5,14 +5,19 @@ import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.model.Page;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -55,6 +60,18 @@ public class DialogTextComponents extends Stage
     Label headerInputLabel = new Label ("Input header");
     TextField headerTextField;
 
+    //For List
+    ToggleGroup listToggleGroup;
+    Button addTextButton;
+    Button removeTextButton;
+    BorderPane listBorderPane;
+    VBox listButtonsVBox;
+    VBox listTextComponents;
+    ArrayList<RadioButton> listRadioButtons = new ArrayList<RadioButton>();
+    Button listFontSizeButton;
+    Button listFontStyleButton;
+    TextComponent listTextComponent;
+
     public DialogTextComponents(PageView pageView){
         this.pageView = pageView;
         Image image = new Image("file:./images/icons/eportfolio.gif");
@@ -92,13 +109,14 @@ public class DialogTextComponents extends Stage
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOne){
-            // ... user chose "One"
+            // ... user chose "Header"
             getHeader(page, textComponentsList);
         } else if (result.get() == buttonTypeTwo) {
             // ... user chose "Paragraph"
             getParagraph(page, textComponentsList);
         } else if (result.get() == buttonTypeThree) {
-            // ... user chose "Three"
+            // ... user chose "List"
+            getList(page, textComponentsList);
         } else {
 
         }
@@ -257,6 +275,159 @@ public class DialogTextComponents extends Stage
         this.show();
     }
 
+    private void getList(Page page, ArrayList<RadioButton> textComponentsList){
+        listBorderPane = new BorderPane();
+        listTextComponent = new TextComponent();
+
+        //Left hand side
+        listButtonsVBox = new VBox();
+        addTextButton = new Button();
+        removeTextButton = new Button();
+
+        Image image = new Image("file:" + StartUpConstants.ICON_ADD_PAGE);
+        addTextButton.setGraphic(new ImageView(image));
+        image = new Image("file:" + StartUpConstants.ICON_REMOVE_PAGE);
+        removeTextButton.setGraphic(new ImageView(image));
+        listButtonsVBox.getChildren().addAll(addTextButton, removeTextButton);
+
+        //Stuff to go on right hand side
+        paragraphVBox = new VBox();
+
+        listFontSizeButton = new Button();
+        listFontStyleButton = new Button();
+
+        image = new Image("file:" + StartUpConstants.ICON_FONT_SIZE);
+        listFontSizeButton.setGraphic(new ImageView(image));
+        image = new Image("file:" + StartUpConstants.ICON_FONT_STYLE);
+        listFontStyleButton.setGraphic(new ImageView(image));
+
+        paragraphVBox.getChildren().addAll(listFontSizeButton, listFontStyleButton);
+
+
+        //Confirm and cancel buttons
+        paragraphButtonsHBox = new HBox();
+        paragraphButtonsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        paragraphButtonsHBox.setAlignment(Pos.BOTTOM_CENTER);
+        confirmParagraphButton = new Button("Confirm");
+        cancelParagraphButton = new Button("Cancel");
+        paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
+
+        confirmParagraphButton.setOnAction(event -> {
+            for (RadioButton radioButton : listRadioButtons) {
+                listTextComponent.getListText().add(radioButton.getText());
+            }
+            page.getTextComponents().add(listTextComponent);
+            textComponentsList.add(listRadioButtons.get(0));
+            pageView.reloadPageView();
+            this.close();
+        });
+
+        cancelParagraphButton.setOnAction(event -> {
+            this.close();
+        });
+
+        listTextComponents = new VBox();
+        listToggleGroup = new ToggleGroup();
+
+        listBorderPane.setLeft(listButtonsVBox);
+        listBorderPane.setRight(paragraphVBox);
+        listBorderPane.setBottom(paragraphButtonsHBox);
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(.5 * bounds.getMinX());
+        this.setY(.5 * bounds.getMinY());
+        this.setWidth(.5 * bounds.getWidth());
+        this.setHeight(.5 * bounds.getHeight());
+
+        listButtonHandlers();
+
+        scrollPane = new ScrollPane(listTextComponents);
+        listBorderPane.setCenter(scrollPane);
+        scene = new Scene(listBorderPane);
+        this.setScene(scene);
+        this.show();
+
+    }
+
+    private void listButtonHandlers(){
+        addTextButton.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("List Item Input");
+            dialog.setContentText("Input a list item:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                RadioButton radioButton = new RadioButton(result.get());
+                radioButton.setToggleGroup(listToggleGroup);
+                listRadioButtons.add(radioButton);
+                listTextComponents.getChildren().add(radioButton);
+            }
+        });
+
+        removeTextButton.setOnAction(event -> {
+            boolean flag = false;
+            for (RadioButton radioButton : listRadioButtons) {
+                if (radioButton.isSelected() == true) {
+                    listRadioButtons.remove(radioButton);
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                listTextComponents.getChildren().clear();
+                for (RadioButton radioButton : listRadioButtons) {
+                    listTextComponents.getChildren().add(radioButton);
+                }
+            }
+        });
+
+        listFontSizeButton.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog(listTextComponent.getTextSize());
+            dialog.setHeaderText("Choose a font size");
+            dialog.setContentText("Please input your desired font size:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+               if(isNumeric(result.get())){
+                    listTextComponent.setTextSize(result.get());
+               }
+                else{
+                   Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   alert.setTitle("Warning!");
+                   alert.setHeaderText(null);
+                   alert.setContentText("Incorrect user input for font size");
+                   alert.showAndWait();
+               }
+            }
+        });
+
+        listFontStyleButton.setOnAction(event -> {
+            List<String> choices = new ArrayList<>();
+            choices.add("Slabo");
+            choices.add("Sans Pro");
+            choices.add("Serif");
+            choices.add("Hind");
+            choices.add("Cantarell");
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("Slabo", choices);
+            dialog.setTitle("Font Style/Family");
+            dialog.setContentText("Choose your desired font style/family:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                listTextComponent.setTextFont(result.get());
+            }
+        });
+    }
+
     private String getTextComponentFont()
     {
         if(pageFontOneRadioButton.isSelected() == true)
@@ -269,6 +440,19 @@ public class DialogTextComponents extends Stage
             return "Hind";
         else
             return "Cantarell";
+    }
+
+    private boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 
 

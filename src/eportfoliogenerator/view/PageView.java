@@ -639,7 +639,9 @@ public class PageView extends VBox implements Serializable
     private void attachGraphics(){
         Image image = new Image("file:" + StartUpConstants.ICON_COMPONENT_TEXT);
         addTextComponentButton.setGraphic(new ImageView(image));
+        addTextComponentButton.setTooltip(new Tooltip("Add Text Component"));
         editTextComponentButton.setGraphic(new ImageView(image));
+        editTextComponentButton.setTooltip(new Tooltip("Edit Text Component"));
 
         image = new Image("file:" + StartUpConstants.ICON_COMPONENT_IMAGE);
         addImageComponentButton.setGraphic(new ImageView(image));
