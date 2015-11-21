@@ -85,8 +85,7 @@ public class PageView extends VBox implements Serializable
     Label slideShowComponentsLabel = new Label("SlideShow Components");
     Label videoComponentsLabel = new Label("Video Components");
 
-    HBox addEditComponentsHBox;
-    VBox addComponentsVBox;
+    HBox addComponentsHBox;
     Label addComponentsLabel = new Label("Add Components");
     Button addTextComponentButton;
     Button addImageComponentButton;
@@ -94,7 +93,7 @@ public class PageView extends VBox implements Serializable
     Button addVideoComponentButton;
     Button addTextHyperLinkButton;
 
-    VBox editComponentsVBox;
+    HBox editComponentsHBox;
     Label editComponentLabel = new Label("Edit Components");
     Button editTextComponentButton;
     Button editImageComponentButton;
@@ -544,19 +543,17 @@ public class PageView extends VBox implements Serializable
 
     private void setUpComponentsView()
     {
-        addEditComponentsHBox = new HBox();
-        addEditComponentsHBox.getStyleClass().add(StartUpConstants.CSS_COMPONENTS_HBOX);
 
         //Add Components VBOX
-        addComponentsVBox = new VBox();
-        addComponentsVBox.setAlignment(Pos.TOP_CENTER);
+        addComponentsHBox = new HBox();
+        addComponentsHBox.setAlignment(Pos.TOP_CENTER);
         addTextComponentButton = new Button();
         addImageComponentButton = new Button();
         addSlideShowComponentButton = new Button();
         addVideoComponentButton = new Button();
         addTextHyperLinkButton = new Button();
 
-        addComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        addComponentsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         addComponentsLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addTextComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addImageComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
@@ -564,42 +561,33 @@ public class PageView extends VBox implements Serializable
         addVideoComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addTextHyperLinkButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
 
-        addComponentsVBox.getChildren().add(addComponentsLabel);
-        addComponentsVBox.getChildren().add(addTextComponentButton);
-        addComponentsVBox.getChildren().add(addImageComponentButton);
-        addComponentsVBox.getChildren().add(addSlideShowComponentButton);
-        addComponentsVBox.getChildren().add(addVideoComponentButton);
-        addComponentsVBox.getChildren().add(addTextHyperLinkButton);
-        addEditComponentsHBox.getChildren().add(addComponentsVBox);
+        //Add it all into the HBox and then into this PageView
+        addComponentsHBox.getChildren().addAll(addComponentsLabel, addTextComponentButton, addImageComponentButton, addSlideShowComponentButton, addVideoComponentButton, addTextHyperLinkButton);
+        this.getChildren().add(addComponentsHBox);
 
         //Edit Components VBOX
-        editComponentsVBox = new VBox();
-        editComponentsVBox.setAlignment(Pos.TOP_CENTER);
+        editComponentsHBox = new HBox();
+        editComponentsHBox.setAlignment(Pos.TOP_CENTER);
         editTextComponentButton = new Button();
         editImageComponentButton = new Button();
         editSlideShowComponentButton = new Button ();
         editVideoComponentButton = new Button();
         editTextHyperLinkButton = new Button();
+        removeComponentButton = new Button();
 
-        editComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        editComponentsHBox.getStyleClass().add(StartUpConstants.CSS_EDIT_COMPONENTS);
         editComponentLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         editTextComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         editImageComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         editSlideShowComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         editVideoComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         editTextHyperLinkButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        removeComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
 
-        editComponentsVBox.getChildren().add(editComponentLabel);
-        editComponentsVBox.getChildren().add(editTextComponentButton);
-        editComponentsVBox.getChildren().add(editImageComponentButton);
-        editComponentsVBox.getChildren().add(editSlideShowComponentButton);
-        editComponentsVBox.getChildren().add(editVideoComponentButton);
-        editComponentsVBox.getChildren().add(editTextHyperLinkButton);
-        addEditComponentsHBox.getChildren().add(editComponentsVBox);
-
-        //Add it all into this PageView VBOX
-        addEditComponentsHBox.setAlignment(Pos.TOP_CENTER);
-        this.getChildren().add(addEditComponentsHBox);
+        //Add it all into the HBox and then this PageView
+        editComponentsHBox.getChildren().addAll(editComponentLabel, editTextComponentButton, editImageComponentButton, editSlideShowComponentButton,
+                editVideoComponentButton, editTextHyperLinkButton, removeComponentButton);
+        this.getChildren().add(editComponentsHBox);
 
         //Now for area that will DISPLAY CREATED COMPONENTS
         displayComponentsHBox = new HBox();
@@ -645,19 +633,31 @@ public class PageView extends VBox implements Serializable
 
         image = new Image("file:" + StartUpConstants.ICON_COMPONENT_IMAGE);
         addImageComponentButton.setGraphic(new ImageView(image));
+        addImageComponentButton.setTooltip(new Tooltip("Add Image Component"));
         editImageComponentButton.setGraphic(new ImageView(image));
+        editImageComponentButton.setTooltip(new Tooltip("Edit Image Component"));
 
         image = new Image("file:" + StartUpConstants.ICON_COMPONENT_SLIDESHOW);
         addSlideShowComponentButton.setGraphic(new ImageView(image));
+        addSlideShowComponentButton.setTooltip(new Tooltip("Add SlideShow Component"));
         editSlideShowComponentButton.setGraphic(new ImageView(image));
+        editSlideShowComponentButton.setTooltip(new Tooltip("Edit SlideShow Component"));
 
         image = new Image("file:" + StartUpConstants.ICON_COMPONENT_VIDEO);
         addVideoComponentButton.setGraphic(new ImageView(image));
+        addVideoComponentButton.setTooltip(new Tooltip("Add Video Component"));
         editVideoComponentButton.setGraphic(new ImageView(image));
+        editVideoComponentButton.setTooltip(new Tooltip("Edit Video Component"));
 
         image = new Image("file:" + StartUpConstants.ICON_COMPONENT_HYPERLINK);
         addTextHyperLinkButton.setGraphic(new ImageView(image));
+        addTextHyperLinkButton.setTooltip(new Tooltip("Add Text-Hyperlink Component"));
         editTextHyperLinkButton.setGraphic(new ImageView(image));
+        editTextHyperLinkButton.setTooltip(new Tooltip("Edit Text-Hyperlink Component"));
+
+        image = new Image("file:" + StartUpConstants.ICON_REMOVE_COMPONENT);
+        removeComponentButton.setGraphic(new ImageView(image));
+        removeComponentButton.setTooltip(new Tooltip("Remove Component"));
     }
 
     private void setUpComponentEventHandlers()
@@ -681,7 +681,8 @@ public class PageView extends VBox implements Serializable
 
         this.getChildren().add(bannerHBox);
 
-        this.getChildren().add(addEditComponentsHBox);
+        this.getChildren().add(addComponentsHBox);
+        this.getChildren().add(editComponentsHBox);
         this.getChildren().add(displayComponentsHBox);
     }
 

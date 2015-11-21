@@ -36,6 +36,7 @@ public class StartUpConstants implements Serializable
     public static String ICON_COMPONENT_SLIDESHOW = IMAGE_ICONS_FILE_PATH + "/SlideShowComponent.png";
     public static String ICON_COMPONENT_VIDEO = IMAGE_ICONS_FILE_PATH + "/VideoComponent.png";
     public static String ICON_COMPONENT_HYPERLINK = IMAGE_ICONS_FILE_PATH + "/HyperLinkComponent.png";
+    public static String ICON_REMOVE_COMPONENT = IMAGE_ICONS_FILE_PATH + "/RemoveComponent.png";
 
     public static String ICON_FONT_SIZE = IMAGE_ICONS_FILE_PATH + "/FontSize.png";
     public static String ICON_FONT_STYLE = IMAGE_ICONS_FILE_PATH + "/FontStyle.png";
@@ -57,6 +58,7 @@ public class StartUpConstants implements Serializable
     public static String CSS_LAYOUT_BUTTONS_CANTARELL = "layout_buttons_cantarell";
 
     public static String CSS_ADD_COMPONENTS = "add_components";
+    public static String CSS_EDIT_COMPONENTS = "edit_components";
     public static String CSS_ADD_COMPONENTS_BUTTONS = "add_components_buttons";
     public static String CSS_COMPONENTS_HBOX = "components_hbox";
 

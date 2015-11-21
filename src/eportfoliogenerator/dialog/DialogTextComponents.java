@@ -124,6 +124,7 @@ public class DialogTextComponents extends Stage
     }
 
     private void getHeader(Page page, ArrayList<RadioButton> textComponentsList){
+        this.setTitle("Header Dialog");
         paragraphVBox = new VBox();
 
         paragraphHBox = new HBox();
@@ -201,6 +202,7 @@ public class DialogTextComponents extends Stage
 
     private void getParagraph(Page page, ArrayList<RadioButton> textComponentsList)
     {
+        this.setTitle("Paragraph Dialog");
         paragraphVBox = new VBox();
 
         paragraphHBox = new HBox();
@@ -276,6 +278,7 @@ public class DialogTextComponents extends Stage
     }
 
     private void getList(Page page, ArrayList<RadioButton> textComponentsList){
+        this.setTitle("List Dialog");
         listBorderPane = new BorderPane();
         listTextComponent = new TextComponent();
 
