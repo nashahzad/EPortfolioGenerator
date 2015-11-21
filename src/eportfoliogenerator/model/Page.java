@@ -1,8 +1,10 @@
 package eportfoliogenerator.model;
 
 import eportfoliogenerator.StartUpConstants;
+import eportfoliogenerator.components.TextComponent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Nauman on 11/14/2015.
@@ -19,6 +21,9 @@ public class Page implements Serializable
     String pageFont = "Slabo";
 
     int layout, color;
+
+    //Components aspect of page
+    ArrayList<TextComponent> textComponents = new ArrayList<TextComponent>();
 
     public String getPageTitle() {
         return pageTitle;
@@ -70,5 +75,13 @@ public class Page implements Serializable
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public ArrayList<TextComponent> getTextComponents() {
+        return textComponents;
+    }
+
+    public void setTextComponents(ArrayList<TextComponent> textComponents) {
+        this.textComponents = textComponents;
     }
 }

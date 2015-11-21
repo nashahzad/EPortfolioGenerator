@@ -2,6 +2,7 @@ package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.controller.ImageSelectionController;
+import eportfoliogenerator.dialog.DialogTextComponents;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
@@ -154,6 +155,9 @@ public class PageView extends VBox implements Serializable
 
         //Now to set up the area for where ADDING/EDITING COMPONENTS will take place
         setUpComponentsView();
+
+        //Attach event handlers for when buttons are clicked on
+        setUpComponentEventHandlers();
 
     }
 
@@ -621,6 +625,16 @@ public class PageView extends VBox implements Serializable
         displayComponentsHBox.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add(displayComponentsHBox);
 
+        //Initialize the COMPONENTS TOGGLE GROUP
+        componentsToggleGroup = new ToggleGroup();
+    }
+
+    private void setUpComponentEventHandlers()
+    {
+        addTextComponentButton.setOnAction(event -> {
+            DialogTextComponents dialogTextComponents = new DialogTextComponents();
+            dialogTextComponents.promptForType(page);
+        });
     }
 
 }
