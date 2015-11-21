@@ -2,12 +2,14 @@ package eportfoliogenerator.dialog;
 
 import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.view.PageView;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -15,6 +17,9 @@ import java.util.Optional;
  */
 public class DialogTextComponents extends Stage
 {
+    //PageView we are working with
+    PageView pageView;
+
     Scene scene;
     ScrollPane scrollPane;
 
@@ -43,7 +48,12 @@ public class DialogTextComponents extends Stage
     RadioButton pageFontFourRadioButton;
     RadioButton pageFontFiveRadioButton;
 
-    public void promptForType(Page page)
+    public DialogTextComponents(PageView pageView)
+    {
+        this.pageView = pageView;
+    }
+
+    public void promptForType(Page page, ArrayList<RadioButton> textComponentsList)
     {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Select Type of Text Component");
@@ -61,7 +71,7 @@ public class DialogTextComponents extends Stage
             // ... user chose "One"
         } else if (result.get() == buttonTypeTwo) {
             // ... user chose "Paragraph"
-            getParagraph(page);
+            getParagraph(page, textComponentsList);
         } else if (result.get() == buttonTypeThree) {
             // ... user chose "Three"
         } else {
@@ -70,7 +80,7 @@ public class DialogTextComponents extends Stage
 
     }
 
-    private void getParagraph(Page page)
+    private void getParagraph(Page page, ArrayList<RadioButton> textComponentsList)
     {
         paragraphVBox = new VBox();
 
@@ -123,6 +133,9 @@ public class DialogTextComponents extends Stage
             textComponent.setTextFont(getTextComponentFont());
             textComponent.setTextSize(paragraphSizeTextField.getText());
             page.getTextComponents().add(textComponent);
+
+            textComponentsList.add(new RadioButton(paragraphTextField.getText()));
+            this.pageView.reloadPageView();
             this.close();
         });
 
@@ -132,6 +145,7 @@ public class DialogTextComponents extends Stage
 
         paragraphVBox.getChildren().add(paragraphHBox);
         paragraphVBox.getChildren().add(pageFontHBox);
+        paragraphVBox.getChildren().add(paragraphSizeHBox);
         paragraphVBox.getChildren().add(paragraphButtonsHBox);
         scrollPane = new ScrollPane(paragraphVBox);
         scene = new Scene(scrollPane);

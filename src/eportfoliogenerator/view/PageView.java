@@ -632,9 +632,51 @@ public class PageView extends VBox implements Serializable
     private void setUpComponentEventHandlers()
     {
         addTextComponentButton.setOnAction(event -> {
-            DialogTextComponents dialogTextComponents = new DialogTextComponents();
-            dialogTextComponents.promptForType(page);
+            DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
+            dialogTextComponents.promptForType(page, textComponentsList);
         });
+
+    }
+
+    public void reloadPageView(){
+        this.getChildren().clear();
+
+        addRadioComponentButtonsToggleGroup();
+
+        this.getChildren().add(layoutHBox);
+        this.getChildren().add(colorHBox);
+        this.getChildren().add(pageFontHBox);
+        this.getChildren().add(basicInfoHBox);
+
+        this.getChildren().add(bannerHBox);
+
+        this.getChildren().add(addEditComponentsHBox);
+        this.getChildren().add(displayComponentsHBox);
+    }
+
+    private void addRadioComponentButtonsToggleGroup()
+    {
+        if(textComponentsList.size() > 0){
+            textComponentsVBox.getChildren().clear();
+            textComponentsVBox.getChildren().add(textComponentLabel);
+            for(RadioButton radioButton: textComponentsList) {
+                radioButton.setToggleGroup(componentsToggleGroup);
+                textComponentsVBox.getChildren().add(radioButton);
+            }
+        }
+        if(imageComponentsList.size() > 0){
+            for(RadioButton radioButton: imageComponentsList)
+                radioButton.setToggleGroup(componentsToggleGroup);
+        }
+        if(slideShowComponentsList.size() > 0){
+            for(RadioButton radioButton: slideShowComponentsList)
+                radioButton.setToggleGroup(componentsToggleGroup);
+        }
+        if(videoComponentsList.size() > 0){
+            for(RadioButton radioButton: videoComponentsList)
+                radioButton.setToggleGroup(componentsToggleGroup);
+        }
+
     }
 
 }

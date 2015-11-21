@@ -406,4 +406,28 @@ public class EPortfolioView implements Serializable
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
+
+    public ScrollPane getPageViewScrollPane() {
+        return pageViewScrollPane;
+    }
+
+    public void setPageViewScrollPane(ScrollPane pageViewScrollPane) {
+        this.pageViewScrollPane = pageViewScrollPane;
+    }
+
+    public BorderPane getePortfolioBorderPane() {
+        return ePortfolioBorderPane;
+    }
+
+    public void setePortfolioBorderPane(BorderPane ePortfolioBorderPane) {
+        this.ePortfolioBorderPane = ePortfolioBorderPane;
+    }
+
+    public PageView getPageView() {
+        return pageView;
+    }
+
+    public void setPageView(PageView pageView) {
+        this.pageView = pageView;
+    }
 }
