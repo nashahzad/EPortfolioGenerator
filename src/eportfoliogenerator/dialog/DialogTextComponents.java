@@ -284,6 +284,8 @@ public class DialogTextComponents extends Stage
 
         //Left hand side
         listButtonsVBox = new VBox();
+        listButtonsVBox.setAlignment(Pos.CENTER_LEFT);
+        listButtonsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         addTextButton = new Button();
         removeTextButton = new Button();
 
@@ -295,6 +297,8 @@ public class DialogTextComponents extends Stage
 
         //Stuff to go on right hand side
         paragraphVBox = new VBox();
+        paragraphVBox.setAlignment(Pos.CENTER_RIGHT);
+        paragraphVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
 
         listFontSizeButton = new Button();
         listFontStyleButton = new Button();
@@ -309,10 +313,12 @@ public class DialogTextComponents extends Stage
 
         //Confirm and cancel buttons
         paragraphButtonsHBox = new HBox();
-        paragraphButtonsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        paragraphButtonsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         paragraphButtonsHBox.setAlignment(Pos.BOTTOM_CENTER);
         confirmParagraphButton = new Button("Confirm");
         cancelParagraphButton = new Button("Cancel");
+        confirmParagraphButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        cancelParagraphButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
 
         confirmParagraphButton.setOnAction(event -> {
@@ -330,6 +336,7 @@ public class DialogTextComponents extends Stage
         });
 
         listTextComponents = new VBox();
+        listTextComponents.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
         listToggleGroup = new ToggleGroup();
 
         listBorderPane.setLeft(listButtonsVBox);
@@ -349,8 +356,13 @@ public class DialogTextComponents extends Stage
         listButtonHandlers();
 
         scrollPane = new ScrollPane(listTextComponents);
+        scrollPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
         listBorderPane.setCenter(scrollPane);
+        listBorderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
         scene = new Scene(listBorderPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
         this.setScene(scene);
         this.show();
 
@@ -361,6 +373,24 @@ public class DialogTextComponents extends Stage
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("List Item Input");
             dialog.setContentText("Input a list item:");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefWidth(800);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
@@ -392,8 +422,26 @@ public class DialogTextComponents extends Stage
 
         listFontSizeButton.setOnAction(event -> {
             TextInputDialog dialog = new TextInputDialog(listTextComponent.getTextSize());
-            dialog.setHeaderText("Choose a font size");
+            dialog.setHeaderText("Input a font size");
             dialog.setContentText("Please input your desired font size:");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefWidth(550);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
@@ -422,6 +470,24 @@ public class DialogTextComponents extends Stage
             ChoiceDialog<String> dialog = new ChoiceDialog<>("Slabo", choices);
             dialog.setTitle("Font Style/Family");
             dialog.setContentText("Choose your desired font style/family:");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefWidth(550);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
