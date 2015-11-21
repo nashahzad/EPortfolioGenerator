@@ -179,7 +179,7 @@ public class DialogTextComponents extends Stage
             textComponent.setTextSize(paragraphSizeTextField.getText());
             page.getTextComponents().add(textComponent);
 
-            textComponentsList.add(new RadioButton(headerTextField.getText()));
+            textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size()-1)));
             this.pageView.reloadPageView();
             this.close();
         });
@@ -256,7 +256,7 @@ public class DialogTextComponents extends Stage
             textComponent.setTextSize(paragraphSizeTextField.getText());
             page.getTextComponents().add(textComponent);
 
-            textComponentsList.add(new RadioButton(paragraphTextArea.getText()));
+            textComponentsList.add(new RadioButton("paragraph " + (page.getTextComponents().size() - 1)));
             this.pageView.reloadPageView();
             this.close();
         });
@@ -321,12 +321,14 @@ public class DialogTextComponents extends Stage
         cancelParagraphButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
 
+        //CONFIRM BUTTON HANDLER
         confirmParagraphButton.setOnAction(event -> {
             for (RadioButton radioButton : listRadioButtons) {
                 listTextComponent.getListText().add(radioButton.getText());
             }
             page.getTextComponents().add(listTextComponent);
-            textComponentsList.add(listRadioButtons.get(0));
+            listTextComponent.setTextType("List");
+            textComponentsList.add(new RadioButton("List " + (page.getTextComponents().size()-1)));
             pageView.reloadPageView();
             this.close();
         });
@@ -373,11 +375,13 @@ public class DialogTextComponents extends Stage
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("List Item Input");
             dialog.setContentText("Input a list item:");
-            dialog.setResizable(true);
+            //dialog.setResizable(true);
             dialog.getDialogPane().setPrefWidth(800);
 
             Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setResizable(true);
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
 
             DialogPane alertDialogPane = dialog.getDialogPane();
 
@@ -429,6 +433,7 @@ public class DialogTextComponents extends Stage
 
             Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
 
             DialogPane alertDialogPane = dialog.getDialogPane();
 
@@ -475,6 +480,7 @@ public class DialogTextComponents extends Stage
 
             Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
 
             DialogPane alertDialogPane = dialog.getDialogPane();
 

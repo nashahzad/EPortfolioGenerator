@@ -1,6 +1,7 @@
 package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
+import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.dialog.DialogTextComponents;
 import eportfoliogenerator.model.EPortfolioModel;
@@ -691,9 +692,12 @@ public class PageView extends VBox implements Serializable
         if(textComponentsList.size() > 0){
             textComponentsVBox.getChildren().clear();
             textComponentsVBox.getChildren().add(textComponentLabel);
-            for(RadioButton radioButton: textComponentsList) {
+            int index = 0;
+            for(TextComponent textComponent: page.getTextComponents()) {
+                RadioButton radioButton = new RadioButton(textComponent.getTextType() + " " + index);
                 radioButton.setToggleGroup(componentsToggleGroup);
                 textComponentsVBox.getChildren().add(radioButton);
+                index++;
             }
         }
         if(imageComponentsList.size() > 0){
