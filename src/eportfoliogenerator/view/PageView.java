@@ -5,6 +5,7 @@ import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.dialog.DialogImageComponent;
+import eportfoliogenerator.dialog.DialogSlideShowComponent;
 import eportfoliogenerator.dialog.DialogTextComponents;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
@@ -677,6 +678,11 @@ public class PageView extends VBox implements Serializable
         addImageComponentButton.setOnAction(event -> {
             DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
             dialogImageComponent.createImageComponent(page, imageComponentsList);
+        });
+
+        addSlideShowComponentButton.setOnAction(event -> {
+            DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
+            dialogSlideShowComponent.addSlideShow(page, slideShowComponentsList);
         });
 
     }

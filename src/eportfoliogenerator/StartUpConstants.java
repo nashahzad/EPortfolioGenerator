@@ -27,6 +27,9 @@ public class StartUpConstants implements Serializable
     public static String ICON_REMOVE_PAGE = IMAGE_ICONS_FILE_PATH + "/DeletePage.png";
     public static String ICON_SELECT_PAGE = IMAGE_ICONS_FILE_PATH + "/PageSelect.png";
 
+    public static String ICON_MOVE_DOWN = IMAGE_ICONS_FILE_PATH + "/MoveDown.png";
+    public static String ICON_MOVE_UP = IMAGE_ICONS_FILE_PATH + "/MoveUp.png";
+
     public static String ICON_VIEW = IMAGE_ICONS_FILE_PATH + "/View.png";
 
     public static String DEFAULT_IMAGE = IMAGE_ICONS_FILE_PATH + "/DefaultStartSlide.png";
