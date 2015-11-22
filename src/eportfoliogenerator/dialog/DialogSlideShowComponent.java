@@ -70,24 +70,25 @@ public class DialogSlideShowComponent extends Stage
         slideVBox = new VBox();
         slideShowTitleButton = new Button();
         slideShowTitleButton.setPrefWidth(400);
-        slideShowTitleButton.setStyle("-fx-background-color: #F2C53D");
+        slideShowTitleButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
         slideVBox.setAlignment(Pos.TOP_CENTER);
-
-        slideVBox.getChildren().add(slideShowTitleButton);
         scrollPane = new ScrollPane(slideVBox);
 
         //Set up left hand side stuff
-        slideButtonVBox = new VBox();
+        slideButtonVBox = new VBox(7);
         slideButtonVBox.setAlignment(Pos.CENTER_LEFT);
 
         setUpButtons();
         slideButtonVBox.getChildren().addAll(addSlideButton, removeSlideButton, moveUpSlideButton, moveDownSlideButton);
 
         //Set up bottom bar of screen
-        confirmCancelHBox = new HBox();
-        confirmCancelHBox.setAlignment(Pos.CENTER_LEFT);
+        confirmCancelHBox = new HBox(7);
+        confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_EDIT_COMPONENTS);
+        confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
         confirmButton = new Button("Confirm");
+        confirmButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         cancelButton = new Button("Cancel");
+        cancelButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         confirmCancelHBox.getChildren().addAll(confirmButton, cancelButton);
 
         //Confirm and Cancel Button handlers
@@ -136,11 +137,19 @@ public class DialogSlideShowComponent extends Stage
         });
 
 
+        //Scroll pane for slides
+        scrollPane = new ScrollPane(slideVBox);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+
         //Put it all into a borderpane
         borderPane = new BorderPane();
+        borderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
         borderPane.setLeft(slideButtonVBox);
-        borderPane.setCenter(slideVBox);
+        borderPane.setCenter(scrollPane);
         borderPane.setBottom(confirmCancelHBox);
+        borderPane.setTop(slideShowTitleButton);
+        borderPane.setAlignment(slideShowTitleButton, Pos.TOP_CENTER);
 
         buttonHandlers();
 
@@ -155,6 +164,7 @@ public class DialogSlideShowComponent extends Stage
         this.setHeight(bounds.getHeight());
 
         scene = new Scene(borderPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
         this.setScene(scene);
         this.show();
     }
@@ -188,6 +198,7 @@ public class DialogSlideShowComponent extends Stage
             Slide slide = new Slide();
             slideShowModel.getSlides().add(slide);
             SlideView slideView = new SlideView(slideShowModel, slide, this);
+            slideView.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
             slideVBox.getChildren().add(slideView);
             updateButtons();
         });
@@ -213,6 +224,25 @@ public class DialogSlideShowComponent extends Stage
             TextInputDialog dialog = new TextInputDialog(slideShowModel.getTitle());
             dialog.setTitle("SlideShow Title");
             dialog.setContentText("Please input a SlideShow title:");
+            dialog.getDialogPane().setPrefWidth(800);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setResizable(true);
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
@@ -229,6 +259,7 @@ public class DialogSlideShowComponent extends Stage
         slideVBox.getChildren().add(slideShowTitleButton);
         for(Slide slide: model.getSlides()){
             SlideView slideView = new SlideView(model, slide, this);
+            slideView.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
             slideVBox.getChildren().add(slideView);
         }
     }
