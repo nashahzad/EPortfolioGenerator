@@ -297,6 +297,12 @@ public class DialogSlideShowComponent extends Stage
             moveUpSlideButton.setDisable(true);
             moveDownSlideButton.setDisable(true);
         }
+
+        if(slideShowModel.getSelectedSlide() == null){
+            moveUpSlideButton.setDisable(true);
+            moveDownSlideButton.setDisable(true);
+            removeSlideButton.setDisable(true);
+        }
     }
 
     private boolean isNumeric(String str)
