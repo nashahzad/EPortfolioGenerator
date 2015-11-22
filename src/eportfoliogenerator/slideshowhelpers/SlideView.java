@@ -2,6 +2,7 @@ package eportfoliogenerator.slideshowhelpers;
 
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
+import eportfoliogenerator.controller.ImageSelectionController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,22 +21,50 @@ public class SlideView extends HBox
 {
     //Slide Associated with each Slide
     Slide slide;
+    SlideShowModel slideShowModel;
 
     //ImageView for image
     ImageView imageSelectionView;
+    ImageSelectionController imageSelectionController;
 
     //Caption stuff
-    VBox captionVBox;
-    Label captionLabel;
+    VBox attributesVBox;
+
+    Label captionLabel = new Label("Caption:");
     TextField captionTextField;
 
-    public SlideView(){
-        slide = new Slide();
+    Label widthLabel = new Label("Width:");
+    TextField widthTextField;
 
+    Label heightLabel = new Label("Height:");
+    TextField heightTextField;
+
+    public SlideView(SlideShowModel slideShowModel, Slide slide){
+        this.slide = slide;
+        this.slideShowModel = slideShowModel;
+
+        //Place to Display image and select and image
         Image image = new Image("file:" + StartUpConstants.DEFAULT_IMAGE);
         imageSelectionView = new ImageView(image);
+        imageSelectionController = new ImageSelectionController();
+        imageSelectionView.setOnMousePressed(event -> {
+            imageSelectionController.processSelectImage(slide, this);
+        });
 
+        //For Captions, width, height
+        attributesVBox = new VBox();
 
+        captionTextField = new TextField(slide.getCaption());
+        widthTextField = new TextField(slide.getWidth());
+        heightTextField = new TextField(slide.getHeight());
+
+        attributesVBox.getChildren().addAll(captionLabel, captionTextField, widthLabel, widthTextField, heightLabel, heightTextField);
+
+        this.getChildren().addAll(imageSelectionView, attributesVBox);
+
+        this.setOnMouseClicked(event -> {
+            slideShowModel.setSelectedSlide(this.slide);
+        });
 
     }
 

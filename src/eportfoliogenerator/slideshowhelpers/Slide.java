@@ -9,6 +9,9 @@ public class Slide
     String imagePath;
     String caption;
 
+    String width;
+    String height;
+
     public String getImageFileName() {
         return imageFileName;
     }
@@ -31,5 +34,26 @@ public class Slide
 
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public void setImage(String initPath, String initFileName) {
+        imagePath = initPath;
+        imageFileName = initFileName;
     }
 }
