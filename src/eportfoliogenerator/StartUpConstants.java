@@ -33,6 +33,7 @@ public class StartUpConstants implements Serializable
     public static String ICON_VIEW = IMAGE_ICONS_FILE_PATH + "/View.png";
 
     public static String DEFAULT_IMAGE = IMAGE_ICONS_FILE_PATH + "/DefaultStartSlide.png";
+    public static String DEFAULT_VIDEO = IMAGE_ICONS_FILE_PATH + "/vid.mp4";
 
     public static String ICON_COMPONENT_TEXT = IMAGE_ICONS_FILE_PATH + "/TextComponent.png";
     public static String ICON_COMPONENT_IMAGE = IMAGE_ICONS_FILE_PATH + "/ImageComponent.png";

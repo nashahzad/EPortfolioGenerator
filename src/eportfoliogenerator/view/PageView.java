@@ -4,10 +4,12 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.SlideShowComponent;
 import eportfoliogenerator.components.TextComponent;
+import eportfoliogenerator.components.VideoComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.dialog.DialogImageComponent;
 import eportfoliogenerator.dialog.DialogSlideShowComponent;
 import eportfoliogenerator.dialog.DialogTextComponents;
+import eportfoliogenerator.dialog.DialogVideoComponent;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
@@ -686,6 +688,11 @@ public class PageView extends VBox implements Serializable
             dialogSlideShowComponent.addSlideShow(page, slideShowComponentsList);
         });
 
+        addVideoComponentButton.setOnAction(event -> {
+            DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
+            dialogVideoComponent.createVideoComponent(page, videoComponentsList);
+        });
+
     }
 
     public void reloadPageView(){
@@ -745,9 +752,15 @@ public class PageView extends VBox implements Serializable
             }
         }
 
-        if(videoComponentsList.size() > 0){
-            for(RadioButton radioButton: videoComponentsList)
+        if(page.getVideoComponents().size() > 0){
+            videoComponentsVBox.getChildren().clear();
+            videoComponentsVBox.getChildren().add(videoComponentsLabel);
+            for(VideoComponent videoComponent: page.getVideoComponents()) {
+                RadioButton radioButton = new RadioButton(videoComponent.getVideoName());
                 radioButton.setToggleGroup(componentsToggleGroup);
+                videoComponentsList.add(radioButton);
+                videoComponentsVBox.getChildren().add(radioButton);
+            }
         }
 
     }

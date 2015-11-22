@@ -4,6 +4,7 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.SlideShowComponent;
 import eportfoliogenerator.components.TextComponent;
+import eportfoliogenerator.components.VideoComponent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Page implements Serializable
     ArrayList<TextComponent> textComponents = new ArrayList<TextComponent>();
     ArrayList<ImageComponent> imageComponents = new ArrayList<ImageComponent>();
     ArrayList<SlideShowComponent> slideShowComponents = new ArrayList<SlideShowComponent>();
+    ArrayList<VideoComponent> videoComponents = new ArrayList<VideoComponent>();
 
     public String getPageTitle() {
         return pageTitle;
@@ -103,5 +105,13 @@ public class Page implements Serializable
 
     public void setSlideShowComponents(ArrayList<SlideShowComponent> slideShowComponents) {
         this.slideShowComponents = slideShowComponents;
+    }
+
+    public ArrayList<VideoComponent> getVideoComponents() {
+        return videoComponents;
+    }
+
+    public void setVideoComponents(ArrayList<VideoComponent> videoComponents) {
+        this.videoComponents = videoComponents;
     }
 }
