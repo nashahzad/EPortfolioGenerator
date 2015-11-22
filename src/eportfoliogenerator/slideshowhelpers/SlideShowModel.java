@@ -34,4 +34,49 @@ public class SlideShowModel
     public void setSelectedSlide(Slide selectedSlide) {
         this.selectedSlide = selectedSlide;
     }
+
+    public void moveUpSlide(){
+        Slide thisSlide = this.getSelectedSlide();
+        if(slides.size() == 0 || slides.size() == 1)
+        {}
+        else{
+            int thisSlideIndex = 0;
+            for(int i = 0; i < slides.size(); i++)
+            {
+                if(slides.get(i) == thisSlide){
+                    thisSlideIndex = i;
+                    break;
+                }
+            }
+            if(thisSlideIndex == 0){}
+            else{
+                Slide slideHolder = slides.get(thisSlideIndex-1);
+                slides.set(thisSlideIndex-1, thisSlide);
+                slides.set(thisSlideIndex, slideHolder);
+            }
+        }
+    }
+
+    public void moveDownSlide(){
+        Slide thisSlide = this.getSelectedSlide();
+        if(slides.size() == 0 || slides.size() == 1)
+        {}
+        else{
+            int thisSlideIndex = 0;
+            for(int i = 0; i < slides.size(); i++)
+            {
+                if(slides.get(i) == thisSlide){
+                    thisSlideIndex = i;
+                    break;
+                }
+            }
+            if(thisSlideIndex == (slides.size()-1)){}
+            else{
+                Slide slideHolder = slides.get(thisSlideIndex+1);
+                slides.set(thisSlideIndex+1, thisSlide);
+                slides.set(thisSlideIndex, slideHolder);
+            }
+        }
+    }
+
 }

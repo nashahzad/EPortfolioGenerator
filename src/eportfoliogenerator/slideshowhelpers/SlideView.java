@@ -3,6 +3,7 @@ package eportfoliogenerator.slideshowhelpers;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
+import eportfoliogenerator.dialog.DialogSlideShowComponent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,6 +20,9 @@ import java.net.URL;
  */
 public class SlideView extends HBox
 {
+    //Stage
+    DialogSlideShowComponent dialogSlideShowComponent;
+
     //Slide Associated with each Slide
     Slide slide;
     SlideShowModel slideShowModel;
@@ -39,33 +43,52 @@ public class SlideView extends HBox
     Label heightLabel = new Label("Height:");
     TextField heightTextField;
 
-    public SlideView(SlideShowModel slideShowModel, Slide slide){
+    public SlideView(SlideShowModel slideShowModel, Slide slide, DialogSlideShowComponent dialogSlideShowComponent){
         this.slide = slide;
         this.slideShowModel = slideShowModel;
-
-        //Place to Display image and select and image
-        Image image = new Image("file:" + StartUpConstants.DEFAULT_IMAGE);
-        imageSelectionView = new ImageView(image);
-        imageSelectionController = new ImageSelectionController();
-        imageSelectionView.setOnMousePressed(event -> {
-            imageSelectionController.processSelectImage(slide, this);
-        });
+        this.dialogSlideShowComponent = dialogSlideShowComponent;
 
         //For Captions, width, height
         attributesVBox = new VBox();
 
         captionTextField = new TextField(slide.getCaption());
+        captionTextField.textProperty().addListener((a, b, newText) -> {
+            slide.setCaption(newText);
+        });
         widthTextField = new TextField(slide.getWidth());
+        widthTextField.textProperty().addListener((a, b, newText) -> {
+            slide.setWidth(newText);
+        });
         heightTextField = new TextField(slide.getHeight());
+        heightTextField.textProperty().addListener((a, b, newText) -> {
+            slide.setHeight(newText);
+        });
 
         attributesVBox.getChildren().addAll(captionLabel, captionTextField, widthLabel, widthTextField, heightLabel, heightTextField);
 
-        this.getChildren().addAll(imageSelectionView, attributesVBox);
-
         this.setOnMouseClicked(event -> {
             slideShowModel.setSelectedSlide(this.slide);
+            dialogSlideShowComponent.reloadSlideShow(slideShowModel);
+            dialogSlideShowComponent.updateButtons();
         });
 
+        if(this.slide == slideShowModel.getSelectedSlide()){
+            this.setStyle("-fx-background-color: orange;");
+        }
+        else{
+            this.setStyle("-fx-background-color: #85CDE6");
+        }
+
+        //Place to Display image and select and image
+        imageSelectionView = new ImageView();
+        updateSlideImage();
+        imageSelectionController = new ImageSelectionController();
+        imageSelectionView.setOnMousePressed(event -> {
+            imageSelectionController.processSelectImage(slide, this);
+            dialogSlideShowComponent.reloadSlideShow(slideShowModel);
+        });
+
+        this.getChildren().addAll(imageSelectionView, attributesVBox);
     }
 
     /**

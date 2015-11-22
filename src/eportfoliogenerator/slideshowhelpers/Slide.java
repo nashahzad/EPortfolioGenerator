@@ -1,12 +1,14 @@
 package eportfoliogenerator.slideshowhelpers;
 
+import eportfoliogenerator.StartUpConstants;
+
 /**
  * Created by Nauman on 11/21/2015.
  */
 public class Slide
 {
-    String imageFileName;
-    String imagePath;
+    String imageFileName = "DefaultStartSlide.png";
+    String imagePath = "./images/icons";
     String caption;
 
     String width;

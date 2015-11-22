@@ -2,6 +2,7 @@ package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
+import eportfoliogenerator.components.SlideShowComponent;
 import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.dialog.DialogImageComponent;
@@ -732,9 +733,16 @@ public class PageView extends VBox implements Serializable
             }
         }
 
-        if(slideShowComponentsList.size() > 0){
-            for(RadioButton radioButton: slideShowComponentsList)
+        //Block of code to refresh and update the area on display for slideshowcomponents
+        if(page.getSlideShowComponents().size() > 0){
+            slideShowComponentsVBox.getChildren().clear();
+            slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
+            for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()) {
+                RadioButton radioButton = new RadioButton(slideShowComponent.getSlideShowTitle());
                 radioButton.setToggleGroup(componentsToggleGroup);
+                slideShowComponentsList.add(radioButton);
+                slideShowComponentsVBox.getChildren().add(radioButton);
+            }
         }
 
         if(videoComponentsList.size() > 0){
