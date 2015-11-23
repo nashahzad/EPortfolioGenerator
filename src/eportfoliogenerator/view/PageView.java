@@ -892,6 +892,21 @@ public class PageView extends VBox implements Serializable
             }
         });
 
+        editSlideShowComponentButton.setOnAction(event -> {
+            if(slideShowComponentsList.size() > 0) {
+                int index = 0;
+                for (RadioButton radioButton : slideShowComponentsList) {
+                    if (radioButton.isSelected()) {
+                        break;
+                    }
+                    index++;
+                }
+                SlideShowComponent slideShowComponentToEdit = page.getSlideShowComponents().get(index);
+                DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
+                dialogSlideShowComponent.editSlideShowComponent(slideShowComponentToEdit);
+            }
+        });
+
     }
 
     public void reloadPageView(){

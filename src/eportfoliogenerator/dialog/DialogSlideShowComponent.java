@@ -34,6 +34,7 @@ public class DialogSlideShowComponent extends Stage
 
     //Data model
     SlideShowModel slideShowModel;
+    SlideShowComponent slideShowComponent;
 
     //Some main GUI stuff and data model to use
     Scene scene;
@@ -101,6 +102,7 @@ public class DialogSlideShowComponent extends Stage
                     ImageComponent imageComponent = new ImageComponent();
                     imageComponent.setImagePath(slide.getImagePath());
                     imageComponent.setImageName(slide.getImageFileName());
+                    imageComponent.setCaption(slide.getCaption());
 
                     boolean flagWidth = isNumeric(slide.getWidth());
                     boolean flagHeight = isNumeric(slide.getHeight());
@@ -162,6 +164,128 @@ public class DialogSlideShowComponent extends Stage
         this.setY(bounds.getMinY());
         this.setWidth(bounds.getWidth());
         this.setHeight(bounds.getHeight());
+
+        scene = new Scene(borderPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
+
+    public void editSlideShowComponent(SlideShowComponent slideShowComponentToEdit){
+        slideShowModel = new SlideShowModel();
+        slideShowComponent = slideShowComponentToEdit;
+
+        slideShowModel.setTitle(slideShowComponentToEdit.getSlideShowTitle());
+        for(ImageComponent imageComponent: slideShowComponentToEdit.getImageSlides()){
+            Slide slide = new Slide();
+            slide.setCaption(imageComponent.getCaption());
+            slide.setHeight(imageComponent.getHeight());
+            slide.setWidth(imageComponent.getWidth());
+            slide.setImagePath(imageComponent.getImagePath());
+            slide.setImageFileName(imageComponent.getImageName());
+
+            slideShowModel.getSlides().add(slide);
+        }
+
+        //Set up center stuff
+        slideVBox = new VBox();
+        slideShowTitleButton = new Button(slideShowComponentToEdit.getSlideShowTitle());
+        slideShowTitleButton.setPrefWidth(400);
+        slideShowTitleButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        slideVBox.setAlignment(Pos.TOP_CENTER);
+        scrollPane = new ScrollPane(slideVBox);
+
+        //Set up left hand side stuff
+        slideButtonVBox = new VBox(7);
+        slideButtonVBox.setAlignment(Pos.CENTER_LEFT);
+
+        setUpButtons();
+        slideButtonVBox.getChildren().addAll(addSlideButton, removeSlideButton, moveUpSlideButton, moveDownSlideButton);
+
+        //Set up bottom bar of screen
+        confirmCancelHBox = new HBox(7);
+        confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_EDIT_COMPONENTS);
+        confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
+        confirmButton = new Button("Confirm");
+        confirmButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        cancelButton = new Button("Cancel");
+        cancelButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        confirmCancelHBox.getChildren().addAll(confirmButton, cancelButton);
+
+        //Confirm and Cancel Button handlers
+        confirmButton.setOnAction(event -> {
+            boolean flag = false;
+            ArrayList<ImageComponent> imageComponents = new ArrayList<ImageComponent>();
+            if(slideShowModel.getSlides().size() > 0){
+                for(Slide slide: slideShowModel.getSlides()){
+                    ImageComponent imageComponent = new ImageComponent();
+                    imageComponent.setImagePath(slide.getImagePath());
+                    imageComponent.setImageName(slide.getImageFileName());
+                    imageComponent.setCaption(slide.getCaption());
+
+                    boolean flagWidth = isNumeric(slide.getWidth());
+                    boolean flagHeight = isNumeric(slide.getHeight());
+
+                    if(flagHeight && flagWidth){
+                        imageComponent.setWidth(slide.getWidth());
+                        imageComponent.setHeight(slide.getHeight());
+                    }
+                    //One of the width or height text fields did not have a number inputted into them
+                    else{
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Warning");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number!");
+                        alert.showAndWait();
+                        flag = true;
+                        break;
+                    }
+                    imageComponents.add(imageComponent);
+                }
+            }
+
+            if(flag){}
+            else {
+                slideShowComponent.setSlideShowTitle(slideShowModel.getTitle());
+                slideShowComponent.setImageSlides(imageComponents);
+                pageView.reloadPageView();
+                this.close();
+            }
+        });
+
+        cancelButton.setOnAction(event -> {
+            this.close();
+        });
+
+
+        //Scroll pane for slides
+        scrollPane = new ScrollPane(slideVBox);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+
+        //Put it all into a borderpane
+        borderPane = new BorderPane();
+        borderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+        borderPane.setLeft(slideButtonVBox);
+        borderPane.setCenter(scrollPane);
+        borderPane.setBottom(confirmCancelHBox);
+        borderPane.setTop(slideShowTitleButton);
+        borderPane.setAlignment(slideShowTitleButton, Pos.TOP_CENTER);
+
+        buttonHandlers();
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(bounds.getMinX());
+        this.setY(bounds.getMinY());
+        this.setWidth(bounds.getWidth());
+        this.setHeight(bounds.getHeight());
+
+        //Reload
+        reloadSlideShow(slideShowModel);
 
         scene = new Scene(borderPane);
         scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
