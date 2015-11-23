@@ -17,6 +17,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +69,8 @@ public class DialogTextComponents extends Stage
     ToggleGroup listToggleGroup;
     Button addTextButton;
     Button removeTextButton;
+    Button moveTextUpButton;
+    Button moveTextDownButton;
     BorderPane listBorderPane;
     VBox listButtonsVBox;
     VBox listTextComponents;
@@ -460,12 +463,20 @@ public class DialogTextComponents extends Stage
         listButtonsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         addTextButton = new Button();
         removeTextButton = new Button();
+        moveTextUpButton = new Button();
+        moveTextDownButton = new Button();
 
+        //Add and Remove Buttons
         Image image = new Image("file:" + StartUpConstants.ICON_ADD_PAGE);
         addTextButton.setGraphic(new ImageView(image));
         image = new Image("file:" + StartUpConstants.ICON_REMOVE_PAGE);
         removeTextButton.setGraphic(new ImageView(image));
-        listButtonsVBox.getChildren().addAll(addTextButton, removeTextButton);
+        //Move up and down buttons
+        image = new Image("file:" + StartUpConstants.ICON_MOVE_UP);
+        moveTextUpButton.setGraphic(new ImageView(image));
+        image = new Image("file:" + StartUpConstants.ICON_MOVE_DOWN);
+        moveTextDownButton.setGraphic(new ImageView(image));
+        listButtonsVBox.getChildren().addAll(addTextButton, removeTextButton, moveTextUpButton, moveTextDownButton);
 
         //Stuff to go on right hand side
         paragraphVBox = new VBox();
@@ -554,12 +565,20 @@ public class DialogTextComponents extends Stage
         listButtonsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         addTextButton = new Button();
         removeTextButton = new Button();
+        moveTextUpButton = new Button();
+        moveTextDownButton = new Button();
 
+        //Add and Remove Buttons
         Image image = new Image("file:" + StartUpConstants.ICON_ADD_PAGE);
         addTextButton.setGraphic(new ImageView(image));
         image = new Image("file:" + StartUpConstants.ICON_REMOVE_PAGE);
         removeTextButton.setGraphic(new ImageView(image));
-        listButtonsVBox.getChildren().addAll(addTextButton, removeTextButton);
+        //Move up and down buttons
+        image = new Image("file:" + StartUpConstants.ICON_MOVE_UP);
+        moveTextUpButton.setGraphic(new ImageView(image));
+        image = new Image("file:" + StartUpConstants.ICON_MOVE_DOWN);
+        moveTextDownButton.setGraphic(new ImageView(image));
+        listButtonsVBox.getChildren().addAll(addTextButton, removeTextButton, moveTextUpButton, moveTextDownButton);
 
         //Stuff to go on right hand side
         paragraphVBox = new VBox();
@@ -701,6 +720,40 @@ public class DialogTextComponents extends Stage
                 for (RadioButton radioButton : listRadioButtons) {
                     listTextComponents.getChildren().add(radioButton);
                 }
+            }
+        });
+
+        moveTextUpButton.setOnAction(event -> {
+            int index = 0;
+            for(RadioButton radioButton: listRadioButtons){
+                if(radioButton.isSelected()){
+                    if(index == 0){}
+                    else{
+                        Collections.swap(listRadioButtons, index, index - 1);
+                        listTextComponents.getChildren().clear();
+                        for(RadioButton radioButton1: listRadioButtons)
+                            listTextComponents.getChildren().add(radioButton1);
+                        break;
+                    }
+                }
+                index++;
+            }
+        });
+
+        moveTextDownButton.setOnAction(event -> {
+            int index = 0;
+            for(RadioButton radioButton: listRadioButtons){
+                if(radioButton.isSelected()){
+                    if(index == listRadioButtons.size()-1){}
+                    else{
+                        Collections.swap(listRadioButtons, index, index+1);
+                        listTextComponents.getChildren().clear();
+                        for(RadioButton radioButton1: listRadioButtons)
+                            listTextComponents.getChildren().add(radioButton1);
+                        break;
+                    }
+                }
+                index++;
             }
         });
 
