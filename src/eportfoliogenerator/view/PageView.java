@@ -319,7 +319,9 @@ public class PageView extends VBox implements Serializable
 
         colorFourRadioButton = new RadioButton("4");
         colorFourRadioButton.setOnAction(event -> {
-            if(this.page.getColor() != 4) { ui.updateSaveButtons(); }
+            if (this.page.getColor() != 4) {
+                ui.updateSaveButtons();
+            }
             this.page.setColor(4);
         });
 
@@ -404,7 +406,9 @@ public class PageView extends VBox implements Serializable
 
         pageFontFourRadioButton = new RadioButton("Hind");
         pageFontFourRadioButton.setOnAction(event -> {
-            if(!this.page.getPageFont().equalsIgnoreCase("Hind")) { ui.updateSaveButtons(); }
+            if (!this.page.getPageFont().equalsIgnoreCase("Hind")) {
+                ui.updateSaveButtons();
+            }
             this.page.setPageFont("Hind");
         });
 
@@ -870,7 +874,21 @@ public class PageView extends VBox implements Serializable
                 if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){
                     dialogTextComponents.editList(textComponentToEdit);
                 }
+            }
+        });
 
+        editImageComponentButton.setOnAction(event -> {
+            if(imageComponentsList.size() > 0) {
+                int index = 0;
+                for (RadioButton radioButton : imageComponentsList) {
+                    if (radioButton.isSelected()) {
+                        break;
+                    }
+                    index++;
+                }
+                ImageComponent imageComponentToEdit = page.getImageComponents().get(index);
+                DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
+                dialogImageComponent.editImageComponent(imageComponentToEdit);
             }
         });
 

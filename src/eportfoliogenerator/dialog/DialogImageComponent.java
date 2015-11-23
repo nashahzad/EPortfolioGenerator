@@ -30,6 +30,9 @@ public class DialogImageComponent extends Stage
     PageView pageView;
     ImageComponent imageComponent;
 
+    //For Editing ImageComponent
+    ImageComponent imageComponentConstruct;
+
     //Scene and other GUI Components needed
     Scene scene;
     ScrollPane scrollPane;
@@ -145,17 +148,189 @@ public class DialogImageComponent extends Stage
             boolean flagHeight = isNumeric(imageHeightTextField.getText());
             if(flagWidth && flagHeight){
                 imageComponent.setWidth(imageWidthTextField.getText());
-                imageComponent.setHeight(imageWidthTextField.getText());
+                imageComponent.setHeight(imageHeightTextField.getText());
 
                 if(floatLeftRadioButton.isSelected()){
                     imageComponent.setFloatAttribute("Left");
                 }
-                if(floatRightRadioButton.isSelected()){
+                else if(floatRightRadioButton.isSelected()){
                     imageComponent.setFloatAttribute("Right");
                 }
+                else
+                    imageComponent.setFloatAttribute("Neither");
 
                 imageComponentsList.add(new RadioButton(imageComponent.getImageName()));
                 page.getImageComponents().add(imageComponent);
+                pageView.reloadPageView();
+                this.close();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect user input, either the width or height was not a number!!");
+
+                alert.showAndWait();
+            }
+        });
+
+        cancelButton.setOnAction(event -> {
+            this.close();
+        });
+
+        confirmCancelHBox.getChildren().addAll(confirmButton, cancelButton);
+
+        imageHBox.setAlignment(Pos.TOP_CENTER);
+        confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
+        floatHBox.setAlignment(Pos.CENTER);
+        imageVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        imageAttributesHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        floatHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageCaptionHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageVBox.getChildren().addAll(imageHBox, imageAttributesHBox, floatHBox, imageCaptionHBox);
+
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(.5 * bounds.getMinX());
+        this.setY(.5 * bounds.getMinY());
+        this.setWidth(.5 * bounds.getWidth());
+        this.setHeight(.5 * bounds.getHeight());
+
+        scrollPane = new ScrollPane(imageVBox);
+        scrollPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(scrollPane);
+        borderPane.setBottom(confirmCancelHBox);
+        borderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+        scene = new Scene(borderPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
+
+    public void editImageComponent(ImageComponent imageComponentToEdit){
+        this.setTitle("Create Image Component");
+        imageVBox = new VBox();
+        imageComponent = imageComponentToEdit;
+
+        imageComponentConstruct = new ImageComponent();
+        imageComponentConstruct.setImageName(imageComponentToEdit.getImageName());
+        imageComponentConstruct.setImagePath(imageComponentToEdit.getImagePath());
+        imageComponentConstruct.setCaption(imageComponentToEdit.getCaption());
+        imageComponentConstruct.setFloatAttribute(imageComponentToEdit.getFloatAttribute());
+        imageComponentConstruct.setWidth(imageComponentToEdit.getWidth());
+        imageComponentConstruct.setHeight(imageComponentToEdit.getHeight());
+
+        imageHBox = new HBox();
+        try {
+            Image defaultImage = new Image(new File(imageComponentToEdit.getImagePath() + imageComponentToEdit.getImageName()).toURI().toURL().toExternalForm());
+            imageView = new ImageView(defaultImage);
+            // AND RESIZE IT
+            double scaledWidth = 200;
+            double perc = scaledWidth / defaultImage.getWidth();
+            double scaledHeight = defaultImage.getHeight() * perc;
+            imageView.setFitWidth(scaledWidth);
+            imageView.setFitHeight(scaledHeight);
+        }catch (Exception ex){
+            System.out.println("Exception was thrown in the editImageComponent method, in the DialogImageComponent Class.");
+        }
+
+        imageHBox.getChildren().add(imageView);
+
+        imageView.setOnMousePressed(event -> {
+            FileChooser imageFileChooser = new FileChooser();
+
+            // SET THE STARTING DIRECTORY
+            imageFileChooser.setInitialDirectory(new File(StartUpConstants.IMAGE_ICONS_FILE_PATH));
+
+            // LET'S ONLY SEE IMAGE FILES
+            FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            FileChooser.ExtensionFilter gifFilter = new FileChooser.ExtensionFilter("GIF files (*.gif)", "*.GIF");
+            imageFileChooser.getExtensionFilters().addAll(jpgFilter, pngFilter, gifFilter);
+
+            // LET'S OPEN THE FILE CHOOSER
+            File file = imageFileChooser.showOpenDialog(null);
+            if (file != null) {
+                String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
+                String fileName = file.getName();
+                imageComponent.setImagePath(path);
+                imageComponent.setImageName(fileName);
+                updateSlideImage();
+
+            } else {
+                // @todo provide error message for no files selected
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning!");
+                alert.setHeaderText("");
+                alert.setContentText("The program was unable to find the image or an image was not selected!");
+
+                alert.showAndWait();
+            }
+        });
+
+        //Set up area to input width and height of image
+        imageAttributesHBox = new HBox();
+
+        imageWidthTextField = new TextField(imageComponentToEdit.getWidth());
+        imageHeightTextField = new TextField(imageComponentToEdit.getHeight());
+
+        imageAttributesHBox.getChildren().addAll(imageWidthLabel, imageWidthTextField, imageHeightLabel, imageHeightTextField);
+
+        //Set up Area to take in float attribute
+        floatHBox = new HBox();
+        floatToggleGroup = new ToggleGroup();
+
+        floatLeftRadioButton = new RadioButton("Left");
+        floatNeitherRadioButton = new RadioButton("Neither");
+        floatRightRadioButton = new RadioButton("Right");
+        floatLeftRadioButton.setToggleGroup(floatToggleGroup);
+        floatNeitherRadioButton.setToggleGroup(floatToggleGroup);
+        floatRightRadioButton.setToggleGroup(floatToggleGroup);
+
+        if(imageComponentToEdit.getFloatAttribute().equalsIgnoreCase("Left"))
+            floatLeftRadioButton.setSelected(true);
+        else if(imageComponentToEdit.getFloatAttribute().equalsIgnoreCase("Right"))
+            floatRightRadioButton.setSelected(true);
+        else
+            floatNeitherRadioButton.setSelected(true);
+
+        floatHBox.getChildren().addAll(floatLabel, floatLeftRadioButton, floatNeitherRadioButton, floatRightRadioButton);
+
+        //Set up area to enter Caption
+        imageCaptionHBox = new HBox();
+        imageCaptionTextField = new TextField(imageComponentToEdit.getCaption());
+        imageCaptionHBox.getChildren().addAll(imageCaptionLabel, imageCaptionTextField);
+
+        //Set up Confirm and Cancel Buttons
+        confirmCancelHBox = new HBox();
+        confirmButton = new Button("Confirm");
+        cancelButton = new Button("Cancel");
+
+        confirmButton.setOnAction(event -> {
+            imageComponent.setCaption(imageCaptionTextField.getText());
+            boolean flagWidth = isNumeric(imageWidthTextField.getText());
+            boolean flagHeight = isNumeric(imageHeightTextField.getText());
+            if(flagWidth && flagHeight){
+                imageComponent.setWidth(imageWidthTextField.getText());
+                imageComponent.setHeight(imageHeightTextField.getText());
+
+                if(floatLeftRadioButton.isSelected()){
+                    imageComponent.setFloatAttribute("Left");
+                }
+                else if(floatRightRadioButton.isSelected()){
+                    imageComponent.setFloatAttribute("Right");
+                }
+                else
+                    imageComponent.setFloatAttribute("Neither");
+
                 pageView.reloadPageView();
                 this.close();
             }
