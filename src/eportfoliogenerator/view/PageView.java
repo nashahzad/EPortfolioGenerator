@@ -741,6 +741,7 @@ public class PageView extends VBox implements Serializable
                     else{
                         page.getTextComponents().remove(index);
                         reloadPageView();
+                        ui.updateSaveButtons();
                     }
                 }
             }
@@ -761,6 +762,7 @@ public class PageView extends VBox implements Serializable
                     else{
                         page.getImageComponents().remove(index);
                         reloadPageView();
+                        ui.updateSaveButtons();
                     }
                 }
             }
@@ -780,10 +782,12 @@ public class PageView extends VBox implements Serializable
                 else{
                     page.getSlideShowComponents().remove(index);
                     reloadPageView();
+                    ui.updateSaveButtons();
                 }
             }
 
             if(videoComponentsList.size() > 0){
+                index = 0;
                 for(RadioButton radioButton: videoComponentsList){
                     if(radioButton.isSelected()){
                         flag = false;
@@ -797,6 +801,7 @@ public class PageView extends VBox implements Serializable
                 else{
                     page.getVideoComponents().remove(index);
                     reloadPageView();
+                    ui.updateSaveButtons();
                 }
             }
         });

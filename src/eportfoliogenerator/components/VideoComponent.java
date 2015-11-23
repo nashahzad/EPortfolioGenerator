@@ -1,9 +1,11 @@
 package eportfoliogenerator.components;
 
+import java.io.Serializable;
+
 /**
  * Created by Nauman on 11/22/2015.
  */
-public class VideoComponent
+public class VideoComponent implements Serializable
 {
     String videoPath;
     String videoName;

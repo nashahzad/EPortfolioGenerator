@@ -1,11 +1,12 @@
 package eportfoliogenerator.components;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Nauman on 11/21/2015.
  */
-public class SlideShowComponent
+public class SlideShowComponent implements Serializable
 {
     String slideShowTitle;
     ArrayList<ImageComponent> imageSlides = new ArrayList<ImageComponent>();

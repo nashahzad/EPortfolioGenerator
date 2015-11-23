@@ -1,9 +1,11 @@
 package eportfoliogenerator.components;
 
+import java.io.Serializable;
+
 /**
  * Created by Nauman on 11/21/2015.
  */
-public class ImageComponent
+public class ImageComponent implements Serializable
 {
     String imagePath;
     String imageName;

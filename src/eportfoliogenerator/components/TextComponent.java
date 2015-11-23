@@ -1,11 +1,12 @@
 package eportfoliogenerator.components;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Nauman on 11/20/2015.
  */
-public class TextComponent
+public class TextComponent implements Serializable
 {
     String paragraphOrHeader;
     ArrayList<String> listText = new ArrayList<String>();

@@ -1,9 +1,11 @@
 package eportfoliogenerator.components;
 
+import java.io.Serializable;
+
 /**
  * Created by Nauman on 11/20/2015.
  */
-public class HyperLinkComponent
+public class HyperLinkComponent implements Serializable
 {
     String url;
     int start;
