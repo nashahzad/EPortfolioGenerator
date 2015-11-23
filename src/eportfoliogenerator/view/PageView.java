@@ -294,30 +294,30 @@ public class PageView extends VBox implements Serializable
 
     private void setUpColor()
     {
-        colorHBox = new HBox();
+        colorHBox = new HBox(7);
         colorHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
         colorToggleGroup = new ToggleGroup();
 
-        colorOneRadioButton = new RadioButton("1");
+        colorOneRadioButton = new RadioButton("Green");
         colorOneRadioButton.setOnAction(event -> {
             if(this.page.getColor() != 1) { ui.updateSaveButtons(); }
             this.page.setColor(1);
         });
 
-        colorTwoRadioButton = new RadioButton("2");
+        colorTwoRadioButton = new RadioButton("Hot Red");
         colorTwoRadioButton.setOnAction(event -> {
             if(this.page.getColor() != 2) { ui.updateSaveButtons(); }
             this.page.setColor(2);
         });
 
-        colorThreeRadioButton = new RadioButton("3");
+        colorThreeRadioButton = new RadioButton("Cool Blue");
         colorThreeRadioButton.setOnAction(event -> {
             if(this.page.getColor() != 3) { ui.updateSaveButtons(); }
             this.page.setColor(3);
         });
 
-        colorFourRadioButton = new RadioButton("4");
+        colorFourRadioButton = new RadioButton("Yellow");
         colorFourRadioButton.setOnAction(event -> {
             if (this.page.getColor() != 4) {
                 ui.updateSaveButtons();
@@ -325,7 +325,7 @@ public class PageView extends VBox implements Serializable
             this.page.setColor(4);
         });
 
-        colorFiveRadioButton = new RadioButton("5");
+        colorFiveRadioButton = new RadioButton("Purple");
         colorFiveRadioButton.setOnAction(event -> {
             if (this.page.getColor() != 5) {
                 ui.updateSaveButtons();

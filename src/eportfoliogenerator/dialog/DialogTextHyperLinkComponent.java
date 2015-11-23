@@ -139,6 +139,8 @@ public class DialogTextHyperLinkComponent extends Stage
         this.show();
     }
 
+    public void editTextHyperlinkComponent(TextComponent textComponentToEdit){}
+
     private void setUpButtonImages(){
         Image image = new Image("file:" + StartUpConstants.ICON_ADD_PAGE);
         addHyperlinkButton.setGraphic(new ImageView(image));
@@ -154,6 +156,24 @@ public class DialogTextHyperLinkComponent extends Stage
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Hyperlink input");
             dialog.setContentText("Please input a valid URL/Hyperlink:");
+            dialog.getDialogPane().setPrefWidth(600);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
@@ -164,7 +184,25 @@ public class DialogTextHyperLinkComponent extends Stage
                 //Dialog inside a dialog, INCEPTION
                 TextInputDialog dialogInception = new TextInputDialog();
                 dialogInception.setTitle("Index Range for URL");
-                dialogInception.setContentText("Please enter a valid range for your URL (Ex. 0-8) Include dash and no spaces:");
+                dialogInception.setContentText("Please enter a valid range for your URL (Ex. 0-" + (textComponent.getParagraphOrHeader().length()-1) + ") Include dash and no spaces:");
+                dialogInception.getDialogPane().setPrefWidth(600);
+
+                Stage stageCeption = (Stage) dialogInception.getDialogPane().getScene().getWindow();
+                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+                stageCeption.setScene(new Scene(new ScrollPane(dialogInception      .getDialogPane())));
+
+                DialogPane alertDialogPaneCeption = dialogInception.getDialogPane();
+
+                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBarCeption = (ButtonBar)dialogInception.getDialogPane().lookup(".button-bar");
+                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
                 // Traditional way to get the response value.
                 Optional<String> resultInception = dialogInception.showAndWait();

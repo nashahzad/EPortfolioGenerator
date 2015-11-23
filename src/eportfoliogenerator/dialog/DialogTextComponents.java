@@ -143,14 +143,14 @@ public class DialogTextComponents extends Stage
         paragraphHBox.getChildren().add(headerTextField);
 
         //Page Fonts
-        pageFontHBox = new HBox();
+        pageFontHBox = new HBox(8);
         pageFontToggleGroup = new ToggleGroup();
 
         pageFontOneRadioButton = new RadioButton("Slabo");
         pageFontTwoRadioButton = new RadioButton("Sans Pro");
         pageFontThreeRadioButton = new RadioButton("Serif");
         pageFontFourRadioButton = new RadioButton("Hind");
-        pageFontFiveRadioButton = new RadioButton("Cantarrell");
+        pageFontFiveRadioButton = new RadioButton("Cantarell");
 
         //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
         pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
@@ -245,14 +245,14 @@ public class DialogTextComponents extends Stage
         paragraphHBox.getChildren().add(headerTextField);
 
         //Page Fonts
-        pageFontHBox = new HBox();
+        pageFontHBox = new HBox(8);
         pageFontToggleGroup = new ToggleGroup();
 
         pageFontOneRadioButton = new RadioButton("Slabo");
         pageFontTwoRadioButton = new RadioButton("Sans Pro");
         pageFontThreeRadioButton = new RadioButton("Serif");
         pageFontFourRadioButton = new RadioButton("Hind");
-        pageFontFiveRadioButton = new RadioButton("Cantarrell");
+        pageFontFiveRadioButton = new RadioButton("Cantarell");
 
         //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
         pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
@@ -269,7 +269,7 @@ public class DialogTextComponents extends Stage
             pageFontThreeRadioButton.setSelected(true);
         if(textComponentToEdit.getTextFont().equalsIgnoreCase("Hind"))
             pageFontFourRadioButton.setSelected(true);
-        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Cantarrell"))
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Cantarell"))
             pageFontFiveRadioButton.setSelected(true);
 
         //Add page font buttons into HBOX
@@ -353,14 +353,14 @@ public class DialogTextComponents extends Stage
         paragraphHBox.getChildren().add(paragraphTextArea);
 
         //Page Fonts
-        pageFontHBox = new HBox();
+        pageFontHBox = new HBox(8);
         pageFontToggleGroup = new ToggleGroup();
 
         pageFontOneRadioButton = new RadioButton("Slabo");
         pageFontTwoRadioButton = new RadioButton("Sans Pro");
         pageFontThreeRadioButton = new RadioButton("Serif");
         pageFontFourRadioButton = new RadioButton("Hind");
-        pageFontFiveRadioButton = new RadioButton("Cantarrell");
+        pageFontFiveRadioButton = new RadioButton("Cantarell");
 
         //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
         pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
@@ -453,14 +453,14 @@ public class DialogTextComponents extends Stage
         paragraphHBox.getChildren().add(paragraphTextArea);
 
         //Page Fonts
-        pageFontHBox = new HBox();
+        pageFontHBox = new HBox(8);
         pageFontToggleGroup = new ToggleGroup();
 
         pageFontOneRadioButton = new RadioButton("Slabo");
         pageFontTwoRadioButton = new RadioButton("Sans Pro");
         pageFontThreeRadioButton = new RadioButton("Serif");
         pageFontFourRadioButton = new RadioButton("Hind");
-        pageFontFiveRadioButton = new RadioButton("Cantarrell");
+        pageFontFiveRadioButton = new RadioButton("Cantarell");
 
         //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
         pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
@@ -477,7 +477,7 @@ public class DialogTextComponents extends Stage
             pageFontThreeRadioButton.setSelected(true);
         if(textComponentToEdit.getTextFont().equalsIgnoreCase("Hind"))
             pageFontFourRadioButton.setSelected(true);
-        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Cantarrell"))
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Cantarell"))
             pageFontFiveRadioButton.setSelected(true);
 
         //Add page font buttons into HBOX
