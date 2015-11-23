@@ -239,7 +239,9 @@ public class PageView extends VBox implements Serializable
 
         layoutFiveRadoButton = new RadioButton("5");
         layoutFiveRadoButton.setOnAction(event -> {
-            if(this.page.getLayout() != 5) { ui.updateSaveButtons(); }
+            if (this.page.getLayout() != 5) {
+                ui.updateSaveButtons();
+            }
             this.page.setLayout(5);
         });
 
@@ -718,6 +720,104 @@ public class PageView extends VBox implements Serializable
             }
         });
 
+        //NOW FOR EDIT COMPONENT BUTTONS STARTING WITH REMOVE COMPONENT
+
+        removeComponentButton.setOnAction(event -> {
+            boolean flag = true;
+            int index = 0;
+
+            if(flag){
+                if(textComponentsList.size() > 0){
+                    for(RadioButton radioButton: textComponentsList){
+                        if(radioButton.isSelected()){
+                            flag = false;
+                            textComponentsList.remove(radioButton);
+                            break;
+                        }
+                        index++;
+                    }
+
+                    if(flag){}
+                    else{
+                        page.getTextComponents().remove(index);
+                        reloadPageView();
+                    }
+                }
+            }
+
+            if(flag){
+                if(imageComponentsList.size() > 0){
+                    index = 0;
+                    for(RadioButton radioButton: imageComponentsList){
+                        if(radioButton.isSelected()){
+                            flag = false;
+                            imageComponentsList.remove(radioButton);
+                            break;
+                        }
+                        index++;
+                    }
+
+                    if(flag){}
+                    else{
+                        page.getImageComponents().remove(index);
+                        reloadPageView();
+                    }
+                }
+            }
+
+            if(slideShowComponentsList.size() > 0){
+                index = 0;
+                for(RadioButton radioButton: slideShowComponentsList){
+                    if(radioButton.isSelected()){
+                        flag = false;
+                        slideShowComponentsList.remove(radioButton);
+                        break;
+                    }
+                    index++;
+                }
+
+                if(flag){}
+                else{
+                    page.getSlideShowComponents().remove(index);
+                    reloadPageView();
+                }
+            }
+
+            if(videoComponentsList.size() > 0){
+                for(RadioButton radioButton: videoComponentsList){
+                    if(radioButton.isSelected()){
+                        flag = false;
+                        videoComponentsList.remove(radioButton);
+                        break;
+                    }
+                    index++;
+                }
+
+                if(flag){}
+                else{
+                    page.getVideoComponents().remove(index);
+                    reloadPageView();
+                }
+            }
+        });
+
+        editTextComponentButton.setOnAction(event -> {
+            if(textComponentsList.size() > 0){
+                int index = 0;
+                for(RadioButton radioButton: textComponentsList){
+                    if(radioButton.isSelected()){
+                        break;
+                    }
+                    index++;
+                }
+                TextComponent textComponentToEdit = page.getTextComponents().get(index);
+                DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
+                if(textComponentToEdit.getTextType().equalsIgnoreCase("Header")){
+                    dialogTextComponents.editHeader(textComponentToEdit);
+                }
+            }
+        });
+
     }
 
     public void reloadPageView(){
@@ -743,6 +843,7 @@ public class PageView extends VBox implements Serializable
         if(page.getTextComponents().size() > 0){
             textComponentsVBox.getChildren().clear();
             textComponentsVBox.getChildren().add(textComponentLabel);
+            textComponentsList.clear();
             int index = 0;
             for(TextComponent textComponent: page.getTextComponents()) {
                 RadioButton radioButton = new RadioButton(textComponent.getTextType() + " " + index);
@@ -753,10 +854,16 @@ public class PageView extends VBox implements Serializable
             }
         }
 
+        else{
+            textComponentsVBox.getChildren().clear();
+            textComponentsVBox.getChildren().add(textComponentLabel);
+        }
+
         //Block of code to refresh and update area on display for image components
         if(page.getImageComponents().size() > 0){
             imageComponentsVBox.getChildren().clear();
             imageComponentsVBox.getChildren().add(imageComponentsLabel);
+            imageComponentsList.clear();
             for(ImageComponent imageComponent: page.getImageComponents()) {
                 RadioButton radioButton = new RadioButton(imageComponent.getImageName());
                 radioButton.setToggleGroup(componentsToggleGroup);
@@ -765,10 +872,16 @@ public class PageView extends VBox implements Serializable
             }
         }
 
+        else{
+            imageComponentsVBox.getChildren().clear();
+            imageComponentsVBox.getChildren().add(imageComponentsLabel);
+        }
+
         //Block of code to refresh and update the area on display for slideshowcomponents
         if(page.getSlideShowComponents().size() > 0){
             slideShowComponentsVBox.getChildren().clear();
             slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
+            slideShowComponentsList.clear();
             for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()) {
                 RadioButton radioButton = new RadioButton(slideShowComponent.getSlideShowTitle());
                 radioButton.setToggleGroup(componentsToggleGroup);
@@ -777,6 +890,12 @@ public class PageView extends VBox implements Serializable
             }
         }
 
+        else{
+            slideShowComponentsVBox.getChildren().clear();
+            slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
+        }
+
+        //Block of code to refresh and update the area on display for Video Components
         if(page.getVideoComponents().size() > 0){
             videoComponentsVBox.getChildren().clear();
             videoComponentsVBox.getChildren().add(videoComponentsLabel);
@@ -786,6 +905,11 @@ public class PageView extends VBox implements Serializable
                 videoComponentsList.add(radioButton);
                 videoComponentsVBox.getChildren().add(radioButton);
             }
+        }
+
+        else{
+            videoComponentsVBox.getChildren().clear();
+            videoComponentsVBox.getChildren().add(videoComponentsLabel);
         }
 
     }

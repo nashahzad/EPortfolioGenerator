@@ -25,6 +25,10 @@ import java.util.Optional;
  */
 public class DialogTextComponents extends Stage
 {
+
+    //New Text Component to construct for editing purposes
+    TextComponent textComponentConstruct = new TextComponent();
+
     //PageView we are working with
     PageView pageView;
 
@@ -180,6 +184,91 @@ public class DialogTextComponents extends Stage
             page.getTextComponents().add(textComponent);
 
             textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size()-1)));
+            this.pageView.reloadPageView();
+            this.close();
+        });
+
+        cancelParagraphButton.setOnAction(event -> {
+            this.close();
+        });
+
+        paragraphVBox.getChildren().add(paragraphHBox);
+        paragraphVBox.getChildren().add(pageFontHBox);
+        paragraphVBox.getChildren().add(paragraphSizeHBox);
+        paragraphVBox.getChildren().add(paragraphButtonsHBox);
+        paragraphVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane = new ScrollPane(paragraphVBox);
+        scene = new Scene(scrollPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
+
+    //Method for editing header text component
+    public void editHeader(TextComponent textComponentToEdit){
+        this.setTitle("Header Dialog");
+        paragraphVBox = new VBox();
+
+        paragraphHBox = new HBox();
+
+        paragraphHBox.getChildren().add(headerInputLabel);
+
+        headerTextField = new TextField(textComponentToEdit.getParagraphOrHeader());
+        headerTextField.setPrefWidth(800);
+        paragraphHBox.getChildren().add(headerTextField);
+
+        //Page Fonts
+        pageFontHBox = new HBox();
+        pageFontToggleGroup = new ToggleGroup();
+
+        pageFontOneRadioButton = new RadioButton("Slabo");
+        pageFontTwoRadioButton = new RadioButton("Sans Pro");
+        pageFontThreeRadioButton = new RadioButton("Serif");
+        pageFontFourRadioButton = new RadioButton("Hind");
+        pageFontFiveRadioButton = new RadioButton("Cantarrell");
+
+        //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
+        pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontTwoRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontThreeRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontFourRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontFiveRadioButton.setToggleGroup(pageFontToggleGroup);
+
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Slabo"))
+            pageFontOneRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Sans Pro"))
+            pageFontTwoRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Serif"))
+            pageFontThreeRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Hind"))
+            pageFontFourRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Cantarrell"))
+            pageFontFiveRadioButton.setSelected(true);
+
+        //Add page font buttons into HBOX
+        pageFontHBox.getChildren().add(pageFontLabel);
+        pageFontHBox.getChildren().addAll(pageFontOneRadioButton, pageFontTwoRadioButton, pageFontThreeRadioButton, pageFontFourRadioButton, pageFontFiveRadioButton);
+
+        //Paragraph font size buttons
+        paragraphSizeHBox = new HBox();
+        paragraphSizeHBox.getChildren().add(paragraphSizeLabel);
+
+        paragraphSizeTextField = new TextField(textComponentToEdit.getTextSize());
+        paragraphSizeHBox.getChildren().add(paragraphSizeTextField);
+
+        paragraphButtonsHBox = new HBox();
+        paragraphButtonsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        paragraphButtonsHBox.setAlignment(Pos.BOTTOM_CENTER);
+        confirmParagraphButton = new Button("Confirm");
+        cancelParagraphButton = new Button("Cancel");
+        paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
+
+        confirmParagraphButton.setOnAction(event -> {
+            textComponentToEdit.setParagraphOrHeader(headerTextField.getText());
+            textComponentToEdit.setTextType("header");
+            textComponentToEdit.setTextFont(getTextComponentFont());
+            textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
+
             this.pageView.reloadPageView();
             this.close();
         });
