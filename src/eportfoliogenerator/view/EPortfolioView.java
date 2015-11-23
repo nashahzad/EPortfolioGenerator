@@ -287,12 +287,24 @@ public class EPortfolioView implements Serializable
             ChoiceDialog<String> dialog = new ChoiceDialog<>(model.getSelectedPage().getPageTitle(), choices);
             dialog.setTitle("Select Page Box");
             dialog.setContentText("Choose a page:");
+            dialog.getDialogPane().setPrefWidth(600);
 
             Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
 
-            DialogPane dialogPane = dialog.getDialogPane();
-            dialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){

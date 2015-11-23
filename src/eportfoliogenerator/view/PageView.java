@@ -10,6 +10,7 @@ import eportfoliogenerator.dialog.*;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -463,7 +464,7 @@ public class PageView extends VBox implements Serializable
 
     private void setUpBasicInfoGetters()
     {
-        basicInfoHBox = new HBox();
+        basicInfoHBox = new HBox(10);
         basicInfoHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
         //Set up the part for retrieving and setting the Page title, and CSS
@@ -476,9 +477,11 @@ public class PageView extends VBox implements Serializable
             TextInputDialog dialog = new TextInputDialog(page.getPageTitle());
             dialog.setTitle("Page Title Input");
             dialog.setContentText("Please enter a page title:");
+            dialog.getDialogPane().setPrefWidth(600);
 
             Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
 
             DialogPane alertDialogPane = dialog.getDialogPane();
 
@@ -514,6 +517,24 @@ public class PageView extends VBox implements Serializable
             TextInputDialog dialog = new TextInputDialog(model.getStudentName());
             dialog.setTitle("Student Name Input");
             dialog.setContentText("Please the Student's Name:");
+            dialog.getDialogPane().setPrefWidth(600);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
@@ -531,11 +552,31 @@ public class PageView extends VBox implements Serializable
         basicInfoHBox.getChildren().add(footerLabel);
 
         footerButton = new Button();
-        footerButton.setText("Click Here to Edit Footer!");
+        Image image = new Image("file:" + StartUpConstants.ICON_FOOTER);
+        footerButton.setGraphic(new ImageView(image));
+        footerButton.setTooltip(new Tooltip("Enter Footer Here"));
         footerButton.setOnAction(event -> {
             TextInputDialog dialog = new TextInputDialog(page.getFooter());
             dialog.setTitle("Footer Input");
             dialog.setContentText("Enter or modify the footer:");
+            dialog.getDialogPane().setPrefWidth(600);
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
+
+            DialogPane alertDialogPane = dialog.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {

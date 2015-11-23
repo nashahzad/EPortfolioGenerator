@@ -83,7 +83,7 @@ public class DialogVideoComponent extends Stage
         imageHBox = new HBox();
         pickVideoButton = new Button(videoComponent.getVideoName());
         pickVideoButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
-        pickVideoButton.prefWidth(400);
+        pickVideoButton.prefWidth(700);
 //        Media defaultImage = new Media("file:" + StartUpConstants.DEFAULT_VIDEO);
 //        System.out.println(defaultImage.durationProperty().toString());
 //        mediaPlayer = new MediaPlayer(defaultImage);
@@ -190,6 +190,7 @@ public class DialogVideoComponent extends Stage
         imageHBox.setAlignment(Pos.TOP_CENTER);
         confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
 //        floatHBox.setAlignment(Pos.CENTER);
+        imageVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
         imageAttributesHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
 //        floatHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         imageCaptionHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);

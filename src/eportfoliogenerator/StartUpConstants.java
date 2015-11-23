@@ -41,6 +41,7 @@ public class StartUpConstants implements Serializable
     public static String ICON_COMPONENT_VIDEO = IMAGE_ICONS_FILE_PATH + "/VideoComponent.png";
     public static String ICON_COMPONENT_HYPERLINK = IMAGE_ICONS_FILE_PATH + "/HyperLinkComponent.png";
     public static String ICON_REMOVE_COMPONENT = IMAGE_ICONS_FILE_PATH + "/RemoveComponent.png";
+    public static String ICON_FOOTER = IMAGE_ICONS_FILE_PATH + "/Footer.png";
 
     public static String ICON_FONT_SIZE = IMAGE_ICONS_FILE_PATH + "/FontSize.png";
     public static String ICON_FONT_STYLE = IMAGE_ICONS_FILE_PATH + "/FontStyle.png";

@@ -178,6 +178,7 @@ public class DialogImageComponent extends Stage
         imageHBox.setAlignment(Pos.TOP_CENTER);
         confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
         floatHBox.setAlignment(Pos.CENTER);
+        imageVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
         imageAttributesHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         floatHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         imageCaptionHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
