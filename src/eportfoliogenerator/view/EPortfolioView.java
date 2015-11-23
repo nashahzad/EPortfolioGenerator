@@ -118,12 +118,7 @@ public class EPortfolioView implements Serializable
         exportEPortfolioButton = setUpButton(StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
         exitEPortfolioButton = setUpButton(StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
 
-        fileToolBarHBox.getChildren().add(newEPortfolioButton);
-        fileToolBarHBox.getChildren().add(loadEPortfolioButton);
-        fileToolBarHBox.getChildren().add(saveEPortfolioButton);
-        fileToolBarHBox.getChildren().add(saveAsEPortfolioButton);
-        fileToolBarHBox.getChildren().add(exportEPortfolioButton);
-        fileToolBarHBox.getChildren().add(exitEPortfolioButton);
+        fileToolBarHBox.getChildren().addAll(newEPortfolioButton, loadEPortfolioButton, saveEPortfolioButton, saveAsEPortfolioButton, exportEPortfolioButton, exitEPortfolioButton);
     }
 
     /**
@@ -139,9 +134,7 @@ public class EPortfolioView implements Serializable
         removePageButton = setUpButton(StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
         selectPageButton = setUpButton(StartUpConstants.ICON_SELECT_PAGE, "Select Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, false);
 
-        siteToolBarVBox.getChildren().add(addPageButton);
-        siteToolBarVBox.getChildren().add(removePageButton);
-        siteToolBarVBox.getChildren().add(selectPageButton);
+        siteToolBarVBox.getChildren().addAll(addPageButton, removePageButton, selectPageButton);
     }
 
     /**
