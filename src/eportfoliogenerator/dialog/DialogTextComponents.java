@@ -183,12 +183,36 @@ public class DialogTextComponents extends Stage
             textComponent.setParagraphOrHeader(headerTextField.getText());
             textComponent.setTextType("header");
             textComponent.setTextFont(getTextComponentFont());
-            textComponent.setTextSize(paragraphSizeTextField.getText());
-            page.getTextComponents().add(textComponent);
+            if(isNumeric(paragraphSizeTextField.getText())) {
+                textComponent.setTextSize(paragraphSizeTextField.getText());
+                page.getTextComponents().add(textComponent);
 
-            textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size() - 1)));
-            this.pageView.reloadPageView();
-            this.close();
+                textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size() - 1)));
+                this.pageView.reloadPageView();
+                this.close();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning!");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect user input for font size");
+                Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
+                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPaneCeption = alert.getDialogPane();
+
+                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+                alert.showAndWait();
+            }
         });
 
         cancelParagraphButton.setOnAction(event -> {
@@ -270,10 +294,34 @@ public class DialogTextComponents extends Stage
             textComponentToEdit.setParagraphOrHeader(headerTextField.getText());
             textComponentToEdit.setTextType("header");
             textComponentToEdit.setTextFont(getTextComponentFont());
-            textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
+            if(isNumeric(paragraphSizeTextField.getText())) {
+                textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
 
-            this.pageView.reloadPageView();
-            this.close();
+                this.pageView.reloadPageView();
+                this.close();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning!");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect user input for font size");
+                Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
+                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPaneCeption = alert.getDialogPane();
+
+                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+                alert.showAndWait();
+            }
         });
 
         cancelParagraphButton.setOnAction(event -> {
@@ -345,12 +393,36 @@ public class DialogTextComponents extends Stage
             textComponent.setParagraphOrHeader(paragraphTextArea.getText());
             textComponent.setTextType("paragraph");
             textComponent.setTextFont(getTextComponentFont());
-            textComponent.setTextSize(paragraphSizeTextField.getText());
-            page.getTextComponents().add(textComponent);
+            if(isNumeric(paragraphSizeTextField.getText())) {
+                textComponent.setTextSize(paragraphSizeTextField.getText());
+                page.getTextComponents().add(textComponent);
 
-            textComponentsList.add(new RadioButton("paragraph " + (page.getTextComponents().size() - 1)));
-            this.pageView.reloadPageView();
-            this.close();
+                textComponentsList.add(new RadioButton("paragraph " + (page.getTextComponents().size() - 1)));
+                this.pageView.reloadPageView();
+                this.close();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning!");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect user input for font size");
+                Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
+                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPaneCeption = alert.getDialogPane();
+
+                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+                alert.showAndWait();
+            }
         });
 
         cancelParagraphButton.setOnAction(event -> {
@@ -792,6 +864,21 @@ public class DialogTextComponents extends Stage
                    alert.setTitle("Warning!");
                    alert.setHeaderText(null);
                    alert.setContentText("Incorrect user input for font size");
+                   Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
+                   stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                   DialogPane alertDialogPaneCeption = alert.getDialogPane();
+
+                   alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                   alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                   //CSS to buttons added after alert does its getButtonTypes method
+                   ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                   buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                   buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                   //Content text
+                   alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
                    alert.showAndWait();
                }
             }
@@ -855,6 +942,8 @@ public class DialogTextComponents extends Stage
         try
         {
             double d = Double.parseDouble(str);
+            if(d <= 0)
+                return false;
         }
         catch(NumberFormatException nfe)
         {

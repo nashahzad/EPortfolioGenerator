@@ -106,6 +106,21 @@ public class DialogImageComponent extends Stage
                 alert.setTitle("Warning!");
                 alert.setHeaderText("");
                 alert.setContentText("The program was unable to find the image or an image was not selected!");
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
                 alert.showAndWait();
             }
@@ -168,7 +183,23 @@ public class DialogImageComponent extends Stage
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Warning");
                 alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input, either the width or height was not a number!!");
+                alert.setContentText("Incorrect user input, either the width or height was not a number, or is less than or equal to zero!!");
+
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
                 alert.showAndWait();
             }
@@ -271,6 +302,21 @@ public class DialogImageComponent extends Stage
                 alert.setTitle("Warning!");
                 alert.setHeaderText("");
                 alert.setContentText("The program was unable to find the image or an image was not selected!");
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
                 alert.showAndWait();
             }
@@ -338,7 +384,22 @@ public class DialogImageComponent extends Stage
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Warning");
                 alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input, either the width or height was not a number!!");
+                alert.setContentText("Incorrect user input, either the width or height was not a number, or was less than equal to zero!!");
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
                 alert.showAndWait();
             }
@@ -409,6 +470,21 @@ public class DialogImageComponent extends Stage
             alert.setTitle("Warning!");
             alert.setHeaderText("");
             alert.setContentText("The program was unable to find the image!");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = alert.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
             alert.showAndWait();
             imagePath = "file:images/icons/DefaultStartSlide.png";
@@ -433,6 +509,8 @@ public class DialogImageComponent extends Stage
         try
         {
             double d = Double.parseDouble(str);
+            if(d <= 0)
+                return false;
         }
         catch(NumberFormatException nfe)
         {

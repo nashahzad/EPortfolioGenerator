@@ -907,6 +907,21 @@ public class PageView extends VBox implements Serializable
             }
         });
 
+        editVideoComponentButton.setOnAction(event -> {
+            if(videoComponentsList.size() > 0) {
+                int index = 0;
+                for (RadioButton radioButton : videoComponentsList) {
+                    if (radioButton.isSelected()) {
+                        break;
+                    }
+                    index++;
+                }
+                VideoComponent videoComponentToEdit = page.getVideoComponents().get(index);
+                DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
+                dialogVideoComponent.editVideoComponent(videoComponentToEdit);
+            }
+        });
+
     }
 
     public void reloadPageView(){
@@ -988,6 +1003,7 @@ public class PageView extends VBox implements Serializable
         if(page.getVideoComponents().size() > 0){
             videoComponentsVBox.getChildren().clear();
             videoComponentsVBox.getChildren().add(videoComponentsLabel);
+            videoComponentsList.clear();
             for(VideoComponent videoComponent: page.getVideoComponents()) {
                 RadioButton radioButton = new RadioButton(videoComponent.getVideoName());
                 radioButton.setToggleGroup(componentsToggleGroup);

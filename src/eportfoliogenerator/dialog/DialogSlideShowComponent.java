@@ -116,7 +116,22 @@ public class DialogSlideShowComponent extends Stage
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Warning");
                         alert.setHeaderText(null);
-                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number!");
+                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number, or is less than equal to zero!");
+                        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                        DialogPane alertDialogPane = alert.getDialogPane();
+
+                        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                        //CSS to buttons added after alert does its getButtonTypes method
+                        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                        //Content text
+                        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
                         alert.showAndWait();
                         flag = true;
                         break;
@@ -235,7 +250,22 @@ public class DialogSlideShowComponent extends Stage
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Warning");
                         alert.setHeaderText(null);
-                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number!");
+                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number, or is less than equal to zero!");
+                        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                        DialogPane alertDialogPane = alert.getDialogPane();
+
+                        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                        //CSS to buttons added after alert does its getButtonTypes method
+                        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                        //Content text
+                        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
                         alert.showAndWait();
                         flag = true;
                         break;
@@ -434,6 +464,8 @@ public class DialogSlideShowComponent extends Stage
         try
         {
             double d = Double.parseDouble(str);
+            if(d <= 0)
+                return false;
         }
         catch(NumberFormatException nfe)
         {

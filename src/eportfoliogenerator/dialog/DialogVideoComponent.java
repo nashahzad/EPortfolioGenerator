@@ -66,6 +66,9 @@ public class DialogVideoComponent extends Stage
     Button confirmButton;
     Button cancelButton;
 
+    //For Editing a Video Component
+    String pathOriginal;
+    String nameOriginal;
 
 
 
@@ -82,8 +85,8 @@ public class DialogVideoComponent extends Stage
 
         imageHBox = new HBox();
         pickVideoButton = new Button(videoComponent.getVideoName());
-        pickVideoButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         pickVideoButton.prefWidth(700);
+        pickVideoButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
 //        Media defaultImage = new Media("file:" + StartUpConstants.DEFAULT_VIDEO);
 //        System.out.println(defaultImage.durationProperty().toString());
 //        mediaPlayer = new MediaPlayer(defaultImage);
@@ -116,6 +119,22 @@ public class DialogVideoComponent extends Stage
                 alert.setTitle("Warning!");
                 alert.setHeaderText("");
                 alert.setContentText("The program was unable to find the video or a video was not selected!");
+
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
                 alert.showAndWait();
             }
@@ -158,7 +177,7 @@ public class DialogVideoComponent extends Stage
             boolean flagHeight = isNumeric(imageHeightTextField.getText());
             if (flagWidth && flagHeight) {
                 videoComponent.setWidth(imageWidthTextField.getText());
-                videoComponent.setHeight(imageWidthTextField.getText());
+                videoComponent.setHeight(imageHeightTextField.getText());
 
 //                if(floatLeftRadioButton.isSelected()){
 //                    imageComponent.setFloatAttribute("Left");
@@ -175,13 +194,210 @@ public class DialogVideoComponent extends Stage
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Warning");
                 alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input, either the width or height was not a number!!");
+                alert.setContentText("Incorrect user input, either the width or height was not a number, or a negative number or 0 was used!!");
+
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+
 
                 alert.showAndWait();
             }
         });
 
         cancelButton.setOnAction(event -> {
+            this.close();
+        });
+
+        confirmCancelHBox.getChildren().addAll(confirmButton, cancelButton);
+
+        imageHBox.setAlignment(Pos.TOP_CENTER);
+        confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
+//        floatHBox.setAlignment(Pos.CENTER);
+        imageVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        imageAttributesHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+//        floatHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageCaptionHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        imageVBox.getChildren().addAll(imageHBox, imageAttributesHBox, imageCaptionHBox);
+
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(.25 * bounds.getMinX());
+        this.setY(.5 * bounds.getMinY());
+        this.setWidth(.5 * bounds.getWidth());
+        this.setHeight(.25 * bounds.getHeight());
+
+        scrollPane = new ScrollPane(imageVBox);
+        scrollPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(scrollPane);
+        borderPane.setBottom(confirmCancelHBox);
+        borderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+        scene = new Scene(borderPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
+
+    public void editVideoComponent(VideoComponent videoComponentToEdit){
+        this.setTitle("Edit Video Component");
+        imageVBox = new VBox();
+        videoComponent = videoComponentToEdit;
+        pathOriginal = videoComponentToEdit.getVideoPath();
+        nameOriginal = videoComponentToEdit.getVideoName();
+
+        imageHBox = new HBox();
+        pickVideoButton = new Button(videoComponent.getVideoName());
+        pickVideoButton.prefWidth(700);
+        pickVideoButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+//        Media defaultImage = new Media("file:" + StartUpConstants.DEFAULT_VIDEO);
+//        System.out.println(defaultImage.durationProperty().toString());
+//        mediaPlayer = new MediaPlayer(defaultImage);
+//        mediaView = new MediaView(mediaPlayer);
+        imageHBox.getChildren().add(pickVideoButton);
+
+        pickVideoButton.setOnAction(event -> {
+            FileChooser imageFileChooser = new FileChooser();
+
+            // SET THE STARTING DIRECTORY
+            imageFileChooser.setInitialDirectory(new File(StartUpConstants.IMAGE_ICONS_FILE_PATH));
+
+            // LET'S ONLY SEE IMAGE FILES
+            FileChooser.ExtensionFilter mp4Filter = new FileChooser.ExtensionFilter("MP4 files (*.mp4)", "*.MP4");
+            imageFileChooser.getExtensionFilters().addAll(mp4Filter);
+
+            // LET'S OPEN THE FILE CHOOSER
+            File file = imageFileChooser.showOpenDialog(null);
+            if (file != null) {
+                String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
+                String fileName = file.getName();
+                videoComponent.setVideoPath(path);
+                videoComponent.setVideoName(fileName);
+                pickVideoButton.setText(videoComponent.getVideoName());
+                //updateSlideImage();
+
+            } else {
+                // @todo provide error message for no files selected
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning!");
+                alert.setHeaderText("");
+                alert.setContentText("The program was unable to find the video or a video was not selected!");
+
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+
+                alert.showAndWait();
+            }
+        });
+
+        //Set up area to input width and height of image
+        imageAttributesHBox = new HBox();
+
+        imageWidthTextField = new TextField(videoComponentToEdit.getWidth());
+        imageHeightTextField = new TextField(videoComponentToEdit.getHeight());
+
+        imageAttributesHBox.getChildren().addAll(imageWidthLabel, imageWidthTextField, imageHeightLabel, imageHeightTextField);
+
+//        //Set up Area to take in float attribute
+//        floatHBox = new HBox();
+//        floatToggleGroup = new ToggleGroup();
+//
+//        floatLeftRadioButton = new RadioButton("Left");
+//        floatNeitherRadioButton = new RadioButton("Neither");
+//        floatRightRadioButton = new RadioButton("Right");
+//        floatLeftRadioButton.setToggleGroup(floatToggleGroup);
+//        floatNeitherRadioButton.setToggleGroup(floatToggleGroup);
+//        floatRightRadioButton.setToggleGroup(floatToggleGroup);
+//
+//        floatHBox.getChildren().addAll(floatLabel, floatLeftRadioButton, floatNeitherRadioButton, floatRightRadioButton);
+
+        //Set up area to enter Caption
+        imageCaptionHBox = new HBox();
+        imageCaptionTextField = new TextField(videoComponentToEdit.getCaption());
+        imageCaptionHBox.getChildren().addAll(imageCaptionLabel, imageCaptionTextField);
+
+        //Set up Confirm and Cancel Buttons
+        confirmCancelHBox = new HBox();
+        confirmButton = new Button("Confirm");
+        cancelButton = new Button("Cancel");
+
+        confirmButton.setOnAction(event -> {
+            videoComponent.setCaption(imageCaptionTextField.getText());
+            boolean flagWidth = isNumeric(imageWidthTextField.getText());
+            boolean flagHeight = isNumeric(imageHeightTextField.getText());
+            if (flagWidth && flagHeight) {
+                videoComponent.setWidth(imageWidthTextField.getText());
+                videoComponent.setHeight(imageHeightTextField.getText());
+
+//                if(floatLeftRadioButton.isSelected()){
+//                    imageComponent.setFloatAttribute("Left");
+//                }
+//                if(floatRightRadioButton.isSelected()){
+//                    imageComponent.setFloatAttribute("Right");
+//                }
+                pageView.reloadPageView();
+                this.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect user input, either the width or height was not a number, or a negative number or 0 was used!!");
+
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+                DialogPane alertDialogPane = alert.getDialogPane();
+
+                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+                //CSS to buttons added after alert does its getButtonTypes method
+                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+                //Content text
+                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+
+                alert.showAndWait();
+            }
+        });
+
+        cancelButton.setOnAction(event -> {
+            videoComponent.setVideoName(nameOriginal);
+            videoComponent.setVideoPath(pathOriginal);
             this.close();
         });
 
@@ -272,6 +488,8 @@ public class DialogVideoComponent extends Stage
         try
         {
             double d = Double.parseDouble(str);
+            if(d <= 0)
+                return false;
         }
         catch(NumberFormatException nfe)
         {
