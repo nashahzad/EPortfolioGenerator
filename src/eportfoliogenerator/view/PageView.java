@@ -6,10 +6,7 @@ import eportfoliogenerator.components.SlideShowComponent;
 import eportfoliogenerator.components.TextComponent;
 import eportfoliogenerator.components.VideoComponent;
 import eportfoliogenerator.controller.ImageSelectionController;
-import eportfoliogenerator.dialog.DialogImageComponent;
-import eportfoliogenerator.dialog.DialogSlideShowComponent;
-import eportfoliogenerator.dialog.DialogTextComponents;
-import eportfoliogenerator.dialog.DialogVideoComponent;
+import eportfoliogenerator.dialog.*;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
@@ -325,7 +322,9 @@ public class PageView extends VBox implements Serializable
 
         colorFiveRadioButton = new RadioButton("5");
         colorFiveRadioButton.setOnAction(event -> {
-            if(this.page.getColor() != 5) { ui.updateSaveButtons(); }
+            if (this.page.getColor() != 5) {
+                ui.updateSaveButtons();
+            }
             this.page.setColor(5);
         });
 
@@ -691,6 +690,32 @@ public class PageView extends VBox implements Serializable
         addVideoComponentButton.setOnAction(event -> {
             DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
             dialogVideoComponent.createVideoComponent(page, videoComponentsList);
+        });
+
+        addTextHyperLinkButton.setOnAction(event -> {
+            if(textComponentsList.size() > 0){
+                int index = 0;
+                boolean flag = false;
+                for(RadioButton radioButton: textComponentsList){
+                    if(radioButton.isSelected()){
+                        String string = radioButton.getText();
+                        index = Character.getNumericValue(string.charAt(string.length()-1));
+                        break;
+                    }
+                }
+                TextComponent textComponent = page.getTextComponents().get(index);
+                if(textComponent.getTextType().equalsIgnoreCase("paragraph"))
+                    flag = true;
+
+                if(flag){
+                    DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
+                    dialogTextHyperLinkComponent.createHyperlinks(textComponent);
+                }
+
+                else{
+
+                }
+            }
         });
 
     }

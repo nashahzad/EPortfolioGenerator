@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -31,6 +33,7 @@ public class EPortfolioView implements Serializable
     Scene primaryScene;
     //Scene to switch with for page editor and web editor workspace
     Scene webScene;
+    int webCounter = 0;
 
     //BorderPane for different toolbars and workspaces
     BorderPane ePortfolioBorderPane;
@@ -333,6 +336,29 @@ public class EPortfolioView implements Serializable
             if(fileManager.promptToSave(model, saveEPortfolioButton)){
                 System.exit(0);
             }} catch (Exception ex) {}
+        });
+
+        webPageViewButton.setOnAction(event -> {
+            WebView browser = new WebView();
+            WebEngine webEngine = browser.getEngine();
+            webEngine.load("http://www.google.com");
+            BorderPane borderPane = new BorderPane();
+
+            borderPane.setCenter(browser);
+            borderPane.setBottom(webToolBarHBox);
+
+            webScene = new Scene(borderPane);
+            webScene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+
+            if(webCounter % 2 == 0){
+                primaryStage.setScene(webScene);
+            }
+            else{
+                ePortfolioBorderPane.setBottom(webToolBarHBox);
+                primaryStage.setScene(primaryScene);
+            }
+
+            webCounter++;
         });
     }
 
