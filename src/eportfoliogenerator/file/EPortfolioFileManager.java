@@ -91,7 +91,7 @@ public class EPortfolioFileManager implements Serializable
 
     }
 
-    public boolean promptToSave(EPortfolioModel model, Button saveButton) throws Exception
+    public boolean promptToSave(EPortfolioModel model, Button saveButton, int i) throws Exception
     {
         if(saveButton.isDisable()){
             return true;
@@ -128,6 +128,8 @@ public class EPortfolioFileManager implements Serializable
             if (result.get() == buttonTypeOne){
                 // ... user chose "One"
                 handleSaveEPortfolio(model);
+                if(i == -1)
+                    System.exit(0);
                 return true;
             } else if (result.get() == buttonTypeTwo) {
                 // ... user chose "Two"

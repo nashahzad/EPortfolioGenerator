@@ -183,7 +183,7 @@ public class DialogTextComponents extends Stage
             textComponent.setTextSize(paragraphSizeTextField.getText());
             page.getTextComponents().add(textComponent);
 
-            textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size()-1)));
+            textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size() - 1)));
             this.pageView.reloadPageView();
             this.close();
         });
@@ -366,6 +366,89 @@ public class DialogTextComponents extends Stage
         this.show();
     }
 
+    public void editParagraph(TextComponent textComponentToEdit){
+        this.setTitle("Paragraph Dialog");
+        paragraphVBox = new VBox();
+
+        paragraphHBox = new HBox();
+
+        paragraphHBox.getChildren().add(paragraphInputLabel);
+
+        paragraphTextArea = new TextArea(textComponentToEdit.getParagraphOrHeader());
+        paragraphHBox.getChildren().add(paragraphTextArea);
+
+        //Page Fonts
+        pageFontHBox = new HBox();
+        pageFontToggleGroup = new ToggleGroup();
+
+        pageFontOneRadioButton = new RadioButton("Slabo");
+        pageFontTwoRadioButton = new RadioButton("Sans Pro");
+        pageFontThreeRadioButton = new RadioButton("Serif");
+        pageFontFourRadioButton = new RadioButton("Hind");
+        pageFontFiveRadioButton = new RadioButton("Cantarrell");
+
+        //Add all radio buttons to same Toggle Group so that only one can be toggled on at a time
+        pageFontOneRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontTwoRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontThreeRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontFourRadioButton.setToggleGroup(pageFontToggleGroup);
+        pageFontFiveRadioButton.setToggleGroup(pageFontToggleGroup);
+
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Slabo"))
+            pageFontOneRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Sans Pro"))
+            pageFontTwoRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Serif"))
+            pageFontThreeRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Hind"))
+            pageFontFourRadioButton.setSelected(true);
+        if(textComponentToEdit.getTextFont().equalsIgnoreCase("Cantarrell"))
+            pageFontFiveRadioButton.setSelected(true);
+
+        //Add page font buttons into HBOX
+        pageFontHBox.getChildren().add(pageFontLabel);
+        pageFontHBox.getChildren().addAll(pageFontOneRadioButton, pageFontTwoRadioButton, pageFontThreeRadioButton, pageFontFourRadioButton, pageFontFiveRadioButton);
+
+        //Paragraph font size buttons
+        paragraphSizeHBox = new HBox();
+        paragraphSizeHBox.getChildren().add(paragraphSizeLabel);
+
+        paragraphSizeTextField = new TextField(textComponentToEdit.getTextSize());
+        paragraphSizeHBox.getChildren().add(paragraphSizeTextField);
+
+        paragraphButtonsHBox = new HBox();
+        paragraphButtonsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        paragraphButtonsHBox.setAlignment(Pos.BOTTOM_CENTER);
+        confirmParagraphButton = new Button("Confirm");
+        cancelParagraphButton = new Button("Cancel");
+        paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
+
+        confirmParagraphButton.setOnAction(event -> {
+            textComponentToEdit.setParagraphOrHeader(paragraphTextArea.getText());
+            textComponentToEdit.setTextType("paragraph");
+            textComponentToEdit.setTextFont(getTextComponentFont());
+            textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
+
+            this.pageView.reloadPageView();
+            this.close();
+        });
+
+        cancelParagraphButton.setOnAction(event -> {
+            this.close();
+        });
+
+        paragraphVBox.getChildren().add(paragraphHBox);
+        paragraphVBox.getChildren().add(pageFontHBox);
+        paragraphVBox.getChildren().add(paragraphSizeHBox);
+        paragraphVBox.getChildren().add(paragraphButtonsHBox);
+        paragraphVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane = new ScrollPane(paragraphVBox);
+        scene = new Scene(scrollPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
+
     private void getList(Page page, ArrayList<RadioButton> textComponentsList){
         this.setTitle("List Dialog");
         listBorderPane = new BorderPane();
@@ -417,7 +500,7 @@ public class DialogTextComponents extends Stage
             }
             page.getTextComponents().add(listTextComponent);
             listTextComponent.setTextType("List");
-            textComponentsList.add(new RadioButton("List " + (page.getTextComponents().size()-1)));
+            textComponentsList.add(new RadioButton("List " + (page.getTextComponents().size() - 1)));
             pageView.reloadPageView();
             this.close();
         });
@@ -457,6 +540,114 @@ public class DialogTextComponents extends Stage
         this.setScene(scene);
         this.show();
 
+    }
+
+    public void editList(TextComponent textComponentToEdit){
+        this.setTitle("List Dialog");
+        listBorderPane = new BorderPane();
+        listTextComponent = textComponentToEdit;
+
+
+        //Left hand side
+        listButtonsVBox = new VBox();
+        listButtonsVBox.setAlignment(Pos.CENTER_LEFT);
+        listButtonsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        addTextButton = new Button();
+        removeTextButton = new Button();
+
+        Image image = new Image("file:" + StartUpConstants.ICON_ADD_PAGE);
+        addTextButton.setGraphic(new ImageView(image));
+        image = new Image("file:" + StartUpConstants.ICON_REMOVE_PAGE);
+        removeTextButton.setGraphic(new ImageView(image));
+        listButtonsVBox.getChildren().addAll(addTextButton, removeTextButton);
+
+        //Stuff to go on right hand side
+        paragraphVBox = new VBox();
+        paragraphVBox.setAlignment(Pos.CENTER_RIGHT);
+        paragraphVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+
+        listFontSizeButton = new Button();
+        listFontStyleButton = new Button();
+
+        image = new Image("file:" + StartUpConstants.ICON_FONT_SIZE);
+        listFontSizeButton.setGraphic(new ImageView(image));
+        image = new Image("file:" + StartUpConstants.ICON_FONT_STYLE);
+        listFontStyleButton.setGraphic(new ImageView(image));
+
+        paragraphVBox.getChildren().addAll(listFontSizeButton, listFontStyleButton);
+
+
+        //Confirm and cancel buttons
+        paragraphButtonsHBox = new HBox();
+        paragraphButtonsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        paragraphButtonsHBox.setAlignment(Pos.BOTTOM_CENTER);
+        confirmParagraphButton = new Button("Confirm");
+        cancelParagraphButton = new Button("Cancel");
+        confirmParagraphButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        cancelParagraphButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
+
+        //CONFIRM BUTTON HANDLER
+        confirmParagraphButton.setOnAction(event -> {
+            listTextComponent.getListText().clear();
+            for(RadioButton radioButton: listRadioButtons){
+                listTextComponent.getListText().add(radioButton.getText());
+            }
+            pageView.reloadPageView();
+            this.close();
+        });
+
+        cancelParagraphButton.setOnAction(event -> {
+            this.close();
+        });
+
+        listTextComponents = new VBox();
+        listTextComponents.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        listToggleGroup = new ToggleGroup();
+
+        listBorderPane.setLeft(listButtonsVBox);
+        listBorderPane.setRight(paragraphVBox);
+        listBorderPane.setBottom(paragraphButtonsHBox);
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(.5 * bounds.getMinX());
+        this.setY(.5 * bounds.getMinY());
+        this.setWidth(.5 * bounds.getWidth());
+        this.setHeight(.5 * bounds.getHeight());
+
+        listButtonHandlers();
+
+        scrollPane = new ScrollPane(listTextComponents);
+        scrollPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        listBorderPane.setCenter(scrollPane);
+        listBorderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+
+        textComponentConstruct = new TextComponent();
+        textComponentConstruct.setTextFont(textComponentToEdit.getTextFont());
+        textComponentConstruct.setTextSize(textComponentToEdit.getTextSize());
+        textComponentConstruct.setTextType(textComponentToEdit.getTextType());
+
+
+        if(listTextComponent.getListText().size() > 0){
+            for(String string: listTextComponent.getListText()){
+                RadioButton radioButton = new RadioButton(string);
+                radioButton.setToggleGroup(listToggleGroup);
+                listRadioButtons.add(radioButton);
+                textComponentConstruct.getListText().add(string);
+                listTextComponents.getChildren().add(radioButton);
+            }
+        }
+
+        scene = new Scene(listBorderPane);
+        scene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
     }
 
     private void listButtonHandlers(){

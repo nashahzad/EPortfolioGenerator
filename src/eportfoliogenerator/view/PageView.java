@@ -812,9 +812,19 @@ public class PageView extends VBox implements Serializable
                 }
                 TextComponent textComponentToEdit = page.getTextComponents().get(index);
                 DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
+                //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
                 if(textComponentToEdit.getTextType().equalsIgnoreCase("Header")){
                     dialogTextComponents.editHeader(textComponentToEdit);
                 }
+                //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
+                if(textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")){
+                    dialogTextComponents.editParagraph(textComponentToEdit);
+                }
+                //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
+                if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){
+                    dialogTextComponents.editList(textComponentToEdit);
+                }
+
             }
         });
 

@@ -219,7 +219,7 @@ public class EPortfolioView implements Serializable
         newEPortfolioButton.setOnAction(event -> {
             try{
                 //if not already saved, prompt user to save, if not hit cancel go through with new session
-                if(fileManager.promptToSave(model, saveEPortfolioButton)){
+                if(fileManager.promptToSave(model, saveEPortfolioButton, 0)){
                     model.reset();
                     Page page = new Page();
                     page.setPageTitle("Page" + counter);
@@ -254,7 +254,7 @@ public class EPortfolioView implements Serializable
 
         loadEPortfolioButton.setOnAction(event -> {
             try {
-                if(fileManager.promptToSave(model, saveEPortfolioButton)) {
+                if(fileManager.promptToSave(model, saveEPortfolioButton, 0)) {
                     model = fileManager.handleLoadEPortfolio(this.model);
                     ePortfolioBorderPane.setLeft(siteToolBarVBox);
                 }
@@ -333,7 +333,7 @@ public class EPortfolioView implements Serializable
 
         exitEPortfolioButton.setOnAction(event -> {
             try{
-            if(fileManager.promptToSave(model, saveEPortfolioButton)){
+            if(fileManager.promptToSave(model, saveEPortfolioButton, -1)){
                 System.exit(0);
             }} catch (Exception ex) {}
         });
