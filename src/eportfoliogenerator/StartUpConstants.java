@@ -56,6 +56,13 @@ public class StartUpConstants implements Serializable
 
     public static String CSS_LAYOUT_HBOX = "layout_hbox";
     public static String CSS_LAYOUT_BUTTONS = "layout_buttons";
+
+    public static String CSS_LAYOUT_BUTTONS_GREEN = "layout_button_green";
+    public static String CSS_LAYOUT_BUTTONS_HOT_RED = "layout_button_hot_red";
+    public static String CSS_LAYOUT_BUTTONS_COOL_BLUE = "layout_button_cool_blue";
+    public static String CSS_LAYOUT_BUTTONS_YELLOW = "layout_button_yellow";
+    public static String CSS_LAYOUT_BUTTONS_PURPLE = "layout_button_purple";
+
     public static String CSS_LAYOUT_BUTTONS_SLABO = "layout_buttons_slabo";
     public static String CSS_LAYOUT_BUTTONS_SANS_PRO = "layout_buttons_sans_pro";
     public static String CSS_LAYOUT_BUTTONS_SERIF = "layout_buttons_serif";

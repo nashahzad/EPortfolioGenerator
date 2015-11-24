@@ -64,7 +64,50 @@
          -fx-font-family: "Andalus";
 }
 
+.layout_button_green{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+         -fx-color: #61D613;
+}
 
+.layout_button_hot_red{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+         -fx-color: #E62012;
+}
+
+.layout_button_cool_blue{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+         -fx-color: #12E6DB;
+}
+
+.layout_button_yellow{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+         -fx-color: #D6BC13;
+}
+
+.layout_button_purple{
+-fx-border-insets: 10px;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-spacing: 100px;
+    -fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+         -fx-color: #B510B5;
+}
 
 .layout_buttons_slabo{
 -fx-border-insets: 10px;

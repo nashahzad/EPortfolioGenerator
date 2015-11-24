@@ -362,11 +362,11 @@ public class PageView extends VBox implements Serializable
 
         //Attach CSS style class to GUI components
         colorLabel.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-        colorOneRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-        colorTwoRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-        colorThreeRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-        colorFourRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-        colorFiveRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+        colorOneRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_GREEN);
+        colorTwoRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_HOT_RED);
+        colorThreeRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_COOL_BLUE);
+        colorFourRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_YELLOW);
+        colorFiveRadioButton.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS_PURPLE);
 
         //Add Buttons to the layout HBox
         colorHBox.getChildren().add(colorLabel);
