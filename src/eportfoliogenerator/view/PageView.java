@@ -922,6 +922,32 @@ public class PageView extends VBox implements Serializable
             }
         });
 
+        editTextHyperLinkButton.setOnAction(event -> {
+            if(textComponentsList.size() > 0) {
+                int index = 0;
+                for (RadioButton radioButton : textComponentsList) {
+                    if (radioButton.isSelected()) {
+                        break;
+                    }
+                    index++;
+                }
+                TextComponent textComponentToEdit = page.getTextComponents().get(index);
+                DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
+//                //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
+//                if(textComponentToEdit.getTextType().equalsIgnoreCase("Header")){
+//                    dialogTextComponents.editHeader(textComponentToEdit);
+//                }
+                //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
+                if (textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")) {
+                    dialogTextHyperLinkComponent.editTextHyperlinkComponent(textComponentToEdit);
+                }
+//                //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
+//                if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){
+//                    dialogTextComponents.editList(textComponentToEdit);
+//                }
+            }
+        });
+
     }
 
     public void reloadPageView(){

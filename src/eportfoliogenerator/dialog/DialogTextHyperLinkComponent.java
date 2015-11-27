@@ -139,7 +139,84 @@ public class DialogTextHyperLinkComponent extends Stage
         this.show();
     }
 
-    public void editTextHyperlinkComponent(TextComponent textComponentToEdit){}
+    public void editTextHyperlinkComponent(TextComponent textComponentToEdit){
+        this.textComponent = textComponentToEdit;
+
+        //Left Hand side
+        addRemoveVBox = new VBox(7);
+        addRemoveVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        addRemoveVBox.setAlignment(Pos.CENTER_LEFT);
+        addHyperlinkButton = new Button();
+        removeHyperlinkButton = new Button();
+
+        addRemoveVBox.getChildren().addAll(addHyperlinkButton, removeHyperlinkButton);
+
+        //Top Side
+        paragraphHBox = new HBox();
+        paragraphHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        paragraphHBox.setAlignment(Pos.TOP_CENTER);
+        paragraphTextArea = new TextArea(textComponent.getParagraphOrHeader() + " Range from 0-" + (textComponent.getParagraphOrHeader().length()-1));
+        paragraphTextArea.setEditable(false);
+        paragraphHBox.getChildren().add(paragraphTextArea);
+
+        //Center
+        linksVBox = new VBox();
+        linksVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        linksToggleGroup = new ToggleGroup();
+        scrollPane = new ScrollPane(linksVBox);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+
+        //Bottom Side
+        confirmCancelHBox = new HBox(7);
+        confirmCancelHBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+        confirmCancelHBox.setAlignment(Pos.BOTTOM_CENTER);
+        confirmButton = new Button("Confirm");
+        cancelButton = new Button("Cancel");
+        confirmCancelHBox.getChildren().addAll(confirmButton, cancelButton);
+
+        //CONFIRM AND CANCEL BUTTON HANDLERS
+        confirmButton.setOnAction(event -> {
+            textComponent.getHyperLinks().clear();
+            for(HyperLinkComponent hyperLinkComponent: hyperLinkComponents){
+                textComponent.getHyperLinks().add(hyperLinkComponent);
+            }
+            this.close();
+        });
+
+        cancelButton.setOnAction(event -> {
+            this.close();
+        });
+
+        //Slap into borderpane and scene
+        borderPane = new BorderPane();
+        borderPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+        borderPane.setTop(paragraphHBox);
+        borderPane.setLeft(addRemoveVBox);
+        borderPane.setCenter(linksVBox);
+        borderPane.setBottom(confirmCancelHBox);
+
+        //Set up Button images and handlers
+        setUpButtonImages();
+        setUpButtonHandlers();
+
+        // GET THE SIZE OF THE SCREEN
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        // AND USE IT TO SIZE THE WINDOW
+        this.setX(.5 * bounds.getMinX());
+        this.setY(.5 * bounds.getMinY());
+        this.setWidth(.5 * bounds.getWidth());
+        this.setHeight(.5 * bounds.getHeight());
+
+        reloadLinksRadioButtonsEdit();
+
+        scene = new Scene(borderPane);
+        scene.getStylesheets().addAll(StartUpConstants.STYLE_SHEET_UI);
+        this.setScene(scene);
+        this.show();
+    }
 
     private void setUpButtonImages(){
         Image image = new Image("file:" + StartUpConstants.ICON_ADD_PAGE);
@@ -168,7 +245,7 @@ public class DialogTextHyperLinkComponent extends Stage
             alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
             //CSS to buttons added after alert does its getButtonTypes method
-            ButtonBar buttonBar = (ButtonBar)dialog.getDialogPane().lookup(".button-bar");
+            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
             buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
             buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
 
@@ -184,12 +261,12 @@ public class DialogTextHyperLinkComponent extends Stage
                 //Dialog inside a dialog, INCEPTION
                 TextInputDialog dialogInception = new TextInputDialog();
                 dialogInception.setTitle("Index Range for URL");
-                dialogInception.setContentText("Please enter a valid range for your URL (Ex. 0-" + (textComponent.getParagraphOrHeader().length()-1) + ") Include dash and no spaces:");
+                dialogInception.setContentText("Please enter a valid range for your URL (Ex. 0-" + (textComponent.getParagraphOrHeader().length() - 1) + ") Include dash and no spaces:");
                 dialogInception.getDialogPane().setPrefWidth(600);
 
                 Stage stageCeption = (Stage) dialogInception.getDialogPane().getScene().getWindow();
                 stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-                stageCeption.setScene(new Scene(new ScrollPane(dialogInception      .getDialogPane())));
+                stageCeption.setScene(new Scene(new ScrollPane(dialogInception.getDialogPane())));
 
                 DialogPane alertDialogPaneCeption = dialogInception.getDialogPane();
 
@@ -197,7 +274,7 @@ public class DialogTextHyperLinkComponent extends Stage
                 alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
 
                 //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBarCeption = (ButtonBar)dialogInception.getDialogPane().lookup(".button-bar");
+                ButtonBar buttonBarCeption = (ButtonBar) dialogInception.getDialogPane().lookup(".button-bar");
                 buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
                 buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
 
@@ -212,7 +289,9 @@ public class DialogTextHyperLinkComponent extends Stage
                     hyperLinkComponent.setEnd(Integer.parseInt(arrayString[1]));
 
                     hyperLinkComponents.add(hyperLinkComponent);
-                    linksRadioButtons.add(new RadioButton(hyperLinkComponent.getUrl()));
+                    RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
+                    radioButton.setToggleGroup(linksToggleGroup);
+                    linksRadioButtons.add(radioButton);
                     reloadLinksRadioButtons();
                 }
             }
@@ -220,8 +299,8 @@ public class DialogTextHyperLinkComponent extends Stage
 
         removeHyperlinkButton.setOnAction(event -> {
             int index = 0;
-            for(RadioButton radioButton: linksRadioButtons){
-                if(radioButton.isSelected()){
+            for (RadioButton radioButton : linksRadioButtons) {
+                if (radioButton.isSelected()) {
                     linksRadioButtons.remove(radioButton);
                     break;
                 }
@@ -234,7 +313,21 @@ public class DialogTextHyperLinkComponent extends Stage
 
     private void reloadLinksRadioButtons(){
         linksVBox.getChildren().clear();
-        for(RadioButton radioButton: linksRadioButtons){
+        linksRadioButtons.clear();
+        for(HyperLinkComponent hyperLinkComponent: hyperLinkComponents){
+            RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
+            radioButton.setToggleGroup(linksToggleGroup);
+            linksRadioButtons.add(radioButton);
+            linksVBox.getChildren().add(radioButton);
+        }
+    }
+
+    private void reloadLinksRadioButtonsEdit(){
+        linksVBox.getChildren().clear();
+        for(HyperLinkComponent hyperLinkComponent: textComponent.getHyperLinks()){
+            hyperLinkComponents.add(hyperLinkComponent);
+            RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
+            radioButton.setToggleGroup(linksToggleGroup);
             linksVBox.getChildren().add(radioButton);
         }
     }
