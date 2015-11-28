@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.view.EPortfolioView;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
@@ -31,12 +32,15 @@ public class EPortfolioFileManager
         if(model.getePortfolioTitle().equalsIgnoreCase("") || model.getePortfolioTitle() == null){
             promptForEPortfolioTitle(model);
         }
+        if(model.getePortfolioTitle().equalsIgnoreCase("") || model.getePortfolioTitle() == null){}
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(model);
-        FileWriter writer = new FileWriter("./data/" + model.getePortfolioTitle() + ".json");
-        writer.write(json);
-        writer.close();
+        else {
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(model);
+            FileWriter writer = new FileWriter("./data/" + model.getePortfolioTitle() + ".json");
+            writer.write(json);
+            writer.close();
 
 
 //        FileOutputStream file = new FileOutputStream("./data/" + model.getePortfolioTitle() + ".json");
@@ -44,7 +48,7 @@ public class EPortfolioFileManager
 //        fout.writeObject(model);
 //        fout.close();
 
-        ui.updateToolbarControls(true);
+            ui.updateToolbarControls(true);
 
 //        //Build file path for the JSON
 //        String jsonFilePath = StartUpConstants.JSON_SAVE + "/" + model.getePortfolioTitle() + ".json";
@@ -53,6 +57,7 @@ public class EPortfolioFileManager
 //        JsonWriter jsonWriter = Json.createWriter(os);
 //
 //        //Create and Save JSON
+        }
 
     }
 
@@ -158,6 +163,24 @@ public class EPortfolioFileManager
         TextInputDialog dialog = new TextInputDialog(model.getePortfolioTitle());
         dialog.setTitle("EPortfolio Title");
         dialog.setContentText("Please enter a title for your EPortfolio:");
+        dialog.getDialogPane().setPrefWidth(600);
+
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+        stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
+
+        DialogPane alertDialogPane = dialog.getDialogPane();
+
+        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+        //CSS to buttons added after alert does its getButtonTypes method
+        ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
+        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+        //Content text
+        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
 
         // Traditional way to get the response value.
         Optional<String> result = dialog.showAndWait();
