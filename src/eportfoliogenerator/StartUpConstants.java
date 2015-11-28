@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class StartUpConstants implements Serializable
+public class StartUpConstants
 {
     //FILE PATHS DEFINED HERE
     public static String IMAGE_ICONS_FILE_PATH = "./images/icons";

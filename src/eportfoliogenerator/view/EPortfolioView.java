@@ -4,6 +4,8 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.file.EPortfolioFileManager;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.web.GenerateDirectories;
+import eportfoliogenerator.web.HTMLGenerator;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -18,6 +20,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -348,6 +351,14 @@ public class EPortfolioView
         });
 
         webPageViewButton.setOnAction(event -> {
+            GenerateDirectories htmlGenerator = new GenerateDirectories(model);
+            htmlGenerator.createDirectories();
+            try{
+                htmlGenerator.copyImageFiles();
+            }catch(IOException ex){
+                System.out.println("Exception thrown in copying image files.");
+            }
+
             WebView browser = new WebView();
             WebEngine webEngine = browser.getEngine();
             webEngine.load("http://www.google.com");
