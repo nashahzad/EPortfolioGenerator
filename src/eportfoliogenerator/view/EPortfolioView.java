@@ -307,7 +307,11 @@ public class EPortfolioView
                     model.setSelectedPage(page);
                     pageView = new PageView(page, model, this);
                     pageView.reloadPageView();
-                    pageViewScrollPane.setContent(pageView);
+                    pageViewScrollPane = new ScrollPane(pageView);
+                    pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+                    pageViewScrollPane.setFitToHeight(true);
+                    pageViewScrollPane.setFitToWidth(true);
+                    ePortfolioBorderPane.setCenter(pageViewScrollPane);
                 }
             }
         });
