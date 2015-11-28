@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nauman on 11/20/2015.
  */
-public class HyperLinkComponent implements Serializable
+public class HyperLinkComponent
 {
     String url;
     int start;

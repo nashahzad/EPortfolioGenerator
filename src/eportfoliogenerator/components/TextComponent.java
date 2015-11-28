@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Nauman on 11/20/2015.
  */
-public class TextComponent implements Serializable
+public class TextComponent
 {
     String paragraphOrHeader;
     ArrayList<String> listText = new ArrayList<String>();

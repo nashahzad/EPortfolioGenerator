@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class Page implements Serializable
+public class Page
 {
     String pageTitle = "";
 

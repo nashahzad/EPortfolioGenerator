@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class EPortfolioView implements Serializable
+public class EPortfolioView
 {
     //Main Window and UI will be here
     Stage primaryStage;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nauman on 11/21/2015.
  */
-public class ImageComponent implements Serializable
+public class ImageComponent
 {
     String imagePath;
     String imageName;

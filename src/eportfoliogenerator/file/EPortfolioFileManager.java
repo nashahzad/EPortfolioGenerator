@@ -1,5 +1,7 @@
 package eportfoliogenerator.file;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.view.EPortfolioView;
@@ -15,7 +17,7 @@ import java.util.Optional;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class EPortfolioFileManager implements Serializable
+public class EPortfolioFileManager
 {
     EPortfolioView ui;
 
@@ -30,10 +32,17 @@ public class EPortfolioFileManager implements Serializable
             promptForEPortfolioTitle(model);
         }
 
-        FileOutputStream file = new FileOutputStream("./data/" + model.getePortfolioTitle() + ".json");
-        ObjectOutputStream fout = new ObjectOutputStream(file);
-        fout.writeObject(model);
-        fout.close();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(model);
+        FileWriter writer = new FileWriter("./data/" + model.getePortfolioTitle() + ".json");
+        writer.write(json);
+        writer.close();
+
+
+//        FileOutputStream file = new FileOutputStream("./data/" + model.getePortfolioTitle() + ".json");
+//        ObjectOutputStream fout = new ObjectOutputStream(file);
+//        fout.writeObject(model);
+//        fout.close();
 
         ui.updateToolbarControls(true);
 
@@ -71,10 +80,13 @@ public class EPortfolioFileManager implements Serializable
             String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
             String fileName = file.getName();
 
-            FileInputStream fileInputStream = new FileInputStream(path + fileName);
-            ObjectInputStream fin = new ObjectInputStream(fileInputStream);
-            model = (EPortfolioModel) fin.readObject();
-            fin.close();
+            Gson gson = new Gson();
+            BufferedReader br = new BufferedReader(new FileReader(path + fileName));
+            model = gson.fromJson(br, EPortfolioModel.class);
+//            FileInputStream fileInputStream = new FileInputStream(path + fileName);
+//            ObjectInputStream fin = new ObjectInputStream(fileInputStream);
+//            model = (EPortfolioModel) fin.readObject();
+//            fin.close();
             ui.updatePageView(model);
             ui.updateToolbarControls(true, model);
             return model;

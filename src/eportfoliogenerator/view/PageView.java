@@ -27,7 +27,7 @@ import java.util.Optional;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class PageView extends VBox implements Serializable
+public class PageView extends VBox
 {
     //Data model singleton and the Main GUI
     EPortfolioModel model;
@@ -765,7 +765,7 @@ public class PageView extends VBox implements Serializable
             }
         });
 
-        //NOW FOR EDIT COMPONENT BUTTONS STARTING WITH REMOVE COMPONENT
+        //NOW FOR EDIT COMPONENT BUTTONS STARTING WITH REMOVE COMPONENT BUTTON HANDLER
 
         removeComponentButton.setOnAction(event -> {
             boolean flag = true;

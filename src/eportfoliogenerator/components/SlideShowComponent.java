@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Nauman on 11/21/2015.
  */
-public class SlideShowComponent implements Serializable
+public class SlideShowComponent
 {
     String slideShowTitle;
     ArrayList<ImageComponent> imageSlides = new ArrayList<ImageComponent>();

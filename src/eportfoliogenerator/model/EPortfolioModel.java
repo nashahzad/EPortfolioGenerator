@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Nauman on 11/14/2015.
  */
-public class EPortfolioModel implements Serializable
+public class EPortfolioModel
 {
     String ePortfolioTitle = "";
     String studentName = "";

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nauman on 11/22/2015.
  */
-public class VideoComponent implements Serializable
+public class VideoComponent
 {
     String videoPath;
     String videoName;
