@@ -38,6 +38,9 @@ public class HTMLGenerator
             else if(page.getLayout() == 4){
                 HTMLLayoutFour(page);
             }
+            else if(page.getLayout() == 5){
+                HTMLLayoutFive(page);
+            }
         }
     }
 
@@ -174,6 +177,39 @@ public class HTMLGenerator
         }
     }
 
+    private void HTMLLayoutFive(Page page){
+        String text = "<!DOCTYPE html>\n";
+        text+="<html>\n";
+        text+="<head>\n";
+        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text = addGoogleFonts(text);
+        text+="</head>\n";
+        text+="<body>\n";
+        text = addBanner(text, page);
+        text = addNavBarBR(text, page);
+        text+="<div class=\"content\">\n";
+        text = addVideoComponents(text, page);
+        text = addTextComponents(text, page);
+        text = addImageComponents(text, page);
+        text = addSlideShowComponents(text, page);
+        text = addFooter(text, page);
+        text += "</div>\n\n";
+        text += "</body>\n";
+        text += "</html>\n";
+
+        BufferedWriter output;
+        try{
+            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            file.createNewFile();
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(text);
+            output.close();
+        }catch(Exception ex){
+            System.out.println("Error in HTMLLayoutFive method in HTMLGenerator Class");
+        }
+    }
+
 
     //HELPER METHODS TO ADD IN FONTS, NAV BAR AND COMPONENTS
     private String addGoogleFonts(String text){
@@ -306,7 +342,8 @@ public class HTMLGenerator
         for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()){
             int index = page.getSlideShowComponents().indexOf(slideShowComponent);
             text += "<h2> " + slideShowComponent.getSlideShowTitle() + " </h2>\n";
-            text += "<img src=\"img/" + slideShowComponent.getImageSlides().get(0).getImageName() + "\" class=\"s" + index + "\" id=\"s" + index + "\">\n\n";
+            text += "<img src=\"img/" + slideShowComponent.getImageSlides().get(0).getImageName() + "\" class=\"s" + index + "\" id=\"s" + index + "\"" +
+                    "height=\"" + slideShowComponent.getImageSlides().get(0).getHeight() +"\" width=\"" + slideShowComponent.getImageSlides().get(0).getWidth() + "\">\n\n";
             text += "<p class =\"sc" + index + "\" id=\"sc" + index + "\"> " + slideShowComponent.getImageSlides().get(0).getCaption() + "</p>\n\n";
 
             text += "<button type=\"button\" onclick=\"previouss" + index +"()\"> <img src=\"img/Previous.png\"></button>\n";

@@ -43,6 +43,18 @@ public class JavaScriptGenerator
                     text+="s" + index + "[" + i + "] =\"img/" + imageComponent.getImageName() + "\";\n";
                 }
 
+                text+="var heights" + index + "= new Array();\n";
+                for(ImageComponent imageComponent: slideShowComponent.getImageSlides()){
+                    int i = slideShowComponent.getImageSlides().indexOf(imageComponent);
+                    text+="heights" + index + "[" + i + "] =\"" + imageComponent.getHeight() + "\";\n";
+                }
+
+                text+="var widths" + index + "= new Array();\n";
+                for(ImageComponent imageComponent: slideShowComponent.getImageSlides()){
+                    int i = slideShowComponent.getImageSlides().indexOf(imageComponent);
+                    text+="widths" + index + "[" + i + "] =\"" + imageComponent.getWidth() + "\";\n";
+                }
+
                 text+="var pointers" + index + "= 0;\n";
                 text+="var timers" + index + ";\n\n";
 
@@ -53,6 +65,8 @@ public class JavaScriptGenerator
                 text+="pointers" + index + "--;\n";
                 text+="document.getElementById(\"s" + index + "\").src = s" + index + "[pointers" + index + "];\n";
                 text+="document.getElementById(\"sc" + index + "\").innerHTML = sc" + index + "[pointers" + index + "];\n";
+                text+="document.getElementById(\"s" + index + "\").height = heights" + index + "[pointers" + index + "];\n";
+                text+="document.getElementById(\"s" + index + "\").width = widths" + index + "[pointers" + index + "];\n";
                 text+="}\n}\n\n";
 
                 //NEXT SLIDE
@@ -62,6 +76,8 @@ public class JavaScriptGenerator
                 text+="pointers" + index + "++;\n";
                 text+="document.getElementById(\"s" + index + "\").src = s" + index + "[pointers" + index + "];\n";
                 text+="document.getElementById(\"sc" + index + "\").innerHTML = sc" + index + "[pointers" + index + "];\n";
+                text+="document.getElementById(\"s" + index + "\").height = heights" + index + "[pointers" + index + "];\n";
+                text+="document.getElementById(\"s" + index + "\").width = widths" + index + "[pointers" + index + "];\n";
                 text+="}\n}\n\n";
 
                 //PLAY SLIDESHOW BUTTON
@@ -80,10 +96,14 @@ public class JavaScriptGenerator
                 text+="function nextplays" + index + "()\n{\n";
                 text+="if(pointers" + index + " == (sc" + index + ".length - 1)){\n";
                 text+="pointers" + index + " = 0;\n";
+                text+="document.getElementById(\"s" + index + "\").height = heights" + index + "[pointers" + index + "];\n";
+                text+="document.getElementById(\"s" + index + "\").width = widths" + index + "[pointers" + index + "];\n";
                 text+="document.getElementById(\"s" + index + "\").src = s" + index + "[pointers" + index + "];\n";
                 text+="document.getElementById(\"sc" + index + "\").innerHTML = sc" + index + "[pointers" + index + "];\n}\n";
                 text+="else{\n";
                 text+="pointers" + index + "++;\n";
+                text+="document.getElementById(\"s" + index + "\").height = heights" + index + "[pointers" + index + "];\n";
+                text+="document.getElementById(\"s" + index + "\").width = widths" + index + "[pointers" + index + "];\n";
                 text+="document.getElementById(\"s" + index + "\").src = s" + index + "[pointers" + index + "];\n";
                 text+="document.getElementById(\"sc" + index + "\").innerHTML = sc" + index + "[pointers" + index + "];\n}\n}\n\n";
             }
