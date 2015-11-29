@@ -6,6 +6,7 @@ import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import eportfoliogenerator.web.GenerateDirectories;
 import eportfoliogenerator.web.HTMLGenerator;
+import eportfoliogenerator.web.JavaScriptGenerator;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -355,6 +356,10 @@ public class EPortfolioView
             htmlGenerator.createDirectories();
             try{
                 htmlGenerator.copyImageFiles();
+                HTMLGenerator htmlGenerator1 = new HTMLGenerator(model);
+                htmlGenerator1.generateHTML();
+                JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
+                javaScriptGenerator.generateJavaScriptSlideShow();
             }catch(IOException ex){
                 System.out.println("Exception thrown in copying image files.");
             }

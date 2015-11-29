@@ -62,4 +62,30 @@ public class TextComponent
     public void setHyperLinks(ArrayList<HyperLinkComponent> hyperLinks) {
         this.hyperLinks = hyperLinks;
     }
+
+    public void sortHyperLinks(){
+        boolean flag = true;
+        int tempStart;
+        int tempEnd;
+        String tempURL;
+        while(flag){
+            flag = false;
+            for(int i = 0; i < hyperLinks.size()-1; i++){
+                if(hyperLinks.get(i).getStart()  > hyperLinks.get(i+1).getStart()){
+                    //SWAP START AND END NUMBERS ALONG WITH URL
+                    tempStart = hyperLinks.get(i).getStart();
+                    hyperLinks.get(i).setStart(hyperLinks.get(i+1).getStart());
+                    hyperLinks.get(i+1).setStart(tempStart);
+
+                    tempEnd = hyperLinks.get(i).getEnd();
+                    hyperLinks.get(i).setEnd(hyperLinks.get(i+1).getEnd());
+                    hyperLinks.get(i+1).setEnd(tempEnd);
+
+                    tempURL = hyperLinks.get(i).getUrl();
+                    hyperLinks.get(i).setUrl(hyperLinks.get(i+1).getUrl());
+                    hyperLinks.get(i+1).setUrl(tempURL);
+                }
+            }
+        }
+    }
 }

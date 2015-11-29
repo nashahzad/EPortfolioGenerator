@@ -84,6 +84,16 @@ public class GenerateDirectories
                 };
                 java.nio.file.Files.copy(FROM, TO, options);
             }
+
+            if(!page.getBannerImageName().equalsIgnoreCase("DefaultStartSlide.png") && page.getBannerImageName() != null && !page.getBannerImageName().equalsIgnoreCase("")){
+                FROM = Paths.get(page.getBannerImagePath() + page.getBannerImageName());
+                TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + page.getBannerImageName());
+                CopyOption[] options = new CopyOption[]{
+                        StandardCopyOption.REPLACE_EXISTING,
+                        StandardCopyOption.COPY_ATTRIBUTES
+                };
+                java.nio.file.Files.copy(FROM, TO, options);
+            }
         }
 
         //MOVE OVER BUTTON ICONS AS WELL
