@@ -7,6 +7,7 @@ import eportfoliogenerator.model.Page;
 import eportfoliogenerator.web.GenerateDirectories;
 import eportfoliogenerator.web.HTMLGenerator;
 import eportfoliogenerator.web.JavaScriptGenerator;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -55,6 +56,9 @@ public class EPortfolioView
     Button saveAsEPortfolioButton;
     Button exportEPortfolioButton;
     Button exitEPortfolioButton;
+
+    //Tab Panes
+    TabPane pagesTabPane;
 
     //Site tool bar buttons
     Button addPageButton;
@@ -121,6 +125,7 @@ public class EPortfolioView
         saveAsEPortfolioButton = setUpButton(StartUpConstants.ICON_SAVE_AS_EPORTFOLIO, "Save EPortfolio As", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
         exportEPortfolioButton = setUpButton(StartUpConstants.ICON_EXPORT_EPORTFOLIO, "Export EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, true);
         exitEPortfolioButton = setUpButton(StartUpConstants.ICON_EXIT_EPORTFOLIO, "Exit EPortfolio", StartUpConstants.CSS_FILE_TOOLBAR_BUTTON, false);
+
 
         fileToolBarHBox.getChildren().addAll(newEPortfolioButton, loadEPortfolioButton, saveEPortfolioButton, saveAsEPortfolioButton, exportEPortfolioButton, exitEPortfolioButton);
     }
@@ -220,11 +225,24 @@ public class EPortfolioView
                     model.reset();
                     Page page = new Page();
                     page.setPageTitle("Page" + counter);
+                    Tab tab = new Tab("Page" + counter);
                     counter++;
                     model.getPages().add(page);
                     model.setSelectedPage(page);
                     pageView = new PageView(page, model, this);
-                    pageViewScrollPane = new ScrollPane(pageView);
+                    tab.setContent(pageView);
+                    tab.setOnClosed(event1 -> {
+                        Page page1 = model.getSpecificPage(tab.getText());
+                        if (page1 != null)
+                            model.getPages().remove(page1);
+                        this.updateSaveButtons();
+                    });
+                    tab.setOnSelectionChanged(event2 -> {
+                        Page page2 = model.getSpecificPage(tab.getText());
+                        model.setSelectedPage(page2);
+                    });
+                    pagesTabPane = new TabPane(tab);
+                    pageViewScrollPane = new ScrollPane(pagesTabPane);
                     pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
                     pageViewScrollPane.setFitToHeight(true);
                     pageViewScrollPane.setFitToWidth(true);
@@ -263,86 +281,100 @@ public class EPortfolioView
         addPageButton.setOnAction(event -> {
             Page page = new Page();
             page.setPageTitle("Page" + counter);
+            Tab tab = new Tab("Page" + counter);
             counter++;
             model.getPages().add(page);
             model.setSelectedPage(page);
             pageView = new PageView(page, model, this);
-            pageViewScrollPane = new ScrollPane(pageView);
+            tab.setContent(pageView);
+            tab.setOnClosed(event1 -> {
+                Page page1 = model.getSpecificPage(tab.getText());
+                if (page1 != null)
+                    model.getPages().remove(page1);
+                this.updateSaveButtons();
+            });
+            tab.setOnSelectionChanged(event2 -> {
+                Page page2 = model.getSpecificPage(tab.getText());
+                model.setSelectedPage(page2);
+            });
+            pagesTabPane.getTabs().add(tab);
+            pageViewScrollPane = new ScrollPane(pagesTabPane);
             pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
             pageViewScrollPane.setFitToHeight(true);
             pageViewScrollPane.setFitToWidth(true);
             ePortfolioBorderPane.setCenter(pageViewScrollPane);
+
             updateToolbarControls(false);
         });
 
-        selectPageButton.setOnAction(event -> {
-            List<String> choices = new ArrayList<>();
-            for(Page page: model.getPages()){
-                if(!page.getPageTitle().equalsIgnoreCase(model.getSelectedPage().getPageTitle()))
-                    choices.add(page.getPageTitle());
-            }
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(model.getSelectedPage().getPageTitle(), choices);
-            dialog.setTitle("Select Page Box");
-            dialog.setContentText("Choose a page:");
-            dialog.getDialogPane().setPrefWidth(600);
+//        selectPageButton.setOnAction(event -> {
+//            List<String> choices = new ArrayList<>();
+//            for(Page page: model.getPages()){
+//                if(!page.getPageTitle().equalsIgnoreCase(model.getSelectedPage().getPageTitle()))
+//                    choices.add(page.getPageTitle());
+//            }
+//            ChoiceDialog<String> dialog = new ChoiceDialog<>(model.getSelectedPage().getPageTitle(), choices);
+//            dialog.setTitle("Select Page Box");
+//            dialog.setContentText("Choose a page:");
+//            dialog.getDialogPane().setPrefWidth(600);
+//
+//            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+//            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+//            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
+//
+//            DialogPane alertDialogPane = dialog.getDialogPane();
+//
+//            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+//            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+//
+//            //CSS to buttons added after alert does its getButtonTypes method
+//            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
+//            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+//            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+//
+//            //Content text
+//            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+//            // Traditional way to get the response value.
+//            Optional<String> result = dialog.showAndWait();
+//            if (result.isPresent()){
+//                Page page = model.getSpecificPage(result.get());
+//                if(page == null){}
+//                else{
+//                    model.setSelectedPage(page);
+//                    pageView = new PageView(page, model, this);
+//                    pageView.reloadPageView();
+//                    pageViewScrollPane = new ScrollPane(pageView);
+//                    pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+//                    pageViewScrollPane.setFitToHeight(true);
+//                    pageViewScrollPane.setFitToWidth(true);
+//                    ePortfolioBorderPane.setCenter(pageViewScrollPane);
+//                }
+//            }
+//        });
 
-            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-            stage.setScene(new Scene(new ScrollPane(dialog.getDialogPane())));
-
-            DialogPane alertDialogPane = dialog.getDialogPane();
-
-            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-            //CSS to buttons added after alert does its getButtonTypes method
-            ButtonBar buttonBar = (ButtonBar) dialog.getDialogPane().lookup(".button-bar");
-            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-            //Content text
-            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-            // Traditional way to get the response value.
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                Page page = model.getSpecificPage(result.get());
-                if(page == null){}
-                else{
-                    model.setSelectedPage(page);
-                    pageView = new PageView(page, model, this);
-                    pageView.reloadPageView();
-                    pageViewScrollPane = new ScrollPane(pageView);
-                    pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
-                    pageViewScrollPane.setFitToHeight(true);
-                    pageViewScrollPane.setFitToWidth(true);
-                    ePortfolioBorderPane.setCenter(pageViewScrollPane);
-                }
-            }
-        });
-
-        removePageButton.setOnAction(event -> {
-            for(int i = 0; i < model.getPages().size(); i++){
-                if(model.getPages().get(i) == model.getSelectedPage()){
-                    model.getPages().remove(i);
-                    if(model.getPages().size() > 0){
-                        model.setSelectedPage(model.getPages().get(0));
-                        pageView = new PageView(model.getSelectedPage(), model, this);
-                        pageView.reloadPageView();
-                        pageViewScrollPane = new ScrollPane(pageView);
-                        pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
-                        pageViewScrollPane.setFitToHeight(true);
-                        pageViewScrollPane.setFitToWidth(true);
-                        ePortfolioBorderPane.setCenter(pageViewScrollPane);
-                        updateToolbarControls(false, model);
-                    }
-                    else{
-                        ePortfolioBorderPane.setCenter(null);
-                        removePageButton.setDisable(true);
-                        updateToolbarControls(false, model);
-                    }
-                }
-            }
-        });
+//        removePageButton.setOnAction(event -> {
+//            for(int i = 0; i < model.getPages().size(); i++){
+//                if(model.getPages().get(i) == model.getSelectedPage()){
+//                    model.getPages().remove(i);
+//                    if(model.getPages().size() > 0){
+//                        model.setSelectedPage(model.getPages().get(0));
+//                        pageView = new PageView(model.getSelectedPage(), model, this);
+//                        pageView.reloadPageView();
+//                        pageViewScrollPane = new ScrollPane(pageView);
+//                        pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+//                        pageViewScrollPane.setFitToHeight(true);
+//                        pageViewScrollPane.setFitToWidth(true);
+//                        ePortfolioBorderPane.setCenter(pageViewScrollPane);
+//                        updateToolbarControls(false, model);
+//                    }
+//                    else{
+//                        ePortfolioBorderPane.setCenter(null);
+//                        removePageButton.setDisable(true);
+//                        updateToolbarControls(false, model);
+//                    }
+//                }
+//            }
+//        });
 
         exitEPortfolioButton.setOnAction(event -> {
             try{
@@ -441,15 +473,38 @@ public class EPortfolioView
     //Method to update the PageView with starting page
     public void updatePageView(EPortfolioModel model)
     {
-        if(model.getPages().size() > 0)
-        {
-            pageView = new PageView(model.getPages().get(0), model, this);
-            model.setSelectedPage(model.getPages().get(0));
-            pageViewScrollPane = new ScrollPane(pageView);
-            ePortfolioBorderPane.setCenter(pageView);
+        pagesTabPane = new TabPane();
+        for(Page page: model.getPages()){
+            pageView = new PageView(page, model, this);
+            Tab tab = new Tab();
+            tab.setContent(pageView);
+            tab.setOnClosed(event -> {
+                Page page1 = model.getSpecificPage(tab.getText());
+                if (page1 != null)
+                    model.getPages().remove(page1);
+                this.updateSaveButtons();
+            });
+            tab.setOnSelectionChanged(event -> {
+                Page page2 = model.getSpecificPage(tab.getText());
+                model.setSelectedPage(page2);
+            });
+
+            tab.setText(page.getPageTitle());
+            pagesTabPane.getTabs().add(tab);
         }
+        pageViewScrollPane = new ScrollPane(pagesTabPane);
+        pageViewScrollPane.setFitToHeight(true);
+        pageViewScrollPane.setFitToWidth(true);
+        ePortfolioBorderPane.setCenter(pageViewScrollPane);
 
         primaryStage.setTitle(model.getePortfolioTitle());
+    }
+
+    public void updateTabName(Page pageToEdit, String name){
+        for(Tab tab: pagesTabPane.getTabs()){
+            if(tab.getText().equalsIgnoreCase(pageToEdit.getPageTitle()))
+                tab.setText(name);
+        }
     }
 
     public Stage getPrimaryStage() {

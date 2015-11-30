@@ -502,6 +502,7 @@ public class PageView extends VBox
             // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
+                ui.updateTabName(page, result.get());
                 page.setPageTitle(result.get());
                 pageTitleButton.setText(result.get());
                 ui.updateSaveButtons();
