@@ -2,7 +2,9 @@ package eportfoliogenerator.dialog;
 
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.TextComponent;
+import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.view.EPortfolioView;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -26,6 +28,7 @@ import java.util.Optional;
  */
 public class DialogTextComponents extends Stage
 {
+    EPortfolioView ui;
 
     //New Text Component to construct for editing purposes
     TextComponent textComponentConstruct = new TextComponent();
@@ -85,8 +88,10 @@ public class DialogTextComponents extends Stage
         this.getIcons().add(image);
     }
 
-    public void promptForType(Page page, ArrayList<RadioButton> textComponentsList)
+    public void promptForType(Page page, ArrayList<RadioButton> textComponentsList, EPortfolioView ui)
     {
+        this.ui = ui;
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Select Type of Text Component");
         alert.setContentText("Choose what kind of text component you want:");
@@ -189,29 +194,11 @@ public class DialogTextComponents extends Stage
 
                 textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size() - 1)));
                 this.pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
             else{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input for font size");
-                Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
-                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPaneCeption = alert.getDialogPane();
-
-                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("Incorrect user input for font size");
             }
         });
 
@@ -232,7 +219,9 @@ public class DialogTextComponents extends Stage
     }
 
     //Method for editing header text component
-    public void editHeader(TextComponent textComponentToEdit){
+    public void editHeader(TextComponent textComponentToEdit, EPortfolioView ui){
+        this.ui = ui;
+
         this.setTitle("Header Dialog");
         paragraphVBox = new VBox();
 
@@ -291,36 +280,18 @@ public class DialogTextComponents extends Stage
         paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
 
         confirmParagraphButton.setOnAction(event -> {
-            textComponentToEdit.setParagraphOrHeader(headerTextField.getText());
-            textComponentToEdit.setTextType("header");
-            textComponentToEdit.setTextFont(getTextComponentFont());
             if(isNumeric(paragraphSizeTextField.getText())) {
+                textComponentToEdit.setParagraphOrHeader(headerTextField.getText());
+                textComponentToEdit.setTextType("header");
+                textComponentToEdit.setTextFont(getTextComponentFont());
                 textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
 
                 this.pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
             else{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input for font size");
-                Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
-                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPaneCeption = alert.getDialogPane();
-
-                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("Incorrect user input for font size");
             }
         });
 
@@ -399,29 +370,11 @@ public class DialogTextComponents extends Stage
 
                 textComponentsList.add(new RadioButton("paragraph " + (page.getTextComponents().size() - 1)));
                 this.pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
             else{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input for font size");
-                Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
-                stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPaneCeption = alert.getDialogPane();
-
-                alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("Incorrect user input for font size");
             }
         });
 
@@ -441,7 +394,9 @@ public class DialogTextComponents extends Stage
         this.show();
     }
 
-    public void editParagraph(TextComponent textComponentToEdit){
+    public void editParagraph(TextComponent textComponentToEdit, EPortfolioView ui){
+        this.ui = ui;
+
         this.setTitle("Paragraph Dialog");
         paragraphVBox = new VBox();
 
@@ -499,13 +454,19 @@ public class DialogTextComponents extends Stage
         paragraphButtonsHBox.getChildren().addAll(confirmParagraphButton, cancelParagraphButton);
 
         confirmParagraphButton.setOnAction(event -> {
-            textComponentToEdit.setParagraphOrHeader(paragraphTextArea.getText());
-            textComponentToEdit.setTextType("paragraph");
-            textComponentToEdit.setTextFont(getTextComponentFont());
-            textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
+            if(isNumeric(paragraphSizeTextField.getText())) {
+                textComponentToEdit.setParagraphOrHeader(paragraphTextArea.getText());
+                textComponentToEdit.setTextType("paragraph");
+                textComponentToEdit.setTextFont(getTextComponentFont());
+                textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
 
-            this.pageView.reloadPageView();
-            this.close();
+                this.pageView.reloadPageView();
+                ui.updateSaveButtons();
+                this.close();
+            }
+            else{
+                ErrorHandler.errorPopUp("Incorrect user input for font size");
+            }
         });
 
         cancelParagraphButton.setOnAction(event -> {
@@ -585,6 +546,7 @@ public class DialogTextComponents extends Stage
             listTextComponent.setTextType("List");
             textComponentsList.add(new RadioButton("List " + (page.getTextComponents().size() - 1)));
             pageView.reloadPageView();
+            ui.updateSaveButtons();
             this.close();
         });
 
@@ -625,7 +587,9 @@ public class DialogTextComponents extends Stage
 
     }
 
-    public void editList(TextComponent textComponentToEdit){
+    public void editList(TextComponent textComponentToEdit, EPortfolioView ui){
+        this.ui = ui;
+
         this.setTitle("List Dialog");
         listBorderPane = new BorderPane();
         listTextComponent = textComponentToEdit;
@@ -685,6 +649,7 @@ public class DialogTextComponents extends Stage
                 listTextComponent.getListText().add(radioButton.getText());
             }
             pageView.reloadPageView();
+            ui.updateSaveButtons();
             this.close();
         });
 
@@ -860,26 +825,7 @@ public class DialogTextComponents extends Stage
                     listTextComponent.setTextSize(result.get());
                }
                 else{
-                   Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                   alert.setTitle("Warning!");
-                   alert.setHeaderText(null);
-                   alert.setContentText("Incorrect user input for font size");
-                   Stage stageCeption = (Stage) alert.getDialogPane().getScene().getWindow();
-                   stageCeption.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                   DialogPane alertDialogPaneCeption = alert.getDialogPane();
-
-                   alertDialogPaneCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                   alertDialogPaneCeption.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                   //CSS to buttons added after alert does its getButtonTypes method
-                   ButtonBar buttonBarCeption = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                   buttonBarCeption.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                   buttonBarCeption.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                   //Content text
-                   alertDialogPaneCeption.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-                   alert.showAndWait();
+                   ErrorHandler.errorPopUp("Incorrect user input for font size");
                }
             }
         });

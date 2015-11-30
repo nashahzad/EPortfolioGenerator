@@ -3,10 +3,12 @@ package eportfoliogenerator.dialog;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.SlideShowComponent;
+import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.model.Page;
 import eportfoliogenerator.slideshowhelpers.Slide;
 import eportfoliogenerator.slideshowhelpers.SlideShowModel;
 import eportfoliogenerator.slideshowhelpers.SlideView;
+import eportfoliogenerator.view.EPortfolioView;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class DialogSlideShowComponent extends Stage
 {
 
+    EPortfolioView ui;
     PageView pageView;
 
     //Data model
@@ -64,7 +67,9 @@ public class DialogSlideShowComponent extends Stage
         this.getIcons().add(image);
     }
 
-    public void addSlideShow(Page page, ArrayList<RadioButton> slideShowComponentsList){
+    public void addSlideShow(Page page, ArrayList<RadioButton> slideShowComponentsList, EPortfolioView ui){
+        this.ui = ui;
+
         slideShowModel = new SlideShowModel();
 
         //Set up center stuff
@@ -113,26 +118,7 @@ public class DialogSlideShowComponent extends Stage
                     }
                     //One of the width or height text fields did not have a number inputted into them
                     else{
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Warning");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number, or is less than equal to zero!");
-                        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                        DialogPane alertDialogPane = alert.getDialogPane();
-
-                        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                        //CSS to buttons added after alert does its getButtonTypes method
-                        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                        //Content text
-                        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-                        alert.showAndWait();
+                        ErrorHandler.errorPopUp("Incorrect user input, width or height text fields on one of your slides is not a number, or is less than equal to zero!");
                         flag = true;
                         break;
                     }
@@ -145,6 +131,7 @@ public class DialogSlideShowComponent extends Stage
                 page.getSlideShowComponents().add(slideShowComponent);
                 slideShowComponentsList.add(new RadioButton(slideShowComponent.getSlideShowTitle()));
                 pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
         });
@@ -186,7 +173,9 @@ public class DialogSlideShowComponent extends Stage
         this.show();
     }
 
-    public void editSlideShowComponent(SlideShowComponent slideShowComponentToEdit){
+    public void editSlideShowComponent(SlideShowComponent slideShowComponentToEdit, EPortfolioView ui){
+        this.ui = ui;
+
         slideShowModel = new SlideShowModel();
         slideShowComponent = slideShowComponentToEdit;
 
@@ -247,26 +236,7 @@ public class DialogSlideShowComponent extends Stage
                     }
                     //One of the width or height text fields did not have a number inputted into them
                     else{
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Warning");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Incorrect user input, width or height text fields on one of your slides is not a number, or is less than equal to zero!");
-                        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                        DialogPane alertDialogPane = alert.getDialogPane();
-
-                        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                        //CSS to buttons added after alert does its getButtonTypes method
-                        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                        //Content text
-                        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-                        alert.showAndWait();
+                        ErrorHandler.errorPopUp("Incorrect user input, width or height text fields on one of your slides is not a number, or is less than equal to zero!");
                         flag = true;
                         break;
                     }
@@ -279,6 +249,7 @@ public class DialogSlideShowComponent extends Stage
                 slideShowComponent.setSlideShowTitle(slideShowModel.getTitle());
                 slideShowComponent.setImageSlides(imageComponents);
                 pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
         });

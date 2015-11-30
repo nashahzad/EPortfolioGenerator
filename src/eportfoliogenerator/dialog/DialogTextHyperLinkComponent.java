@@ -3,6 +3,7 @@ package eportfoliogenerator.dialog;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.HyperLinkComponent;
 import eportfoliogenerator.components.TextComponent;
+import eportfoliogenerator.view.EPortfolioView;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -26,6 +27,8 @@ import java.util.Optional;
  */
 public class DialogTextHyperLinkComponent extends Stage
 {
+    EPortfolioView ui;
+
     //PageView and TextComponent to edit
     PageView pageView;
     TextComponent textComponent;
@@ -63,7 +66,8 @@ public class DialogTextHyperLinkComponent extends Stage
         this.getIcons().add(image);
     }
 
-    public void createHyperlinks(TextComponent textComponent){
+    public void createHyperlinks(TextComponent textComponent, EPortfolioView ui){
+        this.ui = ui;
         this.textComponent = textComponent;
 
         //Left Hand side
@@ -104,6 +108,7 @@ public class DialogTextHyperLinkComponent extends Stage
             for(HyperLinkComponent hyperLinkComponent: hyperLinkComponents){
                 textComponent.getHyperLinks().add(hyperLinkComponent);
             }
+            ui.updateSaveButtons();
             this.close();
         });
 
@@ -139,8 +144,9 @@ public class DialogTextHyperLinkComponent extends Stage
         this.show();
     }
 
-    public void editTextHyperlinkComponent(TextComponent textComponentToEdit){
+    public void editTextHyperlinkComponent(TextComponent textComponentToEdit, EPortfolioView ui){
         this.textComponent = textComponentToEdit;
+        this.ui = ui;
 
         //Left Hand side
         addRemoveVBox = new VBox(7);
@@ -181,6 +187,7 @@ public class DialogTextHyperLinkComponent extends Stage
             for(HyperLinkComponent hyperLinkComponent: hyperLinkComponents){
                 textComponent.getHyperLinks().add(hyperLinkComponent);
             }
+            ui.updateSaveButtons();
             this.close();
         });
 
@@ -289,7 +296,7 @@ public class DialogTextHyperLinkComponent extends Stage
                     hyperLinkComponent.setEnd(Integer.parseInt(arrayString[1]));
 
                     hyperLinkComponents.add(hyperLinkComponent);
-                    RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
+                    RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl() + " " + hyperLinkComponent.getStart() + "-" + hyperLinkComponent.getEnd());
                     radioButton.setToggleGroup(linksToggleGroup);
                     linksRadioButtons.add(radioButton);
                     reloadLinksRadioButtons();
@@ -315,7 +322,7 @@ public class DialogTextHyperLinkComponent extends Stage
         linksVBox.getChildren().clear();
         linksRadioButtons.clear();
         for(HyperLinkComponent hyperLinkComponent: hyperLinkComponents){
-            RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
+            RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl() + " " + hyperLinkComponent.getStart() + "-" + hyperLinkComponent.getEnd());
             radioButton.setToggleGroup(linksToggleGroup);
             linksRadioButtons.add(radioButton);
             linksVBox.getChildren().add(radioButton);
@@ -326,8 +333,9 @@ public class DialogTextHyperLinkComponent extends Stage
         linksVBox.getChildren().clear();
         for(HyperLinkComponent hyperLinkComponent: textComponent.getHyperLinks()){
             hyperLinkComponents.add(hyperLinkComponent);
-            RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
+            RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl() + " " + hyperLinkComponent.getStart() + "-" + hyperLinkComponent.getEnd());
             radioButton.setToggleGroup(linksToggleGroup);
+            linksRadioButtons.add(radioButton);
             linksVBox.getChildren().add(radioButton);
         }
     }

@@ -8,10 +8,7 @@ import eportfoliogenerator.model.Page;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.CopyOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +31,12 @@ public class GenerateDirectories
     }
 
     public void createDirectories(){
+        Path path = Paths.get(SITES_PATH + model.getePortfolioTitle());
+        if(Files.exists(path)){
+            deleteFile(new File(SITES_PATH + model.getePortfolioTitle()));
+        }
+
+
         File directory = new File(SITES_PATH + model.getePortfolioTitle());
         directory.mkdir();
 
@@ -116,5 +119,14 @@ public class GenerateDirectories
         FROM = Paths.get(IMAGES_PATH + "Previous.png");
         TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/Previous.png");
         java.nio.file.Files.copy(FROM, TO, options);
+    }
+
+    private void deleteFile(File element) {
+        if (element.isDirectory()) {
+            for (File sub : element.listFiles()) {
+                deleteFile(sub);
+            }
+        }
+        element.delete();
     }
 }

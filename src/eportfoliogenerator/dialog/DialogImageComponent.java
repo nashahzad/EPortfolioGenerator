@@ -2,7 +2,9 @@ package eportfoliogenerator.dialog;
 
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
+import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.view.EPortfolioView;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
  */
 public class DialogImageComponent extends Stage
 {
+    EPortfolioView ui;
+
     //Current PageView we are working with
     PageView pageView;
     ImageComponent imageComponent;
@@ -69,7 +73,9 @@ public class DialogImageComponent extends Stage
         this.getIcons().add(image);
     }
 
-    public void createImageComponent(Page page, ArrayList<RadioButton> imageComponentsList){
+    public void createImageComponent(Page page, ArrayList<RadioButton> imageComponentsList, EPortfolioView ui){
+        this.ui = ui;
+
         this.setTitle("Create Image Component");
         imageVBox = new VBox();
         imageComponent = new ImageComponent();
@@ -102,27 +108,7 @@ public class DialogImageComponent extends Stage
 
             } else {
                 // @todo provide error message for no files selected
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("");
-                alert.setContentText("The program was unable to find the image or an image was not selected!");
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("The program was unable to find the image or an image was not selected!");
             }
         });
 
@@ -177,31 +163,11 @@ public class DialogImageComponent extends Stage
                 imageComponentsList.add(new RadioButton(imageComponent.getImageName()));
                 page.getImageComponents().add(imageComponent);
                 pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
             else{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning");
-                alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input, either the width or height was not a number, or is less than or equal to zero!!");
-
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("Incorrect user input, either the width or height was not a number, or is less than or equal to zero!!");
             }
         });
 
@@ -246,7 +212,8 @@ public class DialogImageComponent extends Stage
         this.show();
     }
 
-    public void editImageComponent(ImageComponent imageComponentToEdit){
+    public void editImageComponent(ImageComponent imageComponentToEdit, EPortfolioView ui){
+        this.ui = ui;
         this.setTitle("Create Image Component");
         imageVBox = new VBox();
         imageComponent = imageComponentToEdit;
@@ -298,27 +265,7 @@ public class DialogImageComponent extends Stage
 
             } else {
                 // @todo provide error message for no files selected
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("");
-                alert.setContentText("The program was unable to find the image or an image was not selected!");
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("The program was unable to find the image or an image was not selected!");
             }
         });
 
@@ -378,30 +325,11 @@ public class DialogImageComponent extends Stage
                     imageComponent.setFloatAttribute("Neither");
 
                 pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             }
             else{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning");
-                alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input, either the width or height was not a number, or was less than equal to zero!!");
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("Incorrect user input, either the width or height was not a number, or was less than equal to zero!!");
             }
         });
 
@@ -466,27 +394,7 @@ public class DialogImageComponent extends Stage
             imageView.setFitHeight(scaledHeight);
         }catch (Exception e) {
             // @todo - use Error handler to respond to missing image
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning!");
-            alert.setHeaderText("");
-            alert.setContentText("The program was unable to find the image!");
-            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-            DialogPane alertDialogPane = alert.getDialogPane();
-
-            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-            //CSS to buttons added after alert does its getButtonTypes method
-            ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-            //Content text
-            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-            alert.showAndWait();
+            ErrorHandler.errorPopUp("The program was unable to find the image!");
             imagePath = "file:images/icons/DefaultStartSlide.png";
             file = new File(imagePath);
             try{

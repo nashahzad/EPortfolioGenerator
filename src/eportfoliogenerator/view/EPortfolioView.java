@@ -356,13 +356,13 @@ public class EPortfolioView
             htmlGenerator.createDirectories();
             try{
                 htmlGenerator.copyImageFiles();
-                HTMLGenerator htmlGenerator1 = new HTMLGenerator(model);
-                htmlGenerator1.generateHTML();
-                JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
-                javaScriptGenerator.generateJavaScriptSlideShow();
             }catch(IOException ex){
                 System.out.println("Exception thrown in copying image files.");
             }
+            HTMLGenerator htmlGenerator1 = new HTMLGenerator(model);
+            htmlGenerator1.generateHTML();
+            JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
+            javaScriptGenerator.generateJavaScriptSlideShow();
 
             WebView browser = new WebView();
             WebEngine webEngine = browser.getEngine();

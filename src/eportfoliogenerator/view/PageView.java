@@ -721,22 +721,22 @@ public class PageView extends VBox
     {
         addTextComponentButton.setOnAction(event -> {
             DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
-            dialogTextComponents.promptForType(page, textComponentsList);
+            dialogTextComponents.promptForType(page, textComponentsList, ui);
         });
 
         addImageComponentButton.setOnAction(event -> {
             DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
-            dialogImageComponent.createImageComponent(page, imageComponentsList);
+            dialogImageComponent.createImageComponent(page, imageComponentsList, ui);
         });
 
         addSlideShowComponentButton.setOnAction(event -> {
             DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
-            dialogSlideShowComponent.addSlideShow(page, slideShowComponentsList);
+            dialogSlideShowComponent.addSlideShow(page, slideShowComponentsList, ui);
         });
 
         addVideoComponentButton.setOnAction(event -> {
             DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
-            dialogVideoComponent.createVideoComponent(page, videoComponentsList);
+            dialogVideoComponent.createVideoComponent(page, videoComponentsList, ui);
         });
 
         addTextHyperLinkButton.setOnAction(event -> {
@@ -756,7 +756,7 @@ public class PageView extends VBox
 
                 if(flag){
                     DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
-                    dialogTextHyperLinkComponent.createHyperlinks(textComponent);
+                    dialogTextHyperLinkComponent.createHyperlinks(textComponent, ui);
                 }
 
                 else{
@@ -787,6 +787,7 @@ public class PageView extends VBox
                         page.getTextComponents().remove(index);
                         reloadPageView();
                         ui.updateSaveButtons();
+                        return;
                     }
                 }
             }
@@ -808,6 +809,7 @@ public class PageView extends VBox
                         page.getImageComponents().remove(index);
                         reloadPageView();
                         ui.updateSaveButtons();
+                        return;
                     }
                 }
             }
@@ -828,6 +830,7 @@ public class PageView extends VBox
                     page.getSlideShowComponents().remove(index);
                     reloadPageView();
                     ui.updateSaveButtons();
+                    return;
                 }
             }
 
@@ -864,15 +867,15 @@ public class PageView extends VBox
                 DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
                 //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
                 if(textComponentToEdit.getTextType().equalsIgnoreCase("Header")){
-                    dialogTextComponents.editHeader(textComponentToEdit);
+                    dialogTextComponents.editHeader(textComponentToEdit, ui);
                 }
                 //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
                 if(textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")){
-                    dialogTextComponents.editParagraph(textComponentToEdit);
+                    dialogTextComponents.editParagraph(textComponentToEdit, ui);
                 }
                 //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
                 if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){
-                    dialogTextComponents.editList(textComponentToEdit);
+                    dialogTextComponents.editList(textComponentToEdit, ui);
                 }
             }
         });
@@ -888,7 +891,7 @@ public class PageView extends VBox
                 }
                 ImageComponent imageComponentToEdit = page.getImageComponents().get(index);
                 DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
-                dialogImageComponent.editImageComponent(imageComponentToEdit);
+                dialogImageComponent.editImageComponent(imageComponentToEdit, ui);
             }
         });
 
@@ -903,7 +906,7 @@ public class PageView extends VBox
                 }
                 SlideShowComponent slideShowComponentToEdit = page.getSlideShowComponents().get(index);
                 DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
-                dialogSlideShowComponent.editSlideShowComponent(slideShowComponentToEdit);
+                dialogSlideShowComponent.editSlideShowComponent(slideShowComponentToEdit, ui);
             }
         });
 
@@ -918,7 +921,7 @@ public class PageView extends VBox
                 }
                 VideoComponent videoComponentToEdit = page.getVideoComponents().get(index);
                 DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
-                dialogVideoComponent.editVideoComponent(videoComponentToEdit);
+                dialogVideoComponent.editVideoComponent(videoComponentToEdit, ui);
             }
         });
 
@@ -939,7 +942,7 @@ public class PageView extends VBox
 //                }
                 //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
                 if (textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")) {
-                    dialogTextHyperLinkComponent.editTextHyperlinkComponent(textComponentToEdit);
+                    dialogTextHyperLinkComponent.editTextHyperlinkComponent(textComponentToEdit, ui);
                 }
 //                //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
 //                if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){

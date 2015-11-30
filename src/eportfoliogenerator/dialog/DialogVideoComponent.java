@@ -3,7 +3,9 @@ package eportfoliogenerator.dialog;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.VideoComponent;
+import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.view.EPortfolioView;
 import eportfoliogenerator.view.PageView;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
  */
 public class DialogVideoComponent extends Stage
 {
+    EPortfolioView ui;
+
     //Current PageView we are working with
     PageView pageView;
 
@@ -78,7 +82,9 @@ public class DialogVideoComponent extends Stage
         this.getIcons().add(image);
     }
 
-    public void createVideoComponent(Page page, ArrayList<RadioButton> videoComponentsList){
+    public void createVideoComponent(Page page, ArrayList<RadioButton> videoComponentsList, EPortfolioView ui){
+        this.ui = ui;
+
         this.setTitle("Create Video Component");
         imageVBox = new VBox();
         videoComponent = new VideoComponent();
@@ -115,28 +121,7 @@ public class DialogVideoComponent extends Stage
 
             } else {
                 // @todo provide error message for no files selected
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("");
-                alert.setContentText("The program was unable to find the video or a video was not selected!");
-
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("The program was unable to find the video or a video was not selected!");
             }
         });
 
@@ -189,31 +174,10 @@ public class DialogVideoComponent extends Stage
                 videoComponentsList.add(new RadioButton(videoComponent.getVideoName()));
                 page.getVideoComponents().add(videoComponent);
                 pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning");
-                alert.setHeaderText(null);
-                alert.setContentText("Incorrect user input, either the width or height was not a number, or a negative number or 0 was used!!");
-
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("Incorrect user input, either the width or height was not a number, or a negative number or 0 was used!!");
             }
         });
 
@@ -258,7 +222,9 @@ public class DialogVideoComponent extends Stage
         this.show();
     }
 
-    public void editVideoComponent(VideoComponent videoComponentToEdit){
+    public void editVideoComponent(VideoComponent videoComponentToEdit, EPortfolioView ui){
+        this.ui = ui;
+
         this.setTitle("Edit Video Component");
         imageVBox = new VBox();
         videoComponent = videoComponentToEdit;
@@ -297,28 +263,7 @@ public class DialogVideoComponent extends Stage
 
             } else {
                 // @todo provide error message for no files selected
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("");
-                alert.setContentText("The program was unable to find the video or a video was not selected!");
-
-                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-                DialogPane alertDialogPane = alert.getDialogPane();
-
-                alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-                //CSS to buttons added after alert does its getButtonTypes method
-                ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-                buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-                //Content text
-                alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-                alert.showAndWait();
+                ErrorHandler.errorPopUp("The program was unable to find the video or a video was not selected!");
             }
         });
 
@@ -368,6 +313,7 @@ public class DialogVideoComponent extends Stage
 //                    imageComponent.setFloatAttribute("Right");
 //                }
                 pageView.reloadPageView();
+                ui.updateSaveButtons();
                 this.close();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
