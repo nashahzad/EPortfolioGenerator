@@ -19,9 +19,6 @@ public class GenerateDirectories
     //DATA MODEL TO USE
     EPortfolioModel model;
 
-    //Use this to prevent duplicate images from being added to same directory
-    ArrayList<String> imageNames = new ArrayList<String>();
-
     //Some strings
     String SITES_PATH = "./src/eportfoliogenerator/sites/";
     String IMAGES_PATH = "./images/icons/";
@@ -121,6 +118,7 @@ public class GenerateDirectories
         java.nio.file.Files.copy(FROM, TO, options);
     }
 
+    //HELPER METHOD TO RECURSIVELY DELETE EVERY FILE INSIDE OF A DIRECTORY AND THE DIRECTORY ITSELF
     private void deleteFile(File element) {
         if (element.isDirectory()) {
             for (File sub : element.listFiles()) {
