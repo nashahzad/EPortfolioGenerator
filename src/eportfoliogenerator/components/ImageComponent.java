@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nauman on 11/21/2015.
  */
-public class ImageComponent
+public class ImageComponent extends Component implements Serializable
 {
     String imagePath;
     String imageName;
@@ -15,6 +15,10 @@ public class ImageComponent
     String height;
 
     String floatAttribute;
+
+    public ImageComponent(){
+        identity = "ImageComponent";
+    }
 
     public String getImagePath() {
         return imagePath;

@@ -1,10 +1,7 @@
 package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
-import eportfoliogenerator.components.ImageComponent;
-import eportfoliogenerator.components.SlideShowComponent;
-import eportfoliogenerator.components.TextComponent;
-import eportfoliogenerator.components.VideoComponent;
+import eportfoliogenerator.components.*;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.dialog.*;
 import eportfoliogenerator.model.EPortfolioModel;
@@ -18,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.xml.soap.Text;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
@@ -108,16 +106,18 @@ public class PageView extends VBox
     Button removeComponentButton;
 
     HBox displayComponentsHBox;
-    VBox textComponentsVBox;
-    VBox imageComponentsVBox;
-    VBox slideShowComponentsVBox;
-    VBox videoComponentsVBox;
+    VBox allComponentsVBox;
+//    VBox textComponentsVBox;
+//    VBox imageComponentsVBox;
+//    VBox slideShowComponentsVBox;
+//    VBox videoComponentsVBox;
 
     ToggleGroup componentsToggleGroup;
-    ArrayList<RadioButton> textComponentsList = new ArrayList<RadioButton>();
-    ArrayList<RadioButton> imageComponentsList = new ArrayList<RadioButton>();
-    ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
-    ArrayList<RadioButton> videoComponentsList = new ArrayList<RadioButton>();
+    ArrayList<RadioButton> allComponentsList = new ArrayList<RadioButton>();
+//    ArrayList<RadioButton> textComponentsList = new ArrayList<RadioButton>();
+//    ArrayList<RadioButton> imageComponentsList = new ArrayList<RadioButton>();
+//    ArrayList<RadioButton> slideShowComponentsList = new ArrayList<RadioButton>();
+//    ArrayList<RadioButton> videoComponentsList = new ArrayList<RadioButton>();
 
     public PageView(Page page, EPortfolioModel model, EPortfolioView ui)
     {
@@ -234,7 +234,9 @@ public class PageView extends VBox
 
         layoutFourRadioButton = new RadioButton("4");
         layoutFourRadioButton.setOnAction(event -> {
-            if(this.page.getLayout() != 4) { ui.updateSaveButtons(); }
+            if (this.page.getLayout() != 4) {
+                ui.updateSaveButtons();
+            }
             this.page.setLayout(4);
         });
 
@@ -648,25 +650,10 @@ public class PageView extends VBox
         displayComponentsHBox = new HBox();
         displayComponentsHBox.getStyleClass().add(StartUpConstants.CSS_COMPONENTS_HBOX);
 
-        textComponentsVBox = new VBox();
-        textComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
-        textComponentsVBox.getChildren().add(textComponentLabel);
-        displayComponentsHBox.getChildren().add(textComponentsVBox);
-
-        imageComponentsVBox = new VBox();
-        imageComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
-        imageComponentsVBox.getChildren().add(imageComponentsLabel);
-        displayComponentsHBox.getChildren().add(imageComponentsVBox);
-
-        slideShowComponentsVBox = new VBox();
-        slideShowComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
-        slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
-        displayComponentsHBox.getChildren().add(slideShowComponentsVBox);
-
-        videoComponentsVBox = new VBox();
-        videoComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
-        videoComponentsVBox.getChildren().add(videoComponentsLabel);
-        displayComponentsHBox.getChildren().add(videoComponentsVBox);
+        allComponentsVBox = new VBox(7);
+        allComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
+        allComponentsVBox.getChildren().add(new Label("All Components"));
+        displayComponentsHBox.getChildren().add(allComponentsVBox);
 
         //Add in COMPONENTS DISPLAY AREA into this PageView VBOX
         displayComponentsHBox.setAlignment(Pos.TOP_CENTER);
@@ -722,46 +709,43 @@ public class PageView extends VBox
     {
         addTextComponentButton.setOnAction(event -> {
             DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
-            dialogTextComponents.promptForType(page, textComponentsList, ui);
+            dialogTextComponents.promptForType(page, allComponentsList, ui);
         });
 
         addImageComponentButton.setOnAction(event -> {
             DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
-            dialogImageComponent.createImageComponent(page, imageComponentsList, ui);
+            dialogImageComponent.createImageComponent(page, allComponentsList, ui);
         });
 
         addSlideShowComponentButton.setOnAction(event -> {
             DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
-            dialogSlideShowComponent.addSlideShow(page, slideShowComponentsList, ui);
+            dialogSlideShowComponent.addSlideShow(page, allComponentsList, ui);
         });
 
         addVideoComponentButton.setOnAction(event -> {
             DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
-            dialogVideoComponent.createVideoComponent(page, videoComponentsList, ui);
+            dialogVideoComponent.createVideoComponent(page, allComponentsList, ui);
         });
 
         addTextHyperLinkButton.setOnAction(event -> {
-            if(textComponentsList.size() > 0){
+            if(allComponentsList.size() > 0){
                 int index = 0;
                 boolean flag = false;
-                for(RadioButton radioButton: textComponentsList){
+                for(RadioButton radioButton: allComponentsList){
                     if(radioButton.isSelected()){
-                        String string = radioButton.getText();
-                        index = Character.getNumericValue(string.charAt(string.length()-1));
+                        index = allComponentsList.indexOf(radioButton);
                         break;
                     }
                 }
-                TextComponent textComponent = page.getTextComponents().get(index);
-                if(textComponent.getTextType().equalsIgnoreCase("paragraph"))
-                    flag = true;
+                if(allComponentsList.get(index).getText().equalsIgnoreCase("paragraph")) {
+                    TextComponent textComponent = (TextComponent)page.getAllComponents().get(index);
+                    if (textComponent.getTextType().equalsIgnoreCase("paragraph"))
+                        flag = true;
 
-                if(flag){
-                    DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
-                    dialogTextHyperLinkComponent.createHyperlinks(textComponent, ui);
-                }
-
-                else{
-
+                    if (flag) {
+                        DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
+                        dialogTextHyperLinkComponent.createHyperlinks(textComponent, ui);
+                    }
                 }
             }
         });
@@ -770,185 +754,164 @@ public class PageView extends VBox
 
         removeComponentButton.setOnAction(event -> {
             boolean flag = true;
-            int index = 0;
+            int index = -1;
 
-            if(flag){
-                if(textComponentsList.size() > 0){
-                    for(RadioButton radioButton: textComponentsList){
-                        if(radioButton.isSelected()){
-                            flag = false;
-                            textComponentsList.remove(radioButton);
-                            break;
-                        }
-                        index++;
-                    }
-
-                    if(flag){}
-                    else{
-                        page.getTextComponents().remove(index);
-                        reloadPageView();
-                        ui.updateSaveButtons();
-                        return;
-                    }
-                }
-            }
-
-            if(flag){
-                if(imageComponentsList.size() > 0){
-                    index = 0;
-                    for(RadioButton radioButton: imageComponentsList){
-                        if(radioButton.isSelected()){
-                            flag = false;
-                            imageComponentsList.remove(radioButton);
-                            break;
-                        }
-                        index++;
-                    }
-
-                    if(flag){}
-                    else{
-                        page.getImageComponents().remove(index);
-                        reloadPageView();
-                        ui.updateSaveButtons();
-                        return;
-                    }
-                }
-            }
-
-            if(slideShowComponentsList.size() > 0){
-                index = 0;
-                for(RadioButton radioButton: slideShowComponentsList){
+            if(allComponentsList.size() > 0){
+                for(RadioButton radioButton: allComponentsList){
                     if(radioButton.isSelected()){
-                        flag = false;
-                        slideShowComponentsList.remove(radioButton);
+                        index = allComponentsList.indexOf(radioButton);
+                        page.getAllComponents().remove(index);
+                        reloadPageView();
                         break;
                     }
-                    index++;
-                }
-
-                if(flag){}
-                else{
-                    page.getSlideShowComponents().remove(index);
-                    reloadPageView();
-                    ui.updateSaveButtons();
-                    return;
                 }
             }
 
-            if(videoComponentsList.size() > 0){
-                index = 0;
-                for(RadioButton radioButton: videoComponentsList){
-                    if(radioButton.isSelected()){
-                        flag = false;
-                        videoComponentsList.remove(radioButton);
-                        break;
-                    }
-                    index++;
-                }
 
-                if(flag){}
-                else{
-                    page.getVideoComponents().remove(index);
-                    reloadPageView();
-                    ui.updateSaveButtons();
-                }
-            }
         });
 
         editTextComponentButton.setOnAction(event -> {
-            if(textComponentsList.size() > 0){
+            if(allComponentsList.size() > 0){
                 int index = 0;
-                for(RadioButton radioButton: textComponentsList){
+                String text = new String();
+                for(RadioButton radioButton: allComponentsList){
                     if(radioButton.isSelected()){
+                        text = radioButton.getText();
                         break;
                     }
                     index++;
                 }
-                TextComponent textComponentToEdit = page.getTextComponents().get(index);
-                DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
-                //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
-                if(textComponentToEdit.getTextType().equalsIgnoreCase("Header")){
-                    dialogTextComponents.editHeader(textComponentToEdit, ui);
-                }
-                //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
-                if(textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")){
-                    dialogTextComponents.editParagraph(textComponentToEdit, ui);
-                }
-                //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
-                if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){
-                    dialogTextComponents.editList(textComponentToEdit, ui);
+
+                if(index == -1) {
+                    if (text.equalsIgnoreCase("header") || text.equalsIgnoreCase("paragraph") || text.equalsIgnoreCase("list")) {
+                        TextComponent textComponentToEdit = (TextComponent)page.getAllComponents().get(index);
+                        DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
+                        //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
+                        if (textComponentToEdit.getTextType().equalsIgnoreCase("Header")) {
+                            dialogTextComponents.editHeader(textComponentToEdit, ui);
+                        }
+                        //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
+                        if (textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")) {
+                            dialogTextComponents.editParagraph(textComponentToEdit, ui);
+                        }
+                        //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
+                        if (textComponentToEdit.getTextType().equalsIgnoreCase("List")) {
+                            dialogTextComponents.editList(textComponentToEdit, ui);
+                        }
+                    }
                 }
             }
         });
 
         editImageComponentButton.setOnAction(event -> {
-            if(imageComponentsList.size() > 0) {
+            if(allComponentsList.size() > 0) {
                 int index = 0;
-                for (RadioButton radioButton : imageComponentsList) {
+                String text = new String();
+                for (RadioButton radioButton : allComponentsList) {
                     if (radioButton.isSelected()) {
+                        text = radioButton.getText();
+                        index = -1;
                         break;
                     }
                     index++;
                 }
-                ImageComponent imageComponentToEdit = page.getImageComponents().get(index);
-                DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
-                dialogImageComponent.editImageComponent(imageComponentToEdit, ui);
+                if(index == -1) {
+                    for(Component component: page.getAllComponents()){
+                        if(component instanceof ImageComponent) {
+                            ImageComponent imageComponent = (ImageComponent) component;
+                            if (text.equalsIgnoreCase(imageComponent.getImageName())) {
+                                DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
+                                dialogImageComponent.editImageComponent(imageComponent, ui);
+                            }
+                        }
+                    }
+                }
             }
         });
 
         editSlideShowComponentButton.setOnAction(event -> {
-            if(slideShowComponentsList.size() > 0) {
+            if(allComponentsList.size() > 0) {
                 int index = 0;
-                for (RadioButton radioButton : slideShowComponentsList) {
+                String text = new String();
+                for (RadioButton radioButton : allComponentsList) {
                     if (radioButton.isSelected()) {
+                        text = radioButton.getText();
+                        index = -1;
                         break;
                     }
                     index++;
                 }
-                SlideShowComponent slideShowComponentToEdit = page.getSlideShowComponents().get(index);
-                DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
-                dialogSlideShowComponent.editSlideShowComponent(slideShowComponentToEdit, ui);
+                if(index == -1) {
+                    for(Component component: page.getAllComponents()){
+                        if(component instanceof SlideShowComponent) {
+                            SlideShowComponent slideShowComponent = (SlideShowComponent) component;
+                            if (text.equalsIgnoreCase(slideShowComponent.getSlideShowTitle())) {
+                                DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
+                                dialogSlideShowComponent.editSlideShowComponent(slideShowComponent, ui);
+                            }
+                        }
+                    }
+                }
             }
         });
 
         editVideoComponentButton.setOnAction(event -> {
-            if(videoComponentsList.size() > 0) {
+            if(allComponentsList.size() > 0) {
                 int index = 0;
-                for (RadioButton radioButton : videoComponentsList) {
+                String text = new String();
+                for (RadioButton radioButton : allComponentsList) {
                     if (radioButton.isSelected()) {
+                        text = radioButton.getText();
+                        index = -1;
                         break;
                     }
                     index++;
                 }
-                VideoComponent videoComponentToEdit = page.getVideoComponents().get(index);
-                DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
-                dialogVideoComponent.editVideoComponent(videoComponentToEdit, ui);
+                if(index == -1) {
+                    for(Component component: page.getAllComponents()){
+                        if(component instanceof VideoComponent) {
+                            VideoComponent videoComponent = (VideoComponent) component;
+                            if (text.equalsIgnoreCase(videoComponent.getVideoName())) {
+                                DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
+                                dialogVideoComponent.editVideoComponent(videoComponent, ui);
+                            }
+                        }
+                    }
+                }
             }
         });
 
         editTextHyperLinkButton.setOnAction(event -> {
-            if(textComponentsList.size() > 0) {
+            if(allComponentsList.size() > 0){
                 int index = 0;
-                for (RadioButton radioButton : textComponentsList) {
-                    if (radioButton.isSelected()) {
+                String text = new String();
+                for(RadioButton radioButton: allComponentsList){
+                    if(radioButton.isSelected()){
+                        text = radioButton.getText();
+                        index = -1;
                         break;
                     }
                     index++;
                 }
-                TextComponent textComponentToEdit = page.getTextComponents().get(index);
-                DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
-//                //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
-//                if(textComponentToEdit.getTextType().equalsIgnoreCase("Header")){
-//                    dialogTextComponents.editHeader(textComponentToEdit);
-//                }
-                //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
-                if (textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")) {
-                    dialogTextHyperLinkComponent.editTextHyperlinkComponent(textComponentToEdit, ui);
+
+                if(index == -1) {
+                    if (text.equalsIgnoreCase("header") || text.equalsIgnoreCase("paragraph") || text.equalsIgnoreCase("list")) {
+                        TextComponent textComponentToEdit = (TextComponent)page.getAllComponents().get(index);
+                        DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
+//                        //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
+//                        if (textComponentToEdit.getTextType().equalsIgnoreCase("Header")) {
+//                            dialogTextComponents.editHeader(textComponentToEdit, ui);
+//                        }
+                        //IF TEXT COMPONENT IS A PARAGRAPH RUN THIS BLOCK
+                        if (textComponentToEdit.getTextType().equalsIgnoreCase("Paragraph")) {
+                            dialogTextHyperLinkComponent.editTextHyperlinkComponent(textComponentToEdit, ui);
+                        }
+//                        //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
+//                        if (textComponentToEdit.getTextType().equalsIgnoreCase("List")) {
+//                            dialogTextComponents.editList(textComponentToEdit, ui);
+//                        }
+                    }
                 }
-//                //IF TEXT COMPONENT IS A LIST RUN THIS BLOCK
-//                if(textComponentToEdit.getTextType().equalsIgnoreCase("List")){
-//                    dialogTextComponents.editList(textComponentToEdit);
-//                }
             }
         });
 
@@ -974,78 +937,111 @@ public class PageView extends VBox
     private void reloadComponentsRadioButtons()
     {
         //Block of code to refresh and update area to display text components on a page
-        if(page.getTextComponents().size() > 0){
-            textComponentsVBox.getChildren().clear();
-            textComponentsVBox.getChildren().add(textComponentLabel);
-            textComponentsList.clear();
-            int index = 0;
-            for(TextComponent textComponent: page.getTextComponents()) {
-                RadioButton radioButton = new RadioButton(textComponent.getTextType() + " " + index);
-                radioButton.setToggleGroup(componentsToggleGroup);
-                textComponentsList.add(radioButton);
-                textComponentsVBox.getChildren().add(radioButton);
-                index++;
+        if(page.getAllComponents().size() > 0){
+            allComponentsVBox.getChildren().clear();
+            allComponentsVBox.getChildren().add(new Label("All Components"));
+            allComponentsList.clear();
+            for(Component component: page.getAllComponents()){
+                if(component.getIdentity().equalsIgnoreCase("TextComponent")){
+                    RadioButton radioButton = new RadioButton(((TextComponent) component).getTextType());
+                    radioButton.setToggleGroup(componentsToggleGroup);
+                    allComponentsList.add(radioButton);
+                    allComponentsVBox.getChildren().add(radioButton);
+                }
+                if(component.getIdentity().equalsIgnoreCase("ImageComponent")){
+                    RadioButton radioButton = new RadioButton(((ImageComponent) component).getImageName());
+                    radioButton.setToggleGroup(componentsToggleGroup);
+                    allComponentsList.add(radioButton);
+                    allComponentsVBox.getChildren().add(radioButton);
+                }
+                if(component.getIdentity().equalsIgnoreCase("SlideShowComponent")){
+                    RadioButton radioButton = new RadioButton(((SlideShowComponent) component).getSlideShowTitle());
+                    radioButton.setToggleGroup(componentsToggleGroup);
+                    allComponentsList.add(radioButton);
+                    allComponentsVBox.getChildren().add(radioButton);
+                }
+                if(component.getIdentity().equalsIgnoreCase("VideoComponent")){
+                    RadioButton radioButton = new RadioButton(((VideoComponent) component).getVideoName());
+                    radioButton.setToggleGroup(componentsToggleGroup);
+                    allComponentsList.add(radioButton);
+                    allComponentsVBox.getChildren().add(radioButton);
+                }
             }
         }
 
-        else{
-            textComponentsVBox.getChildren().clear();
-            textComponentsVBox.getChildren().add(textComponentLabel);
-        }
 
-        //Block of code to refresh and update area on display for image components
-        if(page.getImageComponents().size() > 0){
-            imageComponentsVBox.getChildren().clear();
-            imageComponentsVBox.getChildren().add(imageComponentsLabel);
-            imageComponentsList.clear();
-            for(ImageComponent imageComponent: page.getImageComponents()) {
-                RadioButton radioButton = new RadioButton(imageComponent.getImageName());
-                radioButton.setToggleGroup(componentsToggleGroup);
-                imageComponentsList.add(radioButton);
-                imageComponentsVBox.getChildren().add(radioButton);
-            }
-        }
-
-        else{
-            imageComponentsVBox.getChildren().clear();
-            imageComponentsVBox.getChildren().add(imageComponentsLabel);
-        }
-
-        //Block of code to refresh and update the area on display for slideshowcomponents
-        if(page.getSlideShowComponents().size() > 0){
-            slideShowComponentsVBox.getChildren().clear();
-            slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
-            slideShowComponentsList.clear();
-            for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()) {
-                RadioButton radioButton = new RadioButton(slideShowComponent.getSlideShowTitle());
-                radioButton.setToggleGroup(componentsToggleGroup);
-                slideShowComponentsList.add(radioButton);
-                slideShowComponentsVBox.getChildren().add(radioButton);
-            }
-        }
-
-        else{
-            slideShowComponentsVBox.getChildren().clear();
-            slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
-        }
-
-        //Block of code to refresh and update the area on display for Video Components
-        if(page.getVideoComponents().size() > 0){
-            videoComponentsVBox.getChildren().clear();
-            videoComponentsVBox.getChildren().add(videoComponentsLabel);
-            videoComponentsList.clear();
-            for(VideoComponent videoComponent: page.getVideoComponents()) {
-                RadioButton radioButton = new RadioButton(videoComponent.getVideoName());
-                radioButton.setToggleGroup(componentsToggleGroup);
-                videoComponentsList.add(radioButton);
-                videoComponentsVBox.getChildren().add(radioButton);
-            }
-        }
-
-        else{
-            videoComponentsVBox.getChildren().clear();
-            videoComponentsVBox.getChildren().add(videoComponentsLabel);
-        }
+//        if(page.getTextComponents().size() > 0){
+//            textComponentsVBox.getChildren().clear();
+//            textComponentsVBox.getChildren().add(textComponentLabel);
+//            textComponentsList.clear();
+//            int index = 0;
+//            for(TextComponent textComponent: page.getTextComponents()) {
+//                RadioButton radioButton = new RadioButton(textComponent.getTextType() + " " + index);
+//                radioButton.setToggleGroup(componentsToggleGroup);
+//                textComponentsList.add(radioButton);
+//                textComponentsVBox.getChildren().add(radioButton);
+//                index++;
+//            }
+//        }
+//
+//        else{
+//            textComponentsVBox.getChildren().clear();
+//            textComponentsVBox.getChildren().add(textComponentLabel);
+//        }
+//
+//        //Block of code to refresh and update area on display for image components
+//        if(page.getImageComponents().size() > 0){
+//            imageComponentsVBox.getChildren().clear();
+//            imageComponentsVBox.getChildren().add(imageComponentsLabel);
+//            imageComponentsList.clear();
+//            for(ImageComponent imageComponent: page.getImageComponents()) {
+//                RadioButton radioButton = new RadioButton(imageComponent.getImageName());
+//                radioButton.setToggleGroup(componentsToggleGroup);
+//                imageComponentsList.add(radioButton);
+//                imageComponentsVBox.getChildren().add(radioButton);
+//            }
+//        }
+//
+//        else{
+//            imageComponentsVBox.getChildren().clear();
+//            imageComponentsVBox.getChildren().add(imageComponentsLabel);
+//        }
+//
+//        //Block of code to refresh and update the area on display for slideshowcomponents
+//        if(page.getSlideShowComponents().size() > 0){
+//            slideShowComponentsVBox.getChildren().clear();
+//            slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
+//            slideShowComponentsList.clear();
+//            for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()) {
+//                RadioButton radioButton = new RadioButton(slideShowComponent.getSlideShowTitle());
+//                radioButton.setToggleGroup(componentsToggleGroup);
+//                slideShowComponentsList.add(radioButton);
+//                slideShowComponentsVBox.getChildren().add(radioButton);
+//            }
+//        }
+//
+//        else{
+//            slideShowComponentsVBox.getChildren().clear();
+//            slideShowComponentsVBox.getChildren().add(slideShowComponentsLabel);
+//        }
+//
+//        //Block of code to refresh and update the area on display for Video Components
+//        if(page.getVideoComponents().size() > 0){
+//            videoComponentsVBox.getChildren().clear();
+//            videoComponentsVBox.getChildren().add(videoComponentsLabel);
+//            videoComponentsList.clear();
+//            for(VideoComponent videoComponent: page.getVideoComponents()) {
+//                RadioButton radioButton = new RadioButton(videoComponent.getVideoName());
+//                radioButton.setToggleGroup(componentsToggleGroup);
+//                videoComponentsList.add(radioButton);
+//                videoComponentsVBox.getChildren().add(radioButton);
+//            }
+//        }
+//
+//        else{
+//            videoComponentsVBox.getChildren().clear();
+//            videoComponentsVBox.getChildren().add(videoComponentsLabel);
+//        }
 
     }
 

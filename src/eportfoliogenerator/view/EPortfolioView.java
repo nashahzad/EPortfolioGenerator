@@ -392,7 +392,7 @@ public class EPortfolioView
                 System.out.println("Exception thrown in copying image files.");
             }
             HTMLGenerator htmlGenerator1 = new HTMLGenerator(model);
-            htmlGenerator1.generateHTML();
+            //htmlGenerator1.generateHTML();
             JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
             javaScriptGenerator.generateJavaScriptSlideShow();
 

@@ -172,7 +172,7 @@ public class DialogVideoComponent extends Stage
 //                }
 
                 videoComponentsList.add(new RadioButton(videoComponent.getVideoName()));
-                page.getVideoComponents().add(videoComponent);
+                page.getAllComponents().add(videoComponent);
                 pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();

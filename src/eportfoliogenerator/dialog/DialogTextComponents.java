@@ -190,9 +190,9 @@ public class DialogTextComponents extends Stage
             textComponent.setTextFont(getTextComponentFont());
             if(isNumeric(paragraphSizeTextField.getText())) {
                 textComponent.setTextSize(paragraphSizeTextField.getText());
-                page.getTextComponents().add(textComponent);
+                page.getAllComponents().add(textComponent);
 
-                textComponentsList.add(new RadioButton("header " + (page.getTextComponents().size() - 1)));
+                textComponentsList.add(new RadioButton("header"));
                 this.pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();
@@ -366,9 +366,9 @@ public class DialogTextComponents extends Stage
             textComponent.setTextFont(getTextComponentFont());
             if(isNumeric(paragraphSizeTextField.getText())) {
                 textComponent.setTextSize(paragraphSizeTextField.getText());
-                page.getTextComponents().add(textComponent);
+                page.getAllComponents().add(textComponent);
 
-                textComponentsList.add(new RadioButton("paragraph " + (page.getTextComponents().size() - 1)));
+                textComponentsList.add(new RadioButton("paragraph"));
                 this.pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();
@@ -542,9 +542,9 @@ public class DialogTextComponents extends Stage
             for (RadioButton radioButton : listRadioButtons) {
                 listTextComponent.getListText().add(radioButton.getText());
             }
-            page.getTextComponents().add(listTextComponent);
+            page.getAllComponents().add(listTextComponent);
             listTextComponent.setTextType("List");
-            textComponentsList.add(new RadioButton("List " + (page.getTextComponents().size() - 1)));
+            textComponentsList.add(new RadioButton("List"));
             pageView.reloadPageView();
             ui.updateSaveButtons();
             this.close();

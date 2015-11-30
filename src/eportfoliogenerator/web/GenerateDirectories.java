@@ -1,5 +1,6 @@
 package eportfoliogenerator.web;
 
+import eportfoliogenerator.components.Component;
 import eportfoliogenerator.components.ImageComponent;
 import eportfoliogenerator.components.SlideShowComponent;
 import eportfoliogenerator.components.VideoComponent;
@@ -50,48 +51,32 @@ public class GenerateDirectories
     public void copyImageFiles() throws IOException{
         Path FROM;
         Path TO;
+        CopyOption[] options = new CopyOption[]{
+                StandardCopyOption.REPLACE_EXISTING,
+                StandardCopyOption.COPY_ATTRIBUTES
+        };
         //Loop through each page in model
         for(Page page: model.getPages()){
             //Loop through each existing image component
-            for(ImageComponent imageComponent: page.getImageComponents()){
-                    FROM = Paths.get(imageComponent.getImagePath() + imageComponent.getImageName());
-                    TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + imageComponent.getImageName());
-                    CopyOption[] options = new CopyOption[]{
-                            StandardCopyOption.REPLACE_EXISTING,
-                            StandardCopyOption.COPY_ATTRIBUTES
-                    };
-                    java.nio.file.Files.copy(FROM, TO, options);
-            }
-
-            for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()){
-                for(ImageComponent imageComponent: slideShowComponent.getImageSlides()){
-                    FROM = Paths.get(imageComponent.getImagePath() + imageComponent.getImageName());
-                    TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + imageComponent.getImageName());
-                    CopyOption[] options = new CopyOption[]{
-                            StandardCopyOption.REPLACE_EXISTING,
-                            StandardCopyOption.COPY_ATTRIBUTES
-                    };
+            for(Component component: page.getAllComponents()){
+                if(component instanceof ImageComponent){
+                    FROM = Paths.get(((ImageComponent) component).getImagePath() + ((ImageComponent) component).getImageName());
+                    TO = Paths.get(SITES_PATH + "/img/" + ((ImageComponent) component).getImageName());
                     java.nio.file.Files.copy(FROM, TO, options);
                 }
-            }
 
-            for(VideoComponent videoComponent: page.getVideoComponents()){
-                FROM = Paths.get(videoComponent.getVideoPath() + videoComponent.getVideoName());
-                TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + videoComponent.getVideoName());
-                CopyOption[] options = new CopyOption[]{
-                        StandardCopyOption.REPLACE_EXISTING,
-                        StandardCopyOption.COPY_ATTRIBUTES
-                };
-                java.nio.file.Files.copy(FROM, TO, options);
+                if(component instanceof SlideShowComponent){
+                    for(ImageComponent imageComponent: ((SlideShowComponent) component).getImageSlides()){
+                        FROM = Paths.get(imageComponent.getImagePath() + imageComponent.getImageName());
+                        TO = Paths.get(SITES_PATH + "/img/" + imageComponent.getImageName());
+                        java.nio.file.Files.copy(FROM, TO, options);
+                    }
+                }
             }
 
             if(!page.getBannerImageName().equalsIgnoreCase("DefaultStartSlide.png") && page.getBannerImageName() != null && !page.getBannerImageName().equalsIgnoreCase("")){
                 FROM = Paths.get(page.getBannerImagePath() + page.getBannerImageName());
                 TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + page.getBannerImageName());
-                CopyOption[] options = new CopyOption[]{
-                        StandardCopyOption.REPLACE_EXISTING,
-                        StandardCopyOption.COPY_ATTRIBUTES
-                };
                 java.nio.file.Files.copy(FROM, TO, options);
             }
         }
@@ -99,10 +84,6 @@ public class GenerateDirectories
         //MOVE OVER BUTTON ICONS AS WELL
         FROM = Paths.get(IMAGES_PATH + "Play.png");
         TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/Play.png");
-        CopyOption[] options = new CopyOption[]{
-                StandardCopyOption.REPLACE_EXISTING,
-                StandardCopyOption.COPY_ATTRIBUTES
-        };
         java.nio.file.Files.copy(FROM, TO, options);
 
         FROM = Paths.get(IMAGES_PATH + "Pause.png");

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Nauman on 11/20/2015.
  */
-public class TextComponent
+public class TextComponent extends Component implements Serializable
 {
     String paragraphOrHeader;
     ArrayList<String> listText = new ArrayList<String>();
@@ -14,6 +14,10 @@ public class TextComponent
     String textFont;
     String textSize;
     ArrayList<HyperLinkComponent> hyperLinks = new ArrayList<HyperLinkComponent>();
+
+    public TextComponent(){
+        identity = "TextComponent";
+    }
 
     public String getParagraphOrHeader() {
         return paragraphOrHeader;

@@ -6,10 +6,14 @@ import java.util.ArrayList;
 /**
  * Created by Nauman on 11/21/2015.
  */
-public class SlideShowComponent
+public class SlideShowComponent extends Component implements Serializable
 {
     String slideShowTitle;
     ArrayList<ImageComponent> imageSlides = new ArrayList<ImageComponent>();
+
+    public SlideShowComponent(){
+        identity = "SlideShowComponent";
+    }
 
     public String getSlideShowTitle() {
         return slideShowTitle;

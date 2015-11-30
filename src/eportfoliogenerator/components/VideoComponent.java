@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nauman on 11/22/2015.
  */
-public class VideoComponent
+public class VideoComponent extends Component implements Serializable
 {
     String videoPath;
     String videoName;
@@ -13,6 +13,10 @@ public class VideoComponent
     String caption;
     String width;
     String height;
+
+    public VideoComponent(){
+        identity = "VideoComponent";
+    }
 
     public String getVideoPath() {
         return videoPath;

@@ -161,7 +161,7 @@ public class DialogImageComponent extends Stage
                     imageComponent.setFloatAttribute("Neither");
 
                 imageComponentsList.add(new RadioButton(imageComponent.getImageName()));
-                page.getImageComponents().add(imageComponent);
+                page.getAllComponents().add(imageComponent);
                 pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();
