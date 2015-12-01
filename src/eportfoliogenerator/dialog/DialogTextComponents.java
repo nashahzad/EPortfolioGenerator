@@ -186,13 +186,15 @@ public class DialogTextComponents extends Stage
         confirmParagraphButton.setOnAction(event -> {
             TextComponent textComponent = new TextComponent();
             textComponent.setParagraphOrHeader(headerTextField.getText());
-            textComponent.setTextType("header");
+            textComponent.setTextType("Header");
             textComponent.setTextFont(getTextComponentFont());
             if(isNumeric(paragraphSizeTextField.getText())) {
                 textComponent.setTextSize(paragraphSizeTextField.getText());
                 page.getAllComponents().add(textComponent);
 
-                textComponentsList.add(new RadioButton("header"));
+//                RadioButton radioButton = new RadioButton();
+//
+//                textComponentsList.add(new RadioButton("header"));
                 this.pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();
@@ -282,7 +284,7 @@ public class DialogTextComponents extends Stage
         confirmParagraphButton.setOnAction(event -> {
             if(isNumeric(paragraphSizeTextField.getText())) {
                 textComponentToEdit.setParagraphOrHeader(headerTextField.getText());
-                textComponentToEdit.setTextType("header");
+                textComponentToEdit.setTextType("Header");
                 textComponentToEdit.setTextFont(getTextComponentFont());
                 textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
 
@@ -362,13 +364,13 @@ public class DialogTextComponents extends Stage
         confirmParagraphButton.setOnAction(event -> {
             TextComponent textComponent = new TextComponent();
             textComponent.setParagraphOrHeader(paragraphTextArea.getText());
-            textComponent.setTextType("paragraph");
+            textComponent.setTextType("Paragraph");
             textComponent.setTextFont(getTextComponentFont());
             if(isNumeric(paragraphSizeTextField.getText())) {
                 textComponent.setTextSize(paragraphSizeTextField.getText());
                 page.getAllComponents().add(textComponent);
 
-                textComponentsList.add(new RadioButton("paragraph"));
+//                textComponentsList.add(new RadioButton("paragraph"));
                 this.pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();
@@ -456,7 +458,7 @@ public class DialogTextComponents extends Stage
         confirmParagraphButton.setOnAction(event -> {
             if(isNumeric(paragraphSizeTextField.getText())) {
                 textComponentToEdit.setParagraphOrHeader(paragraphTextArea.getText());
-                textComponentToEdit.setTextType("paragraph");
+                textComponentToEdit.setTextType("Paragraph");
                 textComponentToEdit.setTextFont(getTextComponentFont());
                 textComponentToEdit.setTextSize(paragraphSizeTextField.getText());
 
@@ -544,7 +546,7 @@ public class DialogTextComponents extends Stage
             }
             page.getAllComponents().add(listTextComponent);
             listTextComponent.setTextType("List");
-            textComponentsList.add(new RadioButton("List"));
+//            textComponentsList.add(new RadioButton("List"));
             pageView.reloadPageView();
             ui.updateSaveButtons();
             this.close();

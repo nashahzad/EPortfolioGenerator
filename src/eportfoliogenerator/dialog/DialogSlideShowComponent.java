@@ -129,7 +129,7 @@ public class DialogSlideShowComponent extends Stage
             if(flag){}
             else {
                 page.getAllComponents().add(slideShowComponent);
-                slideShowComponentsList.add(new RadioButton(slideShowComponent.getSlideShowTitle()));
+                slideShowComponentsList.add(new RadioButton("SlideShow - " + slideShowComponent.getSlideShowTitle()));
                 pageView.reloadPageView();
                 ui.updateSaveButtons();
                 this.close();

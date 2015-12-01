@@ -43,9 +43,9 @@ public class HTMLGenerator
             else if(page.getLayout() == 3){
                 HTMLLayoutThree(page);
             }
-//            else if(page.getLayout() == 4){
-//                HTMLLayoutFour(page);
-//            }
+            else if(page.getLayout() == 4){
+                HTMLLayoutFour(page);
+            }
 //            else if(page.getLayout() == 5){
 //                HTMLLayoutFive(page);
 //            }
@@ -164,39 +164,42 @@ public class HTMLGenerator
         }
     }
 
-//    private void HTMLLayoutFour(Page page){
-//        String text = "<!DOCTYPE html>\n";
-//        text+="<html>\n";
-//        text+="<head>\n";
-//        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
-//        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
-//        text = addGoogleFonts(text);
-//        text+="</head>\n";
-//        text+="<body>\n";
-//        text = addBanner(text, page);
-//        text = addNavBarBR(text, page);
-//        text+="<div class=\"content\">\n";
-//        text = addSlideShowComponents(text, page);
-//        text = addTextComponents(text, page);
-//        text = addImageComponents(text, page);
-//        text = addVideoComponents(text, page);
-//        text = addFooter(text, page);
-//        text += "</div>\n\n";
-//        text += "</body>\n";
-//        text += "</html>\n";
-//
-//        BufferedWriter output;
-//        try{
-//            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
-//            file.createNewFile();
-//            output = new BufferedWriter(new FileWriter(file));
-//            output.write(text);
-//            output.close();
-//        }catch(Exception ex){
-//            System.out.println("Error in HTMLLayoutFour method in HTMLGenerator Class");
-//        }
-//    }
-//
+    private void HTMLLayoutFour(Page page){
+        String text = "<!DOCTYPE html>\n";
+        text+="<html>\n";
+        text+="<head>\n";
+        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutFour" + "CSS.css\">\n";
+        text = addColorSchemeSheet(text, page);
+        text = addFontSheet(text, page);
+        text = addGoogleFonts(text);
+        text+="</head>\n";
+        text+="<body>\n";
+        text = addBanner4(text, page);
+        text = addNavBar(text, page);
+        text+="<div class=\"content\">\n";
+        text = addAllComponents(text, page);
+        text = addFooter(text, page);
+        text += "</div>\n\n";
+        text += "</body>\n";
+        text += "</html>\n";
+
+        BufferedWriter output;
+        try{
+            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            if(page == model.getSelectedPage()){
+                URL = file.toURI().toURL().toString();
+            }
+            file.createNewFile();
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(text);
+            output.close();
+        }catch(Exception ex){
+            System.out.println("Error in HTMLLayoutFour method in HTMLGenerator Class");
+        }
+    }
+
 //    private void HTMLLayoutFive(Page page){
 //        String text = "<!DOCTYPE html>\n";
 //        text+="<html>\n";
@@ -313,6 +316,18 @@ public class HTMLGenerator
         return text;
     }
 
+    private String addBanner4(String text, Page page){
+        text+="<div class=\"banner\">\n";
+
+        if(page.getBannerImageName().equalsIgnoreCase("DefaultStartSlide.png")){}
+        else{
+            text+="<h1>" +  model.getStudentName() + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src=\"img/" + page.getBannerImageName() + "\" class=\"banner_image\">\n";
+        }
+        text+=" </h1>\n";
+        text+="</div>\n";
+        return text;
+    }
+
     private String addFooter(String text, Page page){
         if(page.getFooter() == "" || page.getFooter() == null){}
         else{
@@ -364,7 +379,7 @@ public class HTMLGenerator
     }
 
     private String addParagraph(String text, TextComponent textComponent){
-        text += "<p class=\"t" + textIndex + "\">\n";
+        text += "<p class=\"t" + textIndex + "\">&nbsp&nbsp&nbsp&nbsp\n";
         if(textComponent.getHyperLinks().size() == 0){
             text += textComponent.getParagraphOrHeader() + "\n";
         }
@@ -401,9 +416,9 @@ public class HTMLGenerator
 
     private String addImageComponent(String text, ImageComponent imageComponent){
 
-        text+= "<p>\n";
+        text+= "<h2 class=\"i" + imageIndex + "\">\n";
         text += "<img src=\"img/" + imageComponent.getImageName() + "\" class=\"i" + imageIndex + "\">\n";
-        text += "<h2 class=\"i" + imageIndex + "\"> " + imageComponent.getCaption() + " </h2></p>\n\n";
+        text += imageComponent.getCaption() + " </h2><br>\n\n";
 
         imageIndex++;
         return text;

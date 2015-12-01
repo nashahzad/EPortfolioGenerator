@@ -160,7 +160,7 @@ public class DialogImageComponent extends Stage
                 else
                     imageComponent.setFloatAttribute("Neither");
 
-                imageComponentsList.add(new RadioButton(imageComponent.getImageName()));
+                imageComponentsList.add(new RadioButton("Image - " + imageComponent.getImageName()));
                 page.getAllComponents().add(imageComponent);
                 pageView.reloadPageView();
                 ui.updateSaveButtons();

@@ -35,6 +35,7 @@ public class GenerateDirectories
     String LAYOUT_ONE = SKELETONS + "LayoutOneCSS.css";
     String LAYOUT_TWO = SKELETONS + "LayoutTwoCSS.css";
     String LAYOUT_THREE = SKELETONS + "LayoutThreeCSS.css";
+    String LAYOUT_FOUR = SKELETONS + "LayoutFourCSS.css";
 
     //SKELETON PAGE FONT CSS
     String FONT_ONE = SKELETONS + "FontOneCSS.css";
@@ -162,6 +163,10 @@ public class GenerateDirectories
 
         FROM = Paths.get(LAYOUT_THREE);
         TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "LayoutThreeCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(LAYOUT_FOUR);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "LayoutFourCSS.css");
         java.nio.file.Files.copy(FROM, TO, options);
 
         FROM = Paths.get(FONT_ONE);

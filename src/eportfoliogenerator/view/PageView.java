@@ -4,6 +4,7 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.components.*;
 import eportfoliogenerator.controller.ImageSelectionController;
 import eportfoliogenerator.dialog.*;
+import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
 import javafx.geometry.Pos;
@@ -786,7 +787,7 @@ public class PageView extends VBox
                 }
 
                 if(flag) {
-                    if (text.equalsIgnoreCase("header") || text.equalsIgnoreCase("paragraph") || text.equalsIgnoreCase("list")) {
+                    try {
                         TextComponent textComponentToEdit = (TextComponent)page.getAllComponents().get(index);
                         DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
                         //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
@@ -801,6 +802,8 @@ public class PageView extends VBox
                         if (textComponentToEdit.getTextType().equalsIgnoreCase("List")) {
                             dialogTextComponents.editList(textComponentToEdit, ui);
                         }
+                    }catch(ClassCastException ex){
+                        ErrorHandler.errorPopUp("Either no component was selected or the component selected is not a text component.");
                     }
                 }
             }
@@ -899,7 +902,7 @@ public class PageView extends VBox
                 }
 
                 if(flag) {
-                    if (text.equalsIgnoreCase("header") || text.equalsIgnoreCase("paragraph") || text.equalsIgnoreCase("list")) {
+                    try {
                         TextComponent textComponentToEdit = (TextComponent)page.getAllComponents().get(index);
                         DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);
 //                        //IF TEXT COMPONENT IS A HEADER RUN THIS BLOCK
@@ -914,6 +917,8 @@ public class PageView extends VBox
 //                        if (textComponentToEdit.getTextType().equalsIgnoreCase("List")) {
 //                            dialogTextComponents.editList(textComponentToEdit, ui);
 //                        }
+                    }catch(ClassCastException ex){
+                        ErrorHandler.errorPopUp("Either no component was selected or the component selected is not a text component.");
                     }
                 }
             }
@@ -948,24 +953,40 @@ public class PageView extends VBox
             for(Component component: page.getAllComponents()){
                 if(component.getIdentity().equalsIgnoreCase("TextComponent")){
                     RadioButton radioButton = new RadioButton(((TextComponent) component).getTextType());
+                        TextComponent textComponent = (TextComponent)component;
+                        if(textComponent.getTextType().equalsIgnoreCase("paragraph") || textComponent.getTextType().equalsIgnoreCase("header")) {
+                            if (textComponent.getParagraphOrHeader().length() < 25)
+                                radioButton.setText(radioButton.getText().concat(" - " + textComponent.getParagraphOrHeader()));
+                            else
+                                radioButton.setText(radioButton.getText().concat(" - " + textComponent.getParagraphOrHeader().substring(0, 23) + "..."));
+                        }
+                    else{
+                            if(textComponent.getListText().size() == 0){}
+                            else{
+                                if(textComponent.getListText().get(0).length() < 25)
+                                    radioButton.setText(radioButton.getText().concat(" - " + textComponent.getListText().get(0)));
+                                else
+                                    radioButton.setText(radioButton.getText().concat(" - " + textComponent.getListText().get(0).substring(0,  23)));
+                            }
+                        }
                     radioButton.setToggleGroup(componentsToggleGroup);
                     allComponentsList.add(radioButton);
                     allComponentsVBox.getChildren().add(radioButton);
                 }
                 if(component.getIdentity().equalsIgnoreCase("ImageComponent")){
-                    RadioButton radioButton = new RadioButton(((ImageComponent) component).getImageName());
+                    RadioButton radioButton = new RadioButton("Image - " + ((ImageComponent) component).getImageName());
                     radioButton.setToggleGroup(componentsToggleGroup);
                     allComponentsList.add(radioButton);
                     allComponentsVBox.getChildren().add(radioButton);
                 }
                 if(component.getIdentity().equalsIgnoreCase("SlideShowComponent")){
-                    RadioButton radioButton = new RadioButton(((SlideShowComponent) component).getSlideShowTitle());
+                    RadioButton radioButton = new RadioButton("SlideShow - " + ((SlideShowComponent) component).getSlideShowTitle());
                     radioButton.setToggleGroup(componentsToggleGroup);
                     allComponentsList.add(radioButton);
                     allComponentsVBox.getChildren().add(radioButton);
                 }
                 if(component.getIdentity().equalsIgnoreCase("VideoComponent")){
-                    RadioButton radioButton = new RadioButton(((VideoComponent) component).getVideoName());
+                    RadioButton radioButton = new RadioButton("Video - " + ((VideoComponent) component).getVideoName());
                     radioButton.setToggleGroup(componentsToggleGroup);
                     allComponentsList.add(radioButton);
                     allComponentsVBox.getChildren().add(radioButton);
