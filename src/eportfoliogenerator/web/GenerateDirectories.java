@@ -25,11 +25,23 @@ public class GenerateDirectories
     String IMAGES_PATH = "./images/icons/";
 
     String SKELETONS = SITES_PATH + "Skeletons/";
+    //SKELETON COLOR CSS
     String COLOR_ONE = SKELETONS + "ColorOneCSS.css";
     String COLOR_TWO = SKELETONS + "ColorTwoCSS.css";
     String COLOR_THREE = SKELETONS + "ColorThreeCSS.css";
     String COLOR_FOUR = SKELETONS + "ColorFourCSS.css";
     String COLOR_FIVE = SKELETONS + "ColorFiveCSS.css";
+    //SKELETON LAYOUT CSS
+    String LAYOUT_ONE = SKELETONS + "LayoutOneCSS.css";
+    String LAYOUT_TWO = SKELETONS + "LayoutTwoCSS.css";
+    String LAYOUT_THREE = SKELETONS + "LayoutThreeCSS.css";
+
+    //SKELETON PAGE FONT CSS
+    String FONT_ONE = SKELETONS + "FontOneCSS.css";
+    String FONT_TWO = SKELETONS + "FontTwoCSS.css";
+    String FONT_THREE = SKELETONS + "FontThreeCSS.css";
+    String FONT_FOUR = SKELETONS + "FontFourCSS.css";
+    String FONT_FIVE = SKELETONS + "FontFiveCSS.css";
 
     public GenerateDirectories(EPortfolioModel model){
         this.model = model;
@@ -138,6 +150,38 @@ public class GenerateDirectories
 
         FROM = Paths.get(COLOR_FIVE);
         TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "ColorFiveCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(LAYOUT_ONE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "LayoutOneCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(LAYOUT_TWO);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "LayoutTwoCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(LAYOUT_THREE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "LayoutThreeCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(FONT_ONE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "FontOneCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(FONT_TWO);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "FontTwoCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(FONT_THREE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "FontThreeCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(FONT_FOUR);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "FontFourCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(FONT_FIVE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "FontFiveCSS.css");
         java.nio.file.Files.copy(FROM, TO, options);
     }
 

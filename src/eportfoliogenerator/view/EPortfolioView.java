@@ -4,6 +4,7 @@ import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.file.EPortfolioFileManager;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.web.CSSGenerator;
 import eportfoliogenerator.web.GenerateDirectories;
 import eportfoliogenerator.web.HTMLGenerator;
 import eportfoliogenerator.web.JavaScriptGenerator;
@@ -384,21 +385,24 @@ public class EPortfolioView
         });
 
         webPageViewButton.setOnAction(event -> {
-            GenerateDirectories htmlGenerator = new GenerateDirectories(model);
-            htmlGenerator.createDirectories();
+            GenerateDirectories generateDirectories = new GenerateDirectories(model);
+            generateDirectories.createDirectories();
             try{
-                htmlGenerator.copyImageFiles();
+                generateDirectories.copyImageFiles();
             }catch(IOException ex){
                 System.out.println("Exception thrown in copying image files.");
             }
-            HTMLGenerator htmlGenerator1 = new HTMLGenerator(model);
-            htmlGenerator1.generateHTML();
+            HTMLGenerator htmlGenerator = new HTMLGenerator(model);
+            htmlGenerator.generateHTML();
             JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
             javaScriptGenerator.generateJavaScriptSlideShow();
+            CSSGenerator cssGenerator = new CSSGenerator(model);
+            cssGenerator.createCSS();
 
             WebView browser = new WebView();
             WebEngine webEngine = browser.getEngine();
-            webEngine.load("http://www.google.com");
+            webEngine.load(htmlGenerator.getURL());
+            //webEngine.load("http://www.google.com");
             BorderPane borderPane = new BorderPane();
 
             borderPane.setCenter(browser);

@@ -20,6 +20,8 @@ public class HTMLGenerator
     //Some strings
     String SITES_PATH = "./src/eportfoliogenerator/sites/";
 
+    String URL = new String();
+
     int textIndex = 0;
     int imageIndex = 0;
     int slideIndex = 0;
@@ -38,9 +40,9 @@ public class HTMLGenerator
             else if(page.getLayout() == 2){
                 HTMLLayoutTwo(page);
             }
-//            else if(page.getLayout() == 3){
-//                HTMLLayoutThree(page);
-//            }
+            else if(page.getLayout() == 3){
+                HTMLLayoutThree(page);
+            }
 //            else if(page.getLayout() == 4){
 //                HTMLLayoutFour(page);
 //            }
@@ -59,6 +61,7 @@ public class HTMLGenerator
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutOne" + "CSS.css\">\n";
         text = addColorSchemeSheet(text, page);
+        text = addFontSheet(text, page);
         text = addGoogleFonts(text);
         text+= "</head>\n";
         text+="<body>\n";
@@ -74,6 +77,10 @@ public class HTMLGenerator
         BufferedWriter output;
         try{
             File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            if(page == model.getSelectedPage()){
+                URL = file.toURI().toURL().toString();
+            }
+
             file.createNewFile();
             output = new BufferedWriter(new FileWriter(file));
             output.write(text);
@@ -91,6 +98,7 @@ public class HTMLGenerator
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutTwo" + "CSS.css\">\n";
         text = addColorSchemeSheet(text, page);
+        text = addFontSheet(text, page);
         text = addGoogleFonts(text);
         text+= "</head>\n";
         text+="<body>\n";
@@ -106,6 +114,10 @@ public class HTMLGenerator
         BufferedWriter output;
         try{
             File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            if(page == model.getSelectedPage()){
+                URL = file.toURI().toURL().toString();
+            }
+
             file.createNewFile();
             output = new BufferedWriter(new FileWriter(file));
             output.write(text);
@@ -122,6 +134,8 @@ public class HTMLGenerator
         text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutThree" + "CSS.css\">\n";
+        text = addColorSchemeSheet(text, page);
+        text = addFontSheet(text, page);
         text = addGoogleFonts(text);
         text+="</head>\n";
         text+="<body>\n";
@@ -137,6 +151,10 @@ public class HTMLGenerator
         BufferedWriter output;
         try{
             File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            if(page == model.getSelectedPage()){
+                URL = file.toURI().toURL().toString();
+            }
+
             file.createNewFile();
             output = new BufferedWriter(new FileWriter(file));
             output.write(text);
@@ -225,6 +243,21 @@ public class HTMLGenerator
             text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "ColorFour" + "CSS.css\">\n";
         if(page.getColor() == 5)
             text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "ColorFive" + "CSS.css\">\n";
+
+        return text;
+    }
+
+    private String addFontSheet(String text, Page page){
+        if(page.getPageFont().equalsIgnoreCase("Slabo"))
+            text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "FontOne" + "CSS.css\">\n";
+        if(page.getPageFont().equalsIgnoreCase("Sans Pro"))
+            text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "FontTwo" + "CSS.css\">\n";
+        if(page.getPageFont().equalsIgnoreCase("Serif"))
+            text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "FontThree" + "CSS.css\">\n";
+        if(page.getPageFont().equalsIgnoreCase("Hind"))
+            text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "FontFour" + "CSS.css\">\n";
+        if(page.getPageFont().equalsIgnoreCase("Cantarell"))
+            text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "FontFive" + "CSS.css\">\n";
 
         return text;
     }
@@ -481,4 +514,8 @@ public class HTMLGenerator
 //        return text;
 //    }
 
+
+    public String getURL() {
+        return URL;
+    }
 }
