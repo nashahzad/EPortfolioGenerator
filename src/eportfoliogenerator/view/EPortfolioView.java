@@ -138,13 +138,14 @@ public class EPortfolioView
     private void setUpSiteToolbar()
     {
         siteToolBarVBox = new VBox();
+        siteToolBarVBox.setAlignment(Pos.CENTER_LEFT);
         siteToolBarVBox.getStyleClass().add(StartUpConstants.CSS_SITE_TOOLBAR);
 
         addPageButton = setUpButton(StartUpConstants.ICON_ADD_PAGE, "Add Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, false);
         removePageButton = setUpButton(StartUpConstants.ICON_REMOVE_PAGE, "Remove Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, true);
         selectPageButton = setUpButton(StartUpConstants.ICON_SELECT_PAGE, "Select Page", StartUpConstants.CSS_SITE_TOOLBAR_BUTTON, false);
 
-        siteToolBarVBox.getChildren().addAll(addPageButton, removePageButton, selectPageButton);
+        siteToolBarVBox.getChildren().addAll(addPageButton);
     }
 
     /**
@@ -243,6 +244,7 @@ public class EPortfolioView
                         model.setSelectedPage(page2);
                     });
                     pagesTabPane = new TabPane(tab);
+                    pagesTabPane.getStyleClass().add("tab_pane");
                     pageViewScrollPane = new ScrollPane(pagesTabPane);
                     pageViewScrollPane.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
                     pageViewScrollPane.setFitToHeight(true);
@@ -385,36 +387,41 @@ public class EPortfolioView
         });
 
         webPageViewButton.setOnAction(event -> {
-            GenerateDirectories generateDirectories = new GenerateDirectories(model);
-            generateDirectories.createDirectories();
-            try{
-                generateDirectories.copyImageFiles();
-            }catch(IOException ex){
-                System.out.println("Exception thrown in copying image files.");
-            }
-            HTMLGenerator htmlGenerator = new HTMLGenerator(model);
-            htmlGenerator.generateHTML();
-            JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
-            javaScriptGenerator.generateJavaScriptSlideShow();
-            CSSGenerator cssGenerator = new CSSGenerator(model);
-            cssGenerator.createCSS();
-
-            WebView browser = new WebView();
-            WebEngine webEngine = browser.getEngine();
-            webEngine.load(htmlGenerator.getURL());
-            //webEngine.load("http://www.google.com");
-            BorderPane borderPane = new BorderPane();
-
-            borderPane.setCenter(browser);
-            borderPane.setBottom(webToolBarHBox);
-
-            webScene = new Scene(borderPane);
-            webScene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-
             if(webCounter % 2 == 0){
+                GenerateDirectories generateDirectories = new GenerateDirectories(model);
+                generateDirectories.createDirectories();
+                try{
+                    generateDirectories.copyImageFiles();
+                }catch(IOException ex){
+                    System.out.println("Exception thrown in copying image files.");
+                }
+                HTMLGenerator htmlGenerator = new HTMLGenerator(model);
+                htmlGenerator.generateHTML();
+                JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
+                javaScriptGenerator.generateJavaScriptSlideShow();
+                CSSGenerator cssGenerator = new CSSGenerator(model);
+                cssGenerator.createCSS();
+
+                WebView browser = new WebView();
+                WebEngine webEngine = browser.getEngine();
+                webEngine.load(htmlGenerator.getURL());
+                //webEngine.load("http://www.google.com");
+                BorderPane borderPane = new BorderPane();
+
+                borderPane.setCenter(browser);
+                borderPane.setBottom(webToolBarHBox);
+
+                webScene = new Scene(borderPane);
+                webScene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+
+                Image image = new Image("file:" + StartUpConstants.ICON_VIEW_TWO);
+                webPageViewButton.setGraphic(new ImageView(image));
+
                 primaryStage.setScene(webScene);
             }
             else{
+                Image image = new Image("file:" + StartUpConstants.ICON_VIEW);
+                webPageViewButton.setGraphic(new ImageView(image));
                 ePortfolioBorderPane.setBottom(webToolBarHBox);
                 primaryStage.setScene(primaryScene);
             }
@@ -478,6 +485,7 @@ public class EPortfolioView
     public void updatePageView(EPortfolioModel model)
     {
         pagesTabPane = new TabPane();
+        pagesTabPane.getStyleClass().add("tab_pane");
         for(Page page: model.getPages()){
             pageView = new PageView(page, model, this);
             Tab tab = new Tab();

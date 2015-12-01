@@ -31,6 +31,7 @@ public class StartUpConstants
     public static String ICON_MOVE_UP = IMAGE_ICONS_FILE_PATH + "/MoveUp.png";
 
     public static String ICON_VIEW = IMAGE_ICONS_FILE_PATH + "/View.png";
+    public static String ICON_VIEW_TWO = IMAGE_ICONS_FILE_PATH + "/View2.png";
 
     public static String DEFAULT_IMAGE = IMAGE_ICONS_FILE_PATH + "/DefaultStartSlide.png";
     public static String DEFAULT_VIDEO = IMAGE_ICONS_FILE_PATH + "/vid.mp4";

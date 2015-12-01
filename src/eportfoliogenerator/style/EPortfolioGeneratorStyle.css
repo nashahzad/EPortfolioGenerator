@@ -10,6 +10,11 @@
          -fx-font-family: "Andalus";
 }
 
+.tab_pane{
+-fx-font-size: 17px;
+         -fx-font-family: "Andalus";
+}
+
 .fileToolbar_button{
 -fx-background-color: #C71414;
     -fx-border-color: #FAF734;

@@ -401,8 +401,9 @@ public class HTMLGenerator
 
     private String addImageComponent(String text, ImageComponent imageComponent){
 
+        text+= "<p>\n";
         text += "<img src=\"img/" + imageComponent.getImageName() + "\" class=\"i" + imageIndex + "\">\n";
-        text += "<h2> " + imageComponent.getCaption() + " </h2>\n\n";
+        text += "<h2 class=\"i" + imageIndex + "\"> " + imageComponent.getCaption() + " </h2></p>\n\n";
 
         imageIndex++;
         return text;
@@ -433,87 +434,6 @@ public class HTMLGenerator
         videoIndex++;
         return text;
     }
-
-//    private String addImageComponents(String text, Page page){
-//        text +=  "<p>\n";
-//        for(ImageComponent imageComponent: page.getImageComponents()){
-//            text += "<h2> " + imageComponent.getCaption() + " </h2>\n";
-//            text += "<img src=\"img/" + imageComponent.getImageName() + "\" class=\"i" + page.getImageComponents().indexOf(imageComponent) + "\">\n";
-//        }
-//        text+= "</p>\n";
-//        return text;
-//    }
-//
-//    private String addVideoComponents(String text, Page page){
-//        text += "<p>\n";
-//        for(VideoComponent videoComponent: page.getVideoComponents()){
-//            text += "<h2> " + videoComponent.getCaption() + " </h2>\n";
-//            text += "<video class=\"v" + page.getVideoComponents().indexOf(videoComponent) + "\" controls>\n";
-//            text += "<source src=\"img/" + videoComponent.getVideoName() + "\">\n";
-//            text += "</video>\n";
-//        }
-//        text += "</p>\n";
-//        return text;
-//    }
-//
-//    private String addTextComponents(String text, Page page){
-//        for(TextComponent textComponent: page.getTextComponents()){
-//            //FOR IF TEXT COMPONENT IS A PARAGRAPH
-//            if(textComponent.getTextType().equalsIgnoreCase("paragraph")){
-//                text+="<p class=\"t" + page.getTextComponents().indexOf(textComponent) + "\">\n";
-//                if(textComponent.getHyperLinks().size() == 0){
-//                    text += textComponent.getParagraphOrHeader();
-//                }
-//                //FOR PARAGRAPHS THAT HAVE IN-LINE HYPERLINKS IN THEM
-//                else{
-//                    textComponent.sortHyperLinks();
-//                    //LOOP TO ADD IN STARTING AND ENDING TAGS USING STRINGBUILDER
-//                    StringBuilder stringBuilder = new StringBuilder(textComponent.getParagraphOrHeader());
-//                    int offset = 0;
-//                    for(HyperLinkComponent hyperLinkComponent: textComponent.getHyperLinks()){
-//                        stringBuilder.insert(hyperLinkComponent.getStart() + offset, "<a href=\"" + hyperLinkComponent.getUrl() + "\">");
-//                        offset += ("<a href=\"" + hyperLinkComponent.getUrl() + "\">").length();
-//                        stringBuilder.insert(hyperLinkComponent.getEnd() + offset, "</a>");
-//                        offset += ("</a>").length();
-//                    }
-//                    text += stringBuilder.toString() + "\n";
-//                }
-//                text+="</p>\n";
-//            }
-//            //IF TEXT COMPONENT IS A HEADER
-//            if(textComponent.getTextType().equalsIgnoreCase("header")){
-//                text += "<h3 class=\"t" + page.getTextComponents().indexOf(textComponent) + "\">\n";
-//                text += textComponent.getParagraphOrHeader() + "\n";
-//                text += "</h3>\n";
-//            }
-//            //IF TEXT COMPONENT IS A LIST
-//            if(textComponent.getTextType().equalsIgnoreCase("list")){
-//                text += "<ul class=\"t" + page.getTextComponents().indexOf(textComponent) + "\">\n";
-//                for(String string: textComponent.getListText()){
-//                    text += "<li> " + string + "</li>\n";
-//                }
-//                text += "</ul>\n";
-//            }
-//        }
-//
-//        return text;
-//    }
-//
-//    private String addSlideShowComponents(String text, Page page){
-//        for(SlideShowComponent slideShowComponent: page.getSlideShowComponents()){
-//            int index = page.getSlideShowComponents().indexOf(slideShowComponent);
-//            text += "<h2> " + slideShowComponent.getSlideShowTitle() + " </h2>\n";
-//            text += "<img src=\"img/" + slideShowComponent.getImageSlides().get(0).getImageName() + "\" class=\"s" + index + "\" id=\"s" + index + "\"" +
-//                    "height=\"" + slideShowComponent.getImageSlides().get(0).getHeight() +"\" width=\"" + slideShowComponent.getImageSlides().get(0).getWidth() + "\">\n\n";
-//            text += "<p class =\"sc" + index + "\" id=\"sc" + index + "\"> " + slideShowComponent.getImageSlides().get(0).getCaption() + "</p>\n\n";
-//
-//            text += "<button type=\"button\" onclick=\"previouss" + index +"()\"> <img src=\"img/Previous.png\"></button>\n";
-//            text += "<button type=\"button\" onclick=\"plays" + index + "()\" id=\"Play/Pauses" + index + "\"> <img src=\"img/Play.png\"></button>\n";
-//            text += "<button type=\"button\" onclick=\"nexts" + index +"()\"> <img src=\"img/Next.png\"></button>\n\n";
-//        }
-//        return text;
-//    }
-
 
     public String getURL() {
         return URL;
