@@ -20,7 +20,7 @@ public class Page implements Serializable
 
     String pageFont = "Slabo";
 
-    int layout, color;
+    int layout = 1, color = 1;
 
     //Components aspect of page
     ArrayList<Component> allComponents = new ArrayList<Component>();

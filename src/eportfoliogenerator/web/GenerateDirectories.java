@@ -24,6 +24,13 @@ public class GenerateDirectories
     String SITES_PATH = "./src/eportfoliogenerator/sites/";
     String IMAGES_PATH = "./images/icons/";
 
+    String SKELETONS = SITES_PATH + "Skeletons/";
+    String COLOR_ONE = SKELETONS + "ColorOneCSS.css";
+    String COLOR_TWO = SKELETONS + "ColorTwoCSS.css";
+    String COLOR_THREE = SKELETONS + "ColorThreeCSS.css";
+    String COLOR_FOUR = SKELETONS + "ColorFourCSS.css";
+    String COLOR_FIVE = SKELETONS + "ColorFiveCSS.css";
+
     public GenerateDirectories(EPortfolioModel model){
         this.model = model;
     }
@@ -61,14 +68,14 @@ public class GenerateDirectories
             for(Component component: page.getAllComponents()){
                 if(component instanceof ImageComponent){
                     FROM = Paths.get(((ImageComponent) component).getImagePath() + ((ImageComponent) component).getImageName());
-                    TO = Paths.get(SITES_PATH + "/img/" + ((ImageComponent) component).getImageName());
+                    TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + ((ImageComponent) component).getImageName());
                     java.nio.file.Files.copy(FROM, TO, options);
                 }
 
                 if(component instanceof SlideShowComponent){
                     for(ImageComponent imageComponent: ((SlideShowComponent) component).getImageSlides()){
                         FROM = Paths.get(imageComponent.getImagePath() + imageComponent.getImageName());
-                        TO = Paths.get(SITES_PATH + "/img/" + imageComponent.getImageName());
+                        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + imageComponent.getImageName());
                         java.nio.file.Files.copy(FROM, TO, options);
                     }
                 }
@@ -96,6 +103,41 @@ public class GenerateDirectories
 
         FROM = Paths.get(IMAGES_PATH + "Previous.png");
         TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/Previous.png");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        try {
+            copyCSSFiles();
+        }catch(IOException ex){
+            System.out.println("Exception thrown when copying the skeleton files for css.");
+        }
+    }
+
+    private void copyCSSFiles() throws IOException{
+        Path FROM;
+        Path TO;
+        CopyOption[] options = new CopyOption[]{
+                StandardCopyOption.REPLACE_EXISTING,
+                StandardCopyOption.COPY_ATTRIBUTES
+        };
+
+        FROM = Paths.get(COLOR_ONE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "ColorOneCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(COLOR_TWO);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "ColorTwoCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(COLOR_THREE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "ColorThreeCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(COLOR_FOUR);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "ColorFourCSS.css");
+        java.nio.file.Files.copy(FROM, TO, options);
+
+        FROM = Paths.get(COLOR_FIVE);
+        TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/css/" + "ColorFiveCSS.css");
         java.nio.file.Files.copy(FROM, TO, options);
     }
 

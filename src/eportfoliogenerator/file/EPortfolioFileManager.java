@@ -1,7 +1,7 @@
 package eportfoliogenerator.file;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 import eportfoliogenerator.StartUpConstants;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.view.EPortfolioView;
@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.json.*;
+//import javax.json.*;
 import java.io.*;
 import java.util.Optional;
 

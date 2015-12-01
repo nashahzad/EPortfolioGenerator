@@ -762,6 +762,7 @@ public class PageView extends VBox
                         index = allComponentsList.indexOf(radioButton);
                         page.getAllComponents().remove(index);
                         reloadPageView();
+                        ui.updateSaveButtons();
                         break;
                     }
                 }
@@ -773,16 +774,18 @@ public class PageView extends VBox
         editTextComponentButton.setOnAction(event -> {
             if(allComponentsList.size() > 0){
                 int index = 0;
+                boolean flag = false;
                 String text = new String();
                 for(RadioButton radioButton: allComponentsList){
                     if(radioButton.isSelected()){
                         text = radioButton.getText();
+                        flag = true;
                         break;
                     }
                     index++;
                 }
 
-                if(index == -1) {
+                if(flag) {
                     if (text.equalsIgnoreCase("header") || text.equalsIgnoreCase("paragraph") || text.equalsIgnoreCase("list")) {
                         TextComponent textComponentToEdit = (TextComponent)page.getAllComponents().get(index);
                         DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
@@ -884,17 +887,18 @@ public class PageView extends VBox
         editTextHyperLinkButton.setOnAction(event -> {
             if(allComponentsList.size() > 0){
                 int index = 0;
+                boolean flag = false;
                 String text = new String();
                 for(RadioButton radioButton: allComponentsList){
                     if(radioButton.isSelected()){
                         text = radioButton.getText();
-                        index = -1;
+                        flag = true;
                         break;
                     }
                     index++;
                 }
 
-                if(index == -1) {
+                if(flag) {
                     if (text.equalsIgnoreCase("header") || text.equalsIgnoreCase("paragraph") || text.equalsIgnoreCase("list")) {
                         TextComponent textComponentToEdit = (TextComponent)page.getAllComponents().get(index);
                         DialogTextHyperLinkComponent dialogTextHyperLinkComponent = new DialogTextHyperLinkComponent(this);

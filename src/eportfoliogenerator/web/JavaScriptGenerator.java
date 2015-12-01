@@ -29,9 +29,9 @@ public class JavaScriptGenerator
     public void generateJavaScriptSlideShow(){
         for(Page page: model.getPages()){
             String text = new String();
+            int index = 0;
             for(Component component: page.getAllComponents()) {
                 if(component instanceof SlideShowComponent) {
-                    int index = page.getAllComponents().indexOf(component);
                     text += "var sc" + index + "= new Array();\n";
 
                     for (ImageComponent imageComponent : ((SlideShowComponent) component).getImageSlides()) {
@@ -108,6 +108,7 @@ public class JavaScriptGenerator
                     text += "document.getElementById(\"s" + index + "\").width = widths" + index + "[pointers" + index + "];\n";
                     text += "document.getElementById(\"s" + index + "\").src = s" + index + "[pointers" + index + "];\n";
                     text += "document.getElementById(\"sc" + index + "\").innerHTML = sc" + index + "[pointers" + index + "];\n}\n}\n\n";
+                    index++;
                 }
             }
 
