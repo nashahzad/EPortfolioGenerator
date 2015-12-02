@@ -7,6 +7,7 @@ import eportfoliogenerator.dialog.*;
 import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
+import eportfoliogenerator.slideshowhelpers.Slide;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -841,78 +842,70 @@ public class PageView extends VBox
 
         editImageComponentButton.setOnAction(event -> {
             if(allComponentsList.size() > 0) {
-                int index = 0;
-                String text = new String();
-                for (RadioButton radioButton : allComponentsList) {
-                    if (radioButton.isSelected()) {
-                        text = radioButton.getText();
-                        index = -1;
-                        break;
-                    }
-                    index++;
-                }
-                if(index == -1) {
-                    for(Component component: page.getAllComponents()){
-                        if(component instanceof ImageComponent) {
-                            ImageComponent imageComponent = (ImageComponent) component;
-                            if (text.equalsIgnoreCase(imageComponent.getImageName())) {
-                                DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
-                                dialogImageComponent.editImageComponent(imageComponent, ui);
-                            }
+                try {
+                    int index = 0;
+                    boolean flag = false;
+                    for (RadioButton radioButton : allComponentsList) {
+                        if (radioButton.isSelected()) {
+                            flag = true;
+                            index = allComponentsList.indexOf(radioButton);
+                            break;
                         }
                     }
+                    if (flag) {
+                        ImageComponent imageComponent = (ImageComponent) page.getAllComponents().get(index);
+                        DialogImageComponent dialogImageComponent = new DialogImageComponent(this);
+                        dialogImageComponent.editImageComponent(imageComponent, ui);
+                    }
+                }catch(ClassCastException ex){
+                    ErrorHandler.errorPopUp("Either no component was selected or the component selected is not an image component.");
                 }
+
             }
         });
 
         editSlideShowComponentButton.setOnAction(event -> {
             if(allComponentsList.size() > 0) {
-                int index = 0;
-                String text = new String();
-                for (RadioButton radioButton : allComponentsList) {
-                    if (radioButton.isSelected()) {
-                        text = radioButton.getText();
-                        index = -1;
-                        break;
-                    }
-                    index++;
-                }
-                if(index == -1) {
-                    for(Component component: page.getAllComponents()){
-                        if(component instanceof SlideShowComponent) {
-                            SlideShowComponent slideShowComponent = (SlideShowComponent) component;
-                            if (text.equalsIgnoreCase(slideShowComponent.getSlideShowTitle())) {
-                                DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
-                                dialogSlideShowComponent.editSlideShowComponent(slideShowComponent, ui);
-                            }
+                try {
+                    int index = 0;
+                    boolean flag = false;
+                    for (RadioButton radioButton : allComponentsList) {
+                        if (radioButton.isSelected()) {
+                            flag = true;
+                            index = allComponentsList.indexOf(radioButton);
+                            break;
                         }
                     }
+                    if (flag) {
+                        SlideShowComponent slideShowComponent = (SlideShowComponent) page.getAllComponents().get(index);
+                        DialogSlideShowComponent dialogSlideShowComponent = new DialogSlideShowComponent(this);
+                        dialogSlideShowComponent.editSlideShowComponent(slideShowComponent, ui);
+                    }
+                }catch(ClassCastException ex){
+                    ErrorHandler.errorPopUp("Either no component was selected or the component selected is not an slideshow component.");
                 }
             }
         });
 
         editVideoComponentButton.setOnAction(event -> {
             if(allComponentsList.size() > 0) {
-                int index = 0;
-                String text = new String();
-                for (RadioButton radioButton : allComponentsList) {
-                    if (radioButton.isSelected()) {
-                        text = radioButton.getText();
-                        index = -1;
-                        break;
-                    }
-                    index++;
-                }
-                if(index == -1) {
-                    for(Component component: page.getAllComponents()){
-                        if(component instanceof VideoComponent) {
-                            VideoComponent videoComponent = (VideoComponent) component;
-                            if (text.equalsIgnoreCase(videoComponent.getVideoName())) {
-                                DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
-                                dialogVideoComponent.editVideoComponent(videoComponent, ui);
-                            }
+                try {
+                    int index = 0;
+                    boolean flag = false;
+                    for (RadioButton radioButton : allComponentsList) {
+                        if (radioButton.isSelected()) {
+                            flag = true;
+                            index = allComponentsList.indexOf(radioButton);
+                            break;
                         }
                     }
+                    if (flag) {
+                        VideoComponent videoComponent = (VideoComponent) page.getAllComponents().get(index);
+                        DialogVideoComponent dialogVideoComponent = new DialogVideoComponent(this);
+                        dialogVideoComponent.editVideoComponent(videoComponent, ui);
+                    }
+                }catch(ClassCastException ex){
+                    ErrorHandler.errorPopUp("Either no component was selected or the component selected is not an slideshow component.");
                 }
             }
         });

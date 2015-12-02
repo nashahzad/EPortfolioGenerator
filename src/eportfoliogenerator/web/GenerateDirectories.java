@@ -85,6 +85,12 @@ public class GenerateDirectories
                     java.nio.file.Files.copy(FROM, TO, options);
                 }
 
+                if(component instanceof VideoComponent){
+                    FROM = Paths.get(((VideoComponent) component).getVideoPath() + ((VideoComponent) component).getVideoName());
+                    TO = Paths.get(SITES_PATH + model.getePortfolioTitle() + "/img/" + ((VideoComponent) component).getVideoName());
+                    java.nio.file.Files.copy(FROM, TO, options);
+                }
+
                 if(component instanceof SlideShowComponent){
                     for(ImageComponent imageComponent: ((SlideShowComponent) component).getImageSlides()){
                         FROM = Paths.get(imageComponent.getImagePath() + imageComponent.getImageName());

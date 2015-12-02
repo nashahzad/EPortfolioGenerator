@@ -441,10 +441,10 @@ public class HTMLGenerator
 
     private String addVideoComponent(String text, VideoComponent videoComponent){
 
-        text += "<h2> " + videoComponent.getCaption() + " </h2>\n";
+        text += "<h2> " + videoComponent.getCaption() + "<br>\n";
         text += "<video class=\"v" + videoIndex + "\" controls>\n";
         text += "<source src=\"img/" + videoComponent.getVideoName() + "\">\n";
-        text += "</video>\n";
+        text += "</video></h2>\n";
 
         videoIndex++;
         return text;

@@ -11,8 +11,8 @@ public class TextComponent extends Component implements Serializable
     String paragraphOrHeader;
     ArrayList<String> listText = new ArrayList<String>();
     String textType;
-    String textFont;
-    String textSize;
+    String textFont = "Slabo";
+    String textSize = "12";
     ArrayList<HyperLinkComponent> hyperLinks = new ArrayList<HyperLinkComponent>();
 
     public TextComponent(){
