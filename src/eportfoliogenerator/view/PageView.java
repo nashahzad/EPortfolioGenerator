@@ -91,6 +91,8 @@ public class PageView extends VBox
 
     HBox addComponentsHBox;
     Label addComponentsLabel = new Label("Add Components");
+    Button addHeaderButton;
+    Button addListButton;
     Button addTextComponentButton;
     Button addImageComponentButton;
     Button addSlideShowComponentButton;
@@ -122,6 +124,9 @@ public class PageView extends VBox
 
     public PageView(Page page, EPortfolioModel model, EPortfolioView ui)
     {
+        this.setSpacing(10);
+        this.getStyleClass().add(StartUpConstants.CSS_BORDER_PANE);
+
         //Keep for the page later and model for later
         this.page = page;
         this.model = model;
@@ -603,8 +608,10 @@ public class PageView extends VBox
     {
 
         //Add Components VBOX
-        addComponentsHBox = new HBox();
+        addComponentsHBox = new HBox(7);
         addComponentsHBox.setAlignment(Pos.TOP_CENTER);
+        addHeaderButton = new Button();
+        addListButton = new Button();
         addTextComponentButton = new Button();
         addImageComponentButton = new Button();
         addSlideShowComponentButton = new Button();
@@ -613,6 +620,9 @@ public class PageView extends VBox
 
         addComponentsHBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         addComponentsLabel.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+
+        addHeaderButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
+        addListButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addTextComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addImageComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
         addSlideShowComponentButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
@@ -620,11 +630,11 @@ public class PageView extends VBox
         addTextHyperLinkButton.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS_BUTTONS);
 
         //Add it all into the HBox and then into this PageView
-        addComponentsHBox.getChildren().addAll(addComponentsLabel, addTextComponentButton, addImageComponentButton, addSlideShowComponentButton, addVideoComponentButton, addTextHyperLinkButton);
+        addComponentsHBox.getChildren().addAll(addComponentsLabel, addHeaderButton, addTextComponentButton, addListButton, addImageComponentButton, addSlideShowComponentButton, addVideoComponentButton);
         this.getChildren().add(addComponentsHBox);
 
         //Edit Components VBOX
-        editComponentsHBox = new HBox();
+        editComponentsHBox = new HBox(7);
         editComponentsHBox.setAlignment(Pos.TOP_CENTER);
         editTextComponentButton = new Button();
         editImageComponentButton = new Button();
@@ -651,7 +661,7 @@ public class PageView extends VBox
         displayComponentsHBox = new HBox();
         displayComponentsHBox.getStyleClass().add(StartUpConstants.CSS_COMPONENTS_HBOX);
 
-        allComponentsVBox = new VBox(7);
+        allComponentsVBox = new VBox(12);
         allComponentsVBox.getStyleClass().add(StartUpConstants.CSS_ADD_COMPONENTS);
         allComponentsVBox.getChildren().add(new Label("All Components"));
         displayComponentsHBox.getChildren().add(allComponentsVBox);
@@ -673,9 +683,19 @@ public class PageView extends VBox
     private void attachGraphics(){
         Image image = new Image("file:" + StartUpConstants.ICON_COMPONENT_TEXT);
         addTextComponentButton.setGraphic(new ImageView(image));
-        addTextComponentButton.setTooltip(new Tooltip("Add Text Component"));
+        addTextComponentButton.setTooltip(new Tooltip("Add Paragraph Component"));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_EDIT_TEXT);
         editTextComponentButton.setGraphic(new ImageView(image));
-        editTextComponentButton.setTooltip(new Tooltip("Edit Text Component"));
+        editTextComponentButton.setTooltip(new Tooltip("Edit Paragraph Component"));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_HEADER);
+        addHeaderButton.setGraphic(new ImageView(image));
+        addHeaderButton.setTooltip(new Tooltip("Add Header Component"));
+
+        image = new Image("file:" + StartUpConstants.ICON_COMPONENT_LIST);
+        addListButton.setGraphic(new ImageView(image));
+        addListButton.setTooltip(new Tooltip("Add List Component"));
 
         image = new Image("file:" + StartUpConstants.ICON_COMPONENT_IMAGE);
         addImageComponentButton.setGraphic(new ImageView(image));
@@ -708,9 +728,19 @@ public class PageView extends VBox
 
     private void setUpComponentEventHandlers()
     {
+        addHeaderButton.setOnAction(event -> {
+            DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
+            dialogTextComponents.getHeader(page, allComponentsList, ui);
+        });
+
         addTextComponentButton.setOnAction(event -> {
             DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
-            dialogTextComponents.promptForType(page, allComponentsList, ui);
+            dialogTextComponents.getParagraph(page, allComponentsList, ui);
+        });
+
+        addListButton.setOnAction(event -> {
+            DialogTextComponents dialogTextComponents = new DialogTextComponents(this);
+            dialogTextComponents.getList(page, allComponentsList, ui);
         });
 
         addImageComponentButton.setOnAction(event -> {

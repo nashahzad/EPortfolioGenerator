@@ -37,6 +37,9 @@ public class StartUpConstants
     public static String DEFAULT_VIDEO = IMAGE_ICONS_FILE_PATH + "/vid.mp4";
 
     public static String ICON_COMPONENT_TEXT = IMAGE_ICONS_FILE_PATH + "/TextComponent.png";
+    public static String ICON_COMPONENT_HEADER = IMAGE_ICONS_FILE_PATH + "/Header.png";
+    public static String ICON_COMPONENT_LIST = IMAGE_ICONS_FILE_PATH + "/List.png";
+    public static String ICON_COMPONENT_EDIT_TEXT = IMAGE_ICONS_FILE_PATH + "/EditText.png";
     public static String ICON_COMPONENT_IMAGE = IMAGE_ICONS_FILE_PATH + "/ImageComponent.png";
     public static String ICON_COMPONENT_SLIDESHOW = IMAGE_ICONS_FILE_PATH + "/SlideShowComponent.png";
     public static String ICON_COMPONENT_VIDEO = IMAGE_ICONS_FILE_PATH + "/VideoComponent.png";

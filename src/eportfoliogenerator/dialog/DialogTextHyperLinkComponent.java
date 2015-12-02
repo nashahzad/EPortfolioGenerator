@@ -383,16 +383,23 @@ public class DialogTextHyperLinkComponent extends Stage
 //        });
 
         removeHyperlinkButton.setOnAction(event -> {
-            int index = 0;
-            for (RadioButton radioButton : linksRadioButtons) {
-                if (radioButton.isSelected()) {
-                    linksRadioButtons.remove(radioButton);
-                    break;
+            if(linksRadioButtons.size() == 0){}
+            else {
+                int index = 0;
+                boolean flag = false;
+                for (RadioButton radioButton : linksRadioButtons) {
+                    if (radioButton.isSelected()) {
+                        linksRadioButtons.remove(radioButton);
+                        flag = true;
+                        break;
+                    }
+                    index++;
                 }
-                index++;
+                if(flag) {
+                    hyperLinkComponents.remove(index);
+                    reloadLinksRadioButtons();
+                }
             }
-            hyperLinkComponents.remove(index);
-            reloadLinksRadioButtons();
         });
     }
 

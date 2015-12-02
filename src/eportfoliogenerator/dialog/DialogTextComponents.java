@@ -88,54 +88,55 @@ public class DialogTextComponents extends Stage
         this.getIcons().add(image);
     }
 
-    public void promptForType(Page page, ArrayList<RadioButton> textComponentsList, EPortfolioView ui)
-    {
+//    public void promptForType(Page page, ArrayList<RadioButton> textComponentsList, EPortfolioView ui)
+//    {
+//        this.ui = ui;
+//
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Select Type of Text Component");
+//        alert.setContentText("Choose what kind of text component you want:");
+//
+//        ButtonType buttonTypeOne = new ButtonType("Header");
+//        ButtonType buttonTypeTwo = new ButtonType("Paragraph");
+//        ButtonType buttonTypeThree = new ButtonType("List");
+//        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+//
+//        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeThree, buttonTypeCancel);
+//
+//        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+//        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+//
+//        DialogPane alertDialogPane = alert.getDialogPane();
+//
+//        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+//        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+//
+//        //CSS to buttons added after alert does its getButtonTypes method
+//        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+//        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+//        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+//
+//        //Content text
+//        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == buttonTypeOne){
+//            // ... user chose "Header"
+//            getHeader(page, textComponentsList);
+//        } else if (result.get() == buttonTypeTwo) {
+//            // ... user chose "Paragraph"
+//            getParagraph(page, textComponentsList);
+//        } else if (result.get() == buttonTypeThree) {
+//            // ... user chose "List"
+//            getList(page, textComponentsList);
+//        } else {
+//
+//        }
+//
+//    }
+
+    public void getHeader(Page page, ArrayList<RadioButton> textComponentsList, EPortfolioView ui){
         this.ui = ui;
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Select Type of Text Component");
-        alert.setContentText("Choose what kind of text component you want:");
-
-        ButtonType buttonTypeOne = new ButtonType("Header");
-        ButtonType buttonTypeTwo = new ButtonType("Paragraph");
-        ButtonType buttonTypeThree = new ButtonType("List");
-        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeThree, buttonTypeCancel);
-
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
-
-        DialogPane alertDialogPane = alert.getDialogPane();
-
-        alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-        alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
-
-        //CSS to buttons added after alert does its getButtonTypes method
-        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-        buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
-        buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
-
-        //Content text
-        alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeOne){
-            // ... user chose "Header"
-            getHeader(page, textComponentsList);
-        } else if (result.get() == buttonTypeTwo) {
-            // ... user chose "Paragraph"
-            getParagraph(page, textComponentsList);
-        } else if (result.get() == buttonTypeThree) {
-            // ... user chose "List"
-            getList(page, textComponentsList);
-        } else {
-
-        }
-
-    }
-
-    private void getHeader(Page page, ArrayList<RadioButton> textComponentsList){
         this.setTitle("Header Dialog");
         paragraphVBox = new VBox();
 
@@ -313,8 +314,9 @@ public class DialogTextComponents extends Stage
         this.show();
     }
 
-    private void getParagraph(Page page, ArrayList<RadioButton> textComponentsList)
+    public void getParagraph(Page page, ArrayList<RadioButton> textComponentsList, EPortfolioView ui)
     {
+        this.ui = ui;
         this.setTitle("Paragraph Dialog");
         paragraphVBox = new VBox();
 
@@ -487,7 +489,8 @@ public class DialogTextComponents extends Stage
         this.show();
     }
 
-    private void getList(Page page, ArrayList<RadioButton> textComponentsList){
+    public void getList(Page page, ArrayList<RadioButton> textComponentsList, EPortfolioView ui){
+        this.ui = ui;
         this.setTitle("List Dialog");
         listBorderPane = new BorderPane();
         listTextComponent = new TextComponent();
