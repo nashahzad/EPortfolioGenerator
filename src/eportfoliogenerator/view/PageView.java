@@ -954,9 +954,14 @@ public class PageView extends VBox
 
         reloadComponentsRadioButtons();
 
+        studentNameButton.setText(model.getStudentName());
+
         this.getChildren().add(layoutHBox);
         this.getChildren().add(colorHBox);
         this.getChildren().add(pageFontHBox);
+
+        basicInfoHBox.getChildren().clear();
+        basicInfoHBox.getChildren().addAll(pageTitleLabel, pageTitleButton, studentNameLabel, studentNameButton, footerLabel, footerButton);
         this.getChildren().add(basicInfoHBox);
 
         this.getChildren().add(bannerHBox);

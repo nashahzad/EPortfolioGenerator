@@ -46,9 +46,9 @@ public class HTMLGenerator
             else if(page.getLayout() == 4){
                 HTMLLayoutFour(page);
             }
-//            else if(page.getLayout() == 5){
-//                HTMLLayoutFive(page);
-//            }
+            else if(page.getLayout() == 5){
+                HTMLLayoutFive(page);
+            }
         }
     }
 
@@ -200,38 +200,41 @@ public class HTMLGenerator
         }
     }
 
-//    private void HTMLLayoutFive(Page page){
-//        String text = "<!DOCTYPE html>\n";
-//        text+="<html>\n";
-//        text+="<head>\n";
-//        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
-//        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
-//        text = addGoogleFonts(text);
-//        text+="</head>\n";
-//        text+="<body>\n";
-//        text = addBanner(text, page);
-//        text = addNavBarBR(text, page);
-//        text+="<div class=\"content\">\n";
-//        text = addVideoComponents(text, page);
-//        text = addTextComponents(text, page);
-//        text = addImageComponents(text, page);
-//        text = addSlideShowComponents(text, page);
-//        text = addFooter(text, page);
-//        text += "</div>\n\n";
-//        text += "</body>\n";
-//        text += "</html>\n";
-//
-//        BufferedWriter output;
-//        try{
-//            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
-//            file.createNewFile();
-//            output = new BufferedWriter(new FileWriter(file));
-//            output.write(text);
-//            output.close();
-//        }catch(Exception ex){
-//            System.out.println("Error in HTMLLayoutFive method in HTMLGenerator Class");
-//        }
-//    }
+    private void HTMLLayoutFive(Page page){
+        String text = "<!DOCTYPE html>\n";
+        text+="<html>\n";
+        text+="<head>\n";
+        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutFive" + "CSS.css\">\n";
+        text = addColorSchemeSheet(text, page);
+        text = addFontSheet(text, page);
+        text = addGoogleFonts(text);
+        text+="</head>\n";
+        text+="<body>\n";
+        text = addBanner(text, page);
+        text = addNavBarBR(text, page);
+        text+="<div class=\"content\">\n";
+        text = addAllComponents(text, page);
+        text = addFooter(text, page);
+        text += "</div>\n\n";
+        text += "</body>\n";
+        text += "</html>\n";
+
+        BufferedWriter output;
+        try{
+            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            if(page == model.getSelectedPage()){
+                URL = file.toURI().toURL().toString();
+            }
+            file.createNewFile();
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(text);
+            output.close();
+        }catch(Exception ex){
+            System.out.println("Error in HTMLLayoutFive method in HTMLGenerator Class");
+        }
+    }
 
 
     //HELPER METHODS TO ADD IN FONTS, NAV BAR AND COMPONENTS
@@ -279,7 +282,7 @@ public class HTMLGenerator
         text+="<div class=\"navigation_bar\">\n";
             for(Page page: model.getPages()){
                 if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle())){
-                    text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\"><i><b> " + page.getPageTitle() + " </b></i></a>\n";
+                    text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\" font size=\"18\"><i><b> " + page.getPageTitle() + " </b></i></a>\n";
                 }
                 else {
                     text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\"> " + page.getPageTitle() + " </a>\n";
@@ -294,7 +297,7 @@ public class HTMLGenerator
         text+="<div class=\"navigation_bar\">\n";
         for(Page page: model.getPages()){
             if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle())){
-                text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\"><i><b> " + page.getPageTitle() + " </b></i></a><br>\n";
+                text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\" font size=\"18\"><i><b> " + page.getPageTitle() + " </b></i></a><br>\n";
             }
             else {
                 text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\"> " + page.getPageTitle() + " </a><br>\n";
@@ -373,7 +376,7 @@ public class HTMLGenerator
 
     //HELPER METHODS FOR ADDING EACH TYPE OF COMPONENT
     private String addHeader(String text, TextComponent textComponent){
-        text+="<h3 class=\"t" + textIndex + "\"> " + textComponent.getParagraphOrHeader() + " </h3>\n\n";
+        text+="<br><h3 class=\"t" + textIndex + "\"> " + textComponent.getParagraphOrHeader() + " </h3>\n\n";
         textIndex++;
         return text;
     }

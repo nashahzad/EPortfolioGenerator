@@ -289,7 +289,10 @@ public class EPortfolioView
             model.getPages().add(page);
             model.setSelectedPage(page);
             pageView = new PageView(page, model, this);
-            tab.setContent(pageView);
+            ScrollPane scrollPane = new ScrollPane(pageView);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            tab.setContent(scrollPane);
             tab.setOnClosed(event1 -> {
                 Page page1 = model.getSpecificPage(tab.getText());
                 if (page1 != null)
@@ -299,6 +302,7 @@ public class EPortfolioView
             tab.setOnSelectionChanged(event2 -> {
                 Page page2 = model.getSpecificPage(tab.getText());
                 model.setSelectedPage(page2);
+                updateStudentName(model);
             });
             pagesTabPane.getTabs().add(tab);
             pageViewScrollPane = new ScrollPane(pagesTabPane);
@@ -489,7 +493,10 @@ public class EPortfolioView
         for(Page page: model.getPages()){
             pageView = new PageView(page, model, this);
             Tab tab = new Tab();
-            tab.setContent(pageView);
+            ScrollPane scrollPane = new ScrollPane(pageView);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            tab.setContent(scrollPane);
             tab.setOnClosed(event -> {
                 Page page1 = model.getSpecificPage(tab.getText());
                 if (page1 != null)
@@ -499,6 +506,7 @@ public class EPortfolioView
             tab.setOnSelectionChanged(event -> {
                 Page page2 = model.getSpecificPage(tab.getText());
                 model.setSelectedPage(page2);
+                updateStudentName(model);
             });
 
             tab.setText(page.getPageTitle());
@@ -510,6 +518,14 @@ public class EPortfolioView
         ePortfolioBorderPane.setCenter(pageViewScrollPane);
 
         primaryStage.setTitle(model.getePortfolioTitle());
+    }
+
+    public void updateStudentName(EPortfolioModel model){
+        for(Tab tab: pagesTabPane.getTabs()){
+            ScrollPane scrollPane = (ScrollPane) tab.getContent();
+            PageView pageView = (PageView) scrollPane.getContent();
+            pageView.reloadPageView();
+        }
     }
 
     public void updateTabName(Page pageToEdit, String name){

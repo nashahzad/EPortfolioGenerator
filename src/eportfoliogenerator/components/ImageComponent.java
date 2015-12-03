@@ -1,5 +1,7 @@
 package eportfoliogenerator.components;
 
+import eportfoliogenerator.StartUpConstants;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,7 @@ import java.io.Serializable;
  */
 public class ImageComponent extends Component implements Serializable
 {
-    String imagePath;
+    String imagePath = "file:" + StartUpConstants.DEFAULT_IMAGE;
     String imageName;
 
     String caption;

@@ -105,7 +105,10 @@ public class CSSGenerator
         text += "min-width: " + imageComponent.getWidth() + "px;\n" + "max-width: " + imageComponent.getWidth() + "px;\n";
         text += "min-height: " + imageComponent.getHeight() + "px;\n" + "max-height: " + imageComponent.getHeight() + "px;\n";
 
-        text += "float: " + imageComponent.getFloatAttribute() + ";\n";
+        if(imageComponent.getFloatAttribute().equalsIgnoreCase("Neither"))
+            text += "float: none;\n";
+        else
+            text += "float: " + imageComponent.getFloatAttribute() + ";\n";
 
         text += "}\n\n";
         imageIndex++;
