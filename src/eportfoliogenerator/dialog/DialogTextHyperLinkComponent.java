@@ -244,7 +244,8 @@ public class DialogTextHyperLinkComponent extends Stage
         paragraphHBox.getChildren().add(paragraphTextArea);
 
         //Center
-        linksVBox = new VBox();
+        linksVBox = new VBox(5);
+        linksVBox.getChildren().add(new Label("Highlight text you want link on and right-click."));
         linksVBox.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
         linksToggleGroup = new ToggleGroup();
         scrollPane = new ScrollPane(linksVBox);
@@ -405,6 +406,9 @@ public class DialogTextHyperLinkComponent extends Stage
 
     private void reloadLinksRadioButtons(){
         linksVBox.getChildren().clear();
+        Label label = new Label("Highlight text you want link on and right-click.");
+        label.getStyleClass().add("tab_pane");
+        linksVBox.getChildren().add(label);
         linksRadioButtons.clear();
         for(HyperLinkComponent hyperLinkComponent: hyperLinkComponents){
             RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());
@@ -416,6 +420,9 @@ public class DialogTextHyperLinkComponent extends Stage
 
     private void reloadLinksRadioButtonsEdit(){
         linksVBox.getChildren().clear();
+        Label label = new Label("Highlight text you want link on and right-click.");
+        label.getStyleClass().add("tab_pane");
+        linksVBox.getChildren().add(label);
         for(HyperLinkComponent hyperLinkComponent: textComponent.getHyperLinks()){
             hyperLinkComponents.add(hyperLinkComponent);
             RadioButton radioButton = new RadioButton(hyperLinkComponent.getUrl());

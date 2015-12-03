@@ -215,6 +215,7 @@ public class EPortfolioView
         primaryScene = new Scene(ePortfolioBorderPane);
         primaryScene.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
         primaryStage.setScene(primaryScene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
