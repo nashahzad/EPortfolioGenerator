@@ -1,0 +1,32 @@
+body{
+    background-color: #dc5d9b;
+}
+
+.navigation_bar{
+    background-color: #cda5ff;
+    padding: 5px;
+}
+
+.navigation_link{
+    font-size: 24px;
+    color: black;
+}
+
+.navigation_link:hover{
+    background-color: yellow;
+    color:black;
+}
+
+.banner{
+    background-color: #8b346a;
+    color: white;
+}
+
+.banner_image{
+    max-height: 150px;
+    min-height: 150px;
+}
+
+.content{
+    background-color: #dc5d9b;
+}

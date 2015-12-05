@@ -1,0 +1,36 @@
+.navigation_bar{
+    text-align: center;
+	 padding: 5px;
+}
+
+
+.navigation_link{
+    margin-right: 15px;
+}
+
+.banner{
+	spacing: 15px;
+    text-align: center;
+}
+
+.banner_image{
+	min-width: 25%;
+	max-width: 25%;
+	min-height: 175px;
+	max-height: 175px;
+	display: block;
+	margin-left: 35%;
+}
+
+.content{
+	margin-top: 3%;
+	float: left;
+    text-align: center;
+	margin-left: 10%;
+	margin-right: 4%;
+	
+}
+
+ul{
+	list-style-position: inside;
+}

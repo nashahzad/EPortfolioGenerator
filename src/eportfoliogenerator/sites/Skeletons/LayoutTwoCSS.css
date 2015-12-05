@@ -1,0 +1,30 @@
+.navigation_bar{
+    text-align:center;
+	 padding: 5px;	
+}
+
+
+.navigation_link{
+	text-align: center;
+    margin-right: 15px;
+	display: initial;
+}
+
+.banner{
+    text-align: center;
+}
+
+.content{
+    text-align: center;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+ul{
+	list-style-position: inside;
+}
+
+.footer{
+		display: block;
+		text-align: center;
+}

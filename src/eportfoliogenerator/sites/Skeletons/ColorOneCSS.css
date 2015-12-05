@@ -1,0 +1,28 @@
+body {
+background-color: #A1F065;
+}
+
+.navigation_bar{
+    background-color: #4cf051;
+}
+
+.navigation_link{
+    margin-right: 5px;
+    font-size: 24px;
+    color: black;
+}
+
+.navigation_link:hover{
+    background-color: yellow;
+    color:black;
+}
+
+.banner{
+    background-color: #8ff028;
+    color: papayawhip;
+}
+
+.banner_image{
+    max-height: 150px;
+    min-height: 150px;
+}

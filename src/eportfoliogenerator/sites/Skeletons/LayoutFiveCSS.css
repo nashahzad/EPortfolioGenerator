@@ -1,0 +1,42 @@
+.navigation_bar{
+    text-align: center;
+	 padding: 5px;
+}
+
+
+.navigation_link{
+    margin-right: 15px;
+}
+
+.banner{
+	spacing: 15px;
+    text-align: center;
+}
+
+.banner_image{
+	min-width: 25%;
+	max-width: 25%;
+	min-height: 175px;
+	max-height: 175px;
+	float: none;
+}
+
+.content{
+	margin-top: 3%;
+	float: none;
+	margin-left: 14%;
+	margin-right: 14%;
+}
+
+ul{
+	list-style-position: inside;
+	float: right;
+}
+
+h{
+	float: right;
+}
+
+p{
+	float: right;
+}

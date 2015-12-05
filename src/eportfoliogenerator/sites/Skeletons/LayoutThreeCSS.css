@@ -1,0 +1,26 @@
+
+.navigation_bar{
+    float: left;
+	margin-right: 50%;
+    padding: 5px;
+    line-height: 50px;
+}
+
+.banner{
+    text-align: center;
+}
+
+.content{
+    float: left;
+    margin-left: 10%;
+	margin-right: 5%
+}
+
+.footer{
+	display: inline;
+		text-align: center;
+}
+
+ul{
+	list-style-position: inside;
+}
