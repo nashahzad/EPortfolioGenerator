@@ -32,6 +32,9 @@ public class CSSGenerator
 
     public void createCSS(){
         for(Page page: model.getPages()) {
+            textIndex = 0;
+            imageIndex = 0;
+            videoIndex = 0;
             String text = new String();
             text = addAllComponentsCSS(text, page);
 

@@ -34,6 +34,10 @@ public class HTMLGenerator
 
     public void generateHTML(){
         for(Page page: model.getPages()){
+            textIndex = 0;
+            imageIndex = 0;
+            slideIndex = 0;
+            videoIndex = 0;
             if(page.getLayout() == 1){
                 HTMLLayoutOne(page);
             }
@@ -55,28 +59,34 @@ public class HTMLGenerator
     //ADD AND ARRANGE COMPONENTS IN REGARDS TO FIRST LAYOUT SCHEME/TEMPLATE FROM HW#5
     private void HTMLLayoutOne(Page page){
         String text = "<!DOCTYPE html>\n";
-        text+="<html>\n";
-        text+="<head>\n";
-        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutOne" + "CSS.css\">\n";
-        text = addColorSchemeSheet(text, page);
-        text = addFontSheet(text, page);
-        text = addGoogleFonts(text);
-        text+= "</head>\n";
-        text+="<body>\n";
-        text = addNavBar(text, page);
-        text = addBanner(text, page);
-        text+="<div class=\"content\">\n";
-        text = addAllComponents(text, page);
-        text = addFooter(text, page);
+        text +="<html>\n";
+        text +="<head>\n";
+        text +="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutOne" + "CSS.css\">\n";
+        text += addColorSchemeSheet(page);
+        text += addFontSheet(page);
+        text += addGoogleFonts();
+        text += "</head>\n";
+        text +="<body>\n";
+        text += addNavBar(page);
+        text += addBanner(page);
+        text +="<div class=\"content\">\n";
+        text += addAllComponents(page);
+        text += addFooter(page);
         text += "</div>\n\n";
         text += "</body>\n";
         text += "</html>\n";
 
         BufferedWriter output;
         try{
-            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            File file;
+            if(!page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())) {
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            }
+            else{
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/index.html");
+            }
             if(page == model.getSelectedPage()){
                 URL = file.toURI().toURL().toString();
             }
@@ -92,28 +102,34 @@ public class HTMLGenerator
 
     private void HTMLLayoutTwo(Page page){
         String text = "<!DOCTYPE html>\n";
-        text+="<html>\n";
-        text+="<head>\n";
-        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutTwo" + "CSS.css\">\n";
-        text = addColorSchemeSheet(text, page);
-        text = addFontSheet(text, page);
-        text = addGoogleFonts(text);
-        text+= "</head>\n";
-        text+="<body>\n";
-        text = addBanner(text, page);
-        text = addNavBar(text, page);
-        text+="<div class=\"content\">\n";
-        text = addAllComponents(text, page);
-        text = addFooter(text, page);
+        text +="<html>\n";
+        text +="<head>\n";
+        text +="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutTwo" + "CSS.css\">\n";
+        text += addColorSchemeSheet(page);
+        text += addFontSheet(page);
+        text += addGoogleFonts();
+        text += "</head>\n";
+        text +="<body>\n";
+        text += addBanner(page);
+        text += addNavBar(page);
+        text +="<div class=\"content\">\n";
+        text += addAllComponents(page);
+        text += addFooter(page);
         text += "</div>\n\n";
         text += "</body>\n";
         text += "</html>\n";
 
         BufferedWriter output;
         try{
-            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            File file;
+            if(!page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())) {
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            }
+            else{
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/index.html");
+            }
             if(page == model.getSelectedPage()){
                 URL = file.toURI().toURL().toString();
             }
@@ -129,28 +145,34 @@ public class HTMLGenerator
 
     private void HTMLLayoutThree(Page page){
         String text = "<!DOCTYPE html>\n";
-        text+="<html>\n";
-        text+="<head>\n";
-        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutThree" + "CSS.css\">\n";
-        text = addColorSchemeSheet(text, page);
-        text = addFontSheet(text, page);
-        text = addGoogleFonts(text);
-        text+="</head>\n";
-        text+="<body>\n";
-        text = addBanner(text, page);
-        text = addNavBarBR(text, page);
-        text+="<div class=\"content\">\n";
-        text = addAllComponents(text, page);
-        text = addFooter(text, page);
+        text +="<html>\n";
+        text +="<head>\n";
+        text +="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutThree" + "CSS.css\">\n";
+        text += addColorSchemeSheet(page);
+        text += addFontSheet(page);
+        text += addGoogleFonts();
+        text +="</head>\n";
+        text +="<body>\n";
+        text += addBanner(page);
+        text += addNavBarBR(page);
+        text +="<div class=\"content\">\n";
+        text += addAllComponents(page);
+        text += addFooter(page);
         text += "</div>\n\n";
         text += "</body>\n";
         text += "</html>\n";
 
         BufferedWriter output;
         try{
-            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            File file;
+            if(!page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())) {
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            }
+            else{
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/index.html");
+            }
             if(page == model.getSelectedPage()){
                 URL = file.toURI().toURL().toString();
             }
@@ -166,28 +188,34 @@ public class HTMLGenerator
 
     private void HTMLLayoutFour(Page page){
         String text = "<!DOCTYPE html>\n";
-        text+="<html>\n";
-        text+="<head>\n";
-        text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
-        text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutFour" + "CSS.css\">\n";
-        text = addColorSchemeSheet(text, page);
-        text = addFontSheet(text, page);
-        text = addGoogleFonts(text);
-        text+="</head>\n";
-        text+="<body>\n";
-        text = addBanner4(text, page);
-        text = addNavBar(text, page);
-        text+="<div class=\"content\">\n";
-        text = addAllComponents(text, page);
-        text = addFooter(text, page);
+        text +="<html>\n";
+        text +="<head>\n";
+        text +="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
+        text +="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutFour" + "CSS.css\">\n";
+        text += addColorSchemeSheet(page);
+        text += addFontSheet(page);
+        text += addGoogleFonts();
+        text +="</head>\n";
+        text +="<body>\n";
+        text += addBanner4(page);
+        text += addNavBar(page);
+        text +="<div class=\"content\">\n";
+        text += addAllComponents(page);
+        text += addFooter(page);
         text += "</div>\n\n";
         text += "</body>\n";
         text += "</html>\n";
 
         BufferedWriter output;
         try{
-            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            File file;
+            if(!page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())) {
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            }
+            else{
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/index.html");
+            }
             if(page == model.getSelectedPage()){
                 URL = file.toURI().toURL().toString();
             }
@@ -207,23 +235,29 @@ public class HTMLGenerator
         text+="<script src=\"js/" + page.getPageTitle() + "JS.js\"></script>\n";
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + page.getPageTitle() + "CSS.css\">\n";
         text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "LayoutFive" + "CSS.css\">\n";
-        text = addColorSchemeSheet(text, page);
-        text = addFontSheet(text, page);
-        text = addGoogleFonts(text);
+        text += addColorSchemeSheet(page);
+        text += addFontSheet(page);
+        text += addGoogleFonts();
         text+="</head>\n";
         text+="<body>\n";
-        text = addBanner(text, page);
-        text = addNavBarBR(text, page);
+        text += addBanner(page);
+        text += addNavBarBR(page);
         text+="<div class=\"content\">\n";
-        text = addAllComponents(text, page);
-        text = addFooter(text, page);
+        text += addAllComponents(page);
+        text += addFooter(page);
         text += "</div>\n\n";
         text += "</body>\n";
         text += "</html>\n";
 
         BufferedWriter output;
         try{
-            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            File file;
+            if(!page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())) {
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + page.getPageTitle() + "HTML.html");
+            }
+            else{
+                file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/index.html");
+            }
             if(page == model.getSelectedPage()){
                 URL = file.toURI().toURL().toString();
             }
@@ -238,7 +272,8 @@ public class HTMLGenerator
 
 
     //HELPER METHODS TO ADD IN FONTS, NAV BAR AND COMPONENTS
-    private String addColorSchemeSheet(String text, Page page){
+    private String addColorSchemeSheet(Page page){
+        String text = new String();
         if(page.getColor() == 1)
             text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "ColorOne" + "CSS.css\">\n";
         if(page.getColor() == 2)
@@ -253,7 +288,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addFontSheet(String text, Page page){
+    private String addFontSheet(Page page){
+        String text = new String();
         if(page.getPageFont().equalsIgnoreCase("Slabo"))
             text += text+="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/" + "FontOne" + "CSS.css\">\n";
         if(page.getPageFont().equalsIgnoreCase("Sans Pro"))
@@ -269,7 +305,8 @@ public class HTMLGenerator
     }
 
 
-    private String addGoogleFonts(String text){
+    private String addGoogleFonts(){
+        String text = new String();
         text += "<link href=\'https://fonts.googleapis.com/css?family=Slabo+27px\' rel=\'stylesheet\' type=\'text/css\'>\n";
         text += "<link href=\'https://fonts.googleapis.com/css?family=Source+Sans+Pro\' rel=\'stylesheet\' type=\'text/css\'>\n";
         text += "<link href=\'https://fonts.googleapis.com/css?family=PT+Serif\' rel=\'stylesheet\' type=\'text/css\'>\n";
@@ -278,12 +315,22 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addNavBar(String text, Page currentPage){
+    private String addNavBar(Page currentPage){
+        String text = new String();
         text+="<div class=\"navigation_bar\">\n";
             for(Page page: model.getPages()){
-                if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle())){
+                if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle()) && !page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())){
                     text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\" font size=\"18\"><i><b> " + page.getPageTitle() + " </b></i></a>\n";
                 }
+
+                else if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle()) && page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())){
+                    text += "<a href=\"index.html\" class=\"navigation_link\" font size=\"18\"><i><b> " + page.getPageTitle() + " </b></i></a>\n";
+                }
+
+                else if(page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())){
+                    text += "<a href=\"index.html\" class=\"navigation_link\" font size=\"18\"> " + page.getPageTitle() + " </a>\n";
+                }
+
                 else {
                     text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\"> " + page.getPageTitle() + " </a>\n";
                 }
@@ -293,12 +340,22 @@ public class HTMLGenerator
     }
 
     //ADDS BR TAG AFTER EACH PAGE LINK FOR LAYOUT THAT HAS NAV BAR ON LEFT SIDE OF PAGE
-    private String addNavBarBR(String text, Page currentPage){
+    private String addNavBarBR(Page currentPage){
+        String text = new String();
         text+="<div class=\"navigation_bar\">\n";
         for(Page page: model.getPages()){
-            if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle())){
+            if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle()) && !page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())){
                 text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\" font size=\"18\"><i><b> " + page.getPageTitle() + " </b></i></a><br>\n";
             }
+
+            else if(page.getPageTitle().equalsIgnoreCase(currentPage.getPageTitle()) && page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())){
+                text += "<a href=\"index.html\" class=\"navigation_link\" font size=\"18\"><i><b> " + page.getPageTitle() + " </b></i></a><br>\n";
+            }
+
+            else if(page.getPageTitle().equalsIgnoreCase(model.getPages().get(0).getPageTitle())){
+                text += "<a href=\"index.html\" class=\"navigation_link\" font size=\"18\"> " + page.getPageTitle() + " </a><br>\n";
+            }
+
             else {
                 text += "<a href=\"" + page.getPageTitle() + "HTML.html\" class=\"navigation_link\"> " + page.getPageTitle() + " </a><br>\n";
             }
@@ -307,7 +364,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addBanner(String text, Page page){
+    private String addBanner(Page page){
+        String text = new String();
         text+="<div class=\"banner\">\n";
 
         if(page.getBannerImageName().equalsIgnoreCase("DefaultStartSlide.png")){}
@@ -319,7 +377,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addBanner4(String text, Page page){
+    private String addBanner4(Page page){
+        String text = new String();
         text+="<div class=\"banner\">\n";
 
         if(page.getBannerImageName().equalsIgnoreCase("DefaultStartSlide.png")){}
@@ -331,7 +390,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addFooter(String text, Page page){
+    private String addFooter(Page page){
+        String text = new String();
         if(page.getFooter() == "" || page.getFooter() == null){}
         else{
             text += "<footer class=\"footer\">\n";
@@ -343,31 +403,32 @@ public class HTMLGenerator
 
     //DYNAMICALLY ADD IN ANY AND ALL IMAGE COMPONENTS ONTO THE PAGE
 
-    private String addAllComponents(String text, Page page){
+    private String addAllComponents(Page page){
+        String text = new String();
         for(Component component: page.getAllComponents()){
             if(component.getIdentity().equalsIgnoreCase("TextComponent")){
                 TextComponent textComponent = (TextComponent)component;
                 if(textComponent.getTextType().equalsIgnoreCase("header"))
-                    text = addHeader(text, textComponent);
+                    text += addHeader(textComponent);
                 if(textComponent.getTextType().equalsIgnoreCase("paragraph"))
-                    text = addParagraph(text, textComponent);
+                    text += addParagraph(textComponent);
                 if(textComponent.getTextType().equalsIgnoreCase("List"))
-                    text = addList(text, textComponent);
+                    text += addList(textComponent);
             }
 
             if(component.getIdentity().equalsIgnoreCase("ImageComponent")){
                 ImageComponent imageComponent = (ImageComponent)component;
-                text = addImageComponent(text, imageComponent);
+                text += addImageComponent(imageComponent);
             }
 
             if(component.getIdentity().equalsIgnoreCase("SlideShowComponent")){
                 SlideShowComponent slideShowComponent = (SlideShowComponent) component;
-                text = addSlideShowComponent(text, slideShowComponent);
+                text += addSlideShowComponent(slideShowComponent);
             }
 
             if(component.getIdentity().equalsIgnoreCase("VideoComponent")){
                 VideoComponent videoComponent = (VideoComponent) component;
-                text = addVideoComponent(text, videoComponent);
+                text += addVideoComponent(videoComponent);
             }
         }
 
@@ -375,13 +436,15 @@ public class HTMLGenerator
     }
 
     //HELPER METHODS FOR ADDING EACH TYPE OF COMPONENT
-    private String addHeader(String text, TextComponent textComponent){
+    private String addHeader(TextComponent textComponent){
+        String text = new String();
         text+="<br><h3 class=\"t" + textIndex + "\"> " + textComponent.getParagraphOrHeader() + " </h3>\n\n";
         textIndex++;
         return text;
     }
 
-    private String addParagraph(String text, TextComponent textComponent){
+    private String addParagraph(TextComponent textComponent){
+        String text = new String();
         text += "<p class=\"t" + textIndex + "\">&nbsp&nbsp&nbsp&nbsp\n";
         if(textComponent.getHyperLinks().size() == 0){
             text += textComponent.getParagraphOrHeader() + "\n";
@@ -406,7 +469,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addList(String text, TextComponent textComponent){
+    private String addList(TextComponent textComponent){
+        String text = new String();
         text += "<ul class=\"t" + textIndex + "\">\n";
         for(String string: textComponent.getListText()){
             text += "<li> " + string + " </li>\n";
@@ -417,7 +481,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addImageComponent(String text, ImageComponent imageComponent){
+    private String addImageComponent(ImageComponent imageComponent){
+        String text = new String();
 
         text+= "<h2 class=\"i" + imageIndex + "\">\n";
         text += "<img src=\"img/" + imageComponent.getImageName() + "\" class=\"i" + imageIndex + "\">\n";
@@ -427,7 +492,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addSlideShowComponent(String text, SlideShowComponent slideShowComponent){
+    private String addSlideShowComponent(SlideShowComponent slideShowComponent){
+        String text = new String();
         text += "<h2> " + slideShowComponent.getSlideShowTitle() + " </h2>\n";
         text += "<img src=\"img/" + slideShowComponent.getImageSlides().get(0).getImageName() + "\" class=\"s" + slideIndex + "\" id=\"s" + slideIndex + "\"" +
                 "height=\"" + slideShowComponent.getImageSlides().get(0).getHeight() +"\" width=\"" + slideShowComponent.getImageSlides().get(0).getWidth() + "\">\n\n";
@@ -442,7 +508,8 @@ public class HTMLGenerator
         return text;
     }
 
-    private String addVideoComponent(String text, VideoComponent videoComponent){
+    private String addVideoComponent(VideoComponent videoComponent){
+        String text = new String();
 
         text += "<h2> " + videoComponent.getCaption() + "<br>\n";
         text += "<video class=\"v" + videoIndex + "\" controls>\n";

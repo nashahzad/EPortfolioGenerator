@@ -23,6 +23,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -433,6 +434,47 @@ public class EPortfolioView
 
             webCounter++;
         });
+
+        exportEPortfolioButton.setOnAction(event -> {
+            GenerateDirectories generateDirectories = new GenerateDirectories(model);
+            generateDirectories.createDirectories();
+            try{
+                generateDirectories.copyImageFiles();
+            }catch(IOException ex){
+                System.out.println("Exception thrown in copying image files.");
+            }
+            HTMLGenerator htmlGenerator = new HTMLGenerator(model);
+            htmlGenerator.generateHTML();
+            JavaScriptGenerator javaScriptGenerator = new JavaScriptGenerator(model);
+            javaScriptGenerator.generateJavaScriptSlideShow();
+            CSSGenerator cssGenerator = new CSSGenerator(model);
+            cssGenerator.createCSS();
+
+//            File file = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/" + model.getPages().get(0).getPageTitle() + "HTML.html");
+//            File file2 = new File("./src/eportfoliogenerator/sites/" + model.getePortfolioTitle() + "/index.html");
+//            file.renameTo(file2);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Export");
+            alert.setHeaderText(null);
+            alert.setContentText("EPortfolio has been exported into the sites directory and is ready to be put up onto web!");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("file:./images/icons/eportfolio.gif"));
+
+            DialogPane alertDialogPane = alert.getDialogPane();
+
+            alertDialogPane.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            alertDialogPane.getStyleClass().add(StartUpConstants.CSS_LAYOUT_HBOX);
+
+            //CSS to buttons added after alert does its getButtonTypes method
+            ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+            buttonBar.getStylesheets().add(StartUpConstants.STYLE_SHEET_UI);
+            buttonBar.getButtons().forEach(b -> b.getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS));
+
+            //Content text
+            alertDialogPane.lookup(".content.label").getStyleClass().add(StartUpConstants.CSS_LAYOUT_BUTTONS);
+            alert.showAndWait();
+        });
     }
 
     /**
@@ -445,6 +487,7 @@ public class EPortfolioView
         if(model.getPages().size() > 0){
             removePageButton.setDisable(false);
             webPageViewButton.setDisable(false);
+            exportEPortfolioButton.setDisable(false);
         }
         else{
             removePageButton.setDisable(true);
@@ -468,6 +511,7 @@ public class EPortfolioView
         if(model.getPages().size() > 0){
             removePageButton.setDisable(false);
             webPageViewButton.setDisable(false);
+            exportEPortfolioButton.setDisable(false);
         }
         else{
             removePageButton.setDisable(true);
