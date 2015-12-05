@@ -394,9 +394,9 @@ public class HTMLGenerator
         String text = new String();
         if(page.getFooter() == "" || page.getFooter() == null){}
         else{
-            text += "<footer class=\"footer\">\n";
-            text += " <p> " + page.getFooter() + " </p>\n";
-            text += "</footer>";
+            text += "\n";
+            text += "<p class=\"footer\"> " + page.getFooter() + " </p>\n";
+            text += "";
         }
         return text;
     }
@@ -484,9 +484,10 @@ public class HTMLGenerator
     private String addImageComponent(ImageComponent imageComponent){
         String text = new String();
 
-        text+= "<h2 class=\"i" + imageIndex + "\">\n";
+        //text+= "<h2 class=\"i" + imageIndex + "\">\n";
+        text += "<figure class=\"i" + imageIndex + "\">\n";
         text += "<img src=\"img/" + imageComponent.getImageName() + "\" class=\"i" + imageIndex + "\">\n";
-        text += imageComponent.getCaption() + " </h2><br>\n\n";
+        text += "<figcaption> " + imageComponent.getCaption() + "</figcaption></figure>\n";// + " </h2>\n\n";
 
         imageIndex++;
         return text;
