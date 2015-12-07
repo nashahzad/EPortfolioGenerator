@@ -304,7 +304,6 @@ public class EPortfolioView
             tab.setOnSelectionChanged(event2 -> {
                 Page page2 = model.getSpecificPage(tab.getText());
                 model.setSelectedPage(page2);
-                updateStudentName(model);
             });
             pagesTabPane.getTabs().add(tab);
             pageViewScrollPane = new ScrollPane(pagesTabPane);

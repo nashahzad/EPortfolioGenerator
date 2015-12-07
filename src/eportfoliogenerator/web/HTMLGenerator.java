@@ -159,8 +159,8 @@ public class HTMLGenerator
         text += addNavBarBR(page);
         text +="<div class=\"content\">\n";
         text += addAllComponents(page);
-        text += addFooter(page);
         text += "</div>\n\n";
+        text += addFooter(page);
         text += "</body>\n";
         text += "</html>\n";
 
