@@ -1,6 +1,7 @@
 package eportfoliogenerator.view;
 
 import eportfoliogenerator.StartUpConstants;
+import eportfoliogenerator.error.ErrorHandler;
 import eportfoliogenerator.file.EPortfolioFileManager;
 import eportfoliogenerator.model.EPortfolioModel;
 import eportfoliogenerator.model.Page;
@@ -392,7 +393,10 @@ public class EPortfolioView
         });
 
         webPageViewButton.setOnAction(event -> {
-            if(webCounter % 2 == 0){
+            if(model.getePortfolioTitle().equalsIgnoreCase("") || model.getePortfolioTitle() == null){
+                ErrorHandler.errorPopUp("Save at least once before web preview!");
+            }
+            else if(webCounter % 2 == 0){
                 GenerateDirectories generateDirectories = new GenerateDirectories(model);
                 generateDirectories.createDirectories();
                 try{
